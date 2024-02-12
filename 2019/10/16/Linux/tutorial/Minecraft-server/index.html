@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="6b75df05-79f5-4bb8-b214-3888f5a85fbd"></script>
+  
+    <meta name="description" content="写在前面由于目前还在使用12年的MacBook Air，加上身边多数人会使用手机等移动设备玩游戏，所以决定搭建一台BE的服务器。请注意本教程适用于国际版的Minecraft BE，而非我的世界。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Minecraft BE（基岩版）服务器搭建教程">
+<meta property="og:url" content="https://blog.xianyu.one/2019/10/16/Linux/tutorial/Minecraft-server/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面由于目前还在使用12年的MacBook Air，加上身边多数人会使用手机等移动设备玩游戏，所以决定搭建一台BE的服务器。请注意本教程适用于国际版的Minecraft BE，而非我的世界。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-16T06:43:45.000Z">
+<meta property="article:modified_time" content="2024-02-12T12:49:14.279Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="游戏">
+<meta property="article:tag" content="Minecraft">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Minecraft BE（基岩版）服务器搭建教程 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic.imgdb.cn/item/616558a72ab3f51d91013941.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Minecraft BE（基岩版）服务器搭建教程</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-16 14:43" pubdate>
+          2019年10月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          841 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Minecraft BE（基岩版）服务器搭建教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>由于目前还在使用12年的MacBook Air，加上身边多数人会使用手机等移动设备玩游戏，所以决定搭建一台BE的服务器。<br><strong>请注意本教程适用于国际版的Minecraft BE，而非我的世界</strong>。   </p>
+<span id="more"></span>
+<h3 id="器材"><a href="#器材" class="headerlink" title="器材"></a>器材</h3><p>MacBook<br>一台Linux的服务器（博主使用的是阿里云Ubuntu18.04的服务器）   </p>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>通过SSH连接服务器<br>更新系统</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">apt-get -y update<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>安装软件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">apt-get -y install curl wget zip unzip screen jq openssl screen<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>设置服务端安装版本变量</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">BEDROCK_VERSION&#x3D;latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>获取服务端版本下载URL并设置变量</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">if [ -z &quot;$BEDROCK_VERSION&quot; ] || [ &quot;$BEDROCK_VERSION&quot; &#x3D;&#x3D; &quot;latest&quot; ]; then echo -e &quot;\n Downloading latest Bedrock server&quot;; DOWNLOAD_URL&#x3D;$(curl https:&#x2F;&#x2F;www.minecraft.net&#x2F;en-us&#x2F;download&#x2F;server&#x2F;bedrock&#x2F; | grep azureedge | grep linux | grep -Eo &quot;(http|https):&#x2F;&#x2F;[a-zA-Z0-9.&#x2F;?&#x3D;_-]*&quot;); BEDROCK_ZIP&#x3D;$(echo $DOWNLOAD_URL | cut -d&quot;&#x2F;&quot; -f5); else echo -e &quot;\n Downloading $BEDROCK_VERSION Bedrock server&quot;; DOWNLOAD_URL&#x3D;https:&#x2F;&#x2F;www.minecraft.azureedge.net&#x2F;bin-linux&#x2F;bedrock-server-$BEDROCK_VERSION.zip; BEDROCK_ZIP&#x3D;$(echo $DOWNLOAD_URL | cut -d&quot;&#x2F;&quot; -f5); fi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>设置服务端安装目录变量<br>等号后面的为服务端安装的目录，可自行修改。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">BEDROCK_PATH&#x3D;&#x2F;home&#x2F;mc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h3 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h3><p>创建服务端目录</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mkdir -p $BEDROCK_PATH<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>进入服务端目录<br>目录为前面配置变量时设置的目录</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cd &#x2F;home&#x2F;mc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>下载服务端压缩包</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">wget $DOWNLOAD_URL<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>解压压缩包</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">unzip -o $BEDROCK_ZIP<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>删除压缩包</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">rm $BEDROCK_ZIP<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>设置权限</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">chmod -R 777 bedrock_server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>Minecraft BE服务端的配置文件在服务端文件夹的根目录里为<code>server.properties</code>。使用vim打开它进行配置。</p>
+<h5 id="vim的使用"><a href="#vim的使用" class="headerlink" title="vim的使用"></a>vim的使用</h5><h6 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h6><p>打开文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim 此处填写文件名<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>打开后按i进入输入模式后修改文件<br>修改完成后按ESC回到命令模式<br>输入<code>：wq</code>退出<br><code>w</code>为保存；<code>q</code>为退出</p>
+<h5 id="配置文件的一些常用内容"><a href="#配置文件的一些常用内容" class="headerlink" title="配置文件的一些常用内容"></a>配置文件的一些常用内容</h5><ul>
+<li>服务器名称 <code>server-name=此处填写自己喜欢的名称</code></li>
+<li>难度 <code>difficulty=此处填写难度</code>  默认为easy</li>
+<li>最大玩家数 <code>max-players=此处填写数字</code> 如果服务器像博主的一样垃圾那么建议改小玩家数</li>
+<li>端口号<code>server-port=填写自己喜欢的端口号</code><br><code>server-portv6=填写自己喜欢的端口号</code></li>
+<li>世界名称<code>level-name=填自己喜欢的名称</code><br>-世界种子<code>level-seed=填自己喜欢的种子</code>不填的话会默认随机生成。</li>
+<li>加入游戏的玩家的权限<code>default-player-permission-level=此处填写权限</code>默认为<code>member</code>，可选择填写<code>visitor</code>或<code>operator</code>。一般自己和朋友玩的话默认就好</li>
+</ul>
+<h3 id="软件运行及后台运行"><a href="#软件运行及后台运行" class="headerlink" title="软件运行及后台运行"></a>软件运行及后台运行</h3><h5 id="开放端口"><a href="#开放端口" class="headerlink" title="开放端口"></a>开放端口</h5><p>博主使用的是阿里云所以直接在控制面板就可以进行设置了。<br>具体就是进入阿里云控制面板，点击防火墙，添加规则，分别添加UDP和TCP的规则，开放服务器的端口。</p>
+<h5 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h5><p>使用apt安装screen，没有apt就装一个。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo apt install screen<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>使用screen启动一个新的名为mcbds的窗口</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">screen -S mcbds<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>启动服务器</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">LD_LIBRARY_PATH&#x3D;. .&#x2F;bedrock_server
+或
+sudo LD_LIBRARY_PATH&#x3D;. .&#x2F;bedrock_server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>未出现错误，并显示<code>IP v4 supported, port = 你设置的端口号</code>之类的就是成功了<br>这些结束后可以按<code>control+a+d</code>退出窗口<br>需要再次打开窗口的话使用</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">screen -x mcbds<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h5 id="玩家权限设置"><a href="#玩家权限设置" class="headerlink" title="玩家权限设置"></a>玩家权限设置</h5><p>可以选择启动后先不退出窗口，游戏中登陆服务器后直接在窗口中输入</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">op &lt;玩家名&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>或使用白名单方法<br>登陆后会窗口显示玩家的名称和一串神秘代码（一长串数字）<br>按以下格式写入在服务端根目录的<code>permissions.json</code>文件中</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">[
+	&#123;
+		&quot;xuid&quot;: &quot;神秘代码&quot;,
+		&quot;permission&quot;: &quot;权限&quot;
+	&#125;
+]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>权限处填<code>operator</code>即授予xuid为xxx的玩家狗管理的权限（最高游戏权限）</p>
+<h3 id="一切准备就绪，开始玩吧！"><a href="#一切准备就绪，开始玩吧！" class="headerlink" title="一切准备就绪，开始玩吧！"></a>一切准备就绪，开始玩吧！</h3><hr>
+<h3 id="2020-2-28更新"><a href="#2020-2-28更新" class="headerlink" title="2020-2-28更新"></a>2020-2-28更新</h3><p>在server.properties文件下加一个参数allow-cheats设置为true，op进入游戏后可以操作一些本只能在服务器后端操作的命令</p>
+<hr>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://code.zackzhang.net/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04.html">在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端</a><br><a target="_blank" rel="noopener" href="https://minecraft-zh.gamepedia.com/index.php?title=Server.properties&variant=zh">server.properties Minecraft wiki</a><br><a target="_blank" rel="noopener" href="https://www.mcbbs.net/thread-822207-1-1.html">Minecraft 基岩版官方服务器Alpha测试版本开服指南</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv2829225">Linux-基岩版服务器自定义版本搭建教程</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#服务器</a>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F/" class="print-no-link">#游戏</a>
+      
+        <a href="/tags/Minecraft/" class="print-no-link">#Minecraft</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Minecraft BE（基岩版）服务器搭建教程</div>
+      <div>https://blog.xianyu.one/2019/10/16/Linux/tutorial/Minecraft-server/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/16/Android/mi8/" title="小米8刷机笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">小米8刷机笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>背景图来自<a /><a href="https://www.pixiv.net/artworks/75162477" target="_blank" rel="nofollow noopener"><span>NIK --《今日》</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

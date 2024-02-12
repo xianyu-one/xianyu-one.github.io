@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="6b75df05-79f5-4bb8-b214-3888f5a85fbd"></script>
+  
+    <meta name="description" content="写在前面上个月和班主任聊天，知道了k8s（Kubernetes），瞬间来了折腾的兴趣。脑子一热买了三台树莓派4B。由于其对初心者及其不友善的特点，断断续续拖了一个月，昨天刚弄好。想到博客万年没更新了，来写一下。  封面图来自：画师JW —— 人总分不清梦境与现实。  前置准备硬件准备 电脑一台(系统随意) 树莓派4B*3（我的是4GB的版本） 交换机 网线*4（树莓派连交换机3根，交换机连路由器1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s折腾笔记——树莓派集群安装k3s">
+<meta property="og:url" content="https://blog.xianyu.one/2021/11/16/Linux/tutorial/k8s-install/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面上个月和班主任聊天，知道了k8s（Kubernetes），瞬间来了折腾的兴趣。脑子一热买了三台树莓派4B。由于其对初心者及其不友善的特点，断断续续拖了一个月，昨天刚弄好。想到博客万年没更新了，来写一下。  封面图来自：画师JW —— 人总分不清梦境与现实。  前置准备硬件准备 电脑一台(系统随意) 树莓派4B*3（我的是4GB的版本） 交换机 网线*4（树莓派连交换机3根，交换机连路由器1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/61939ca92ab3f51d91a3beea.png">
+<meta property="article:published_time" content="2021-11-16T01:37:07.000Z">
+<meta property="article:modified_time" content="2024-02-12T12:49:14.279Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/61939ca92ab3f51d91a3beea.png">
+  
+  
+  
+  <title>k8s折腾笔记——树莓派集群安装k3s - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic.imgdb.cn/item/61939cf82ab3f51d91a3e4eb.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">k8s折腾笔记——树莓派集群安装k3s</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-11-16 09:37" pubdate>
+          2021年11月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">k8s折腾笔记——树莓派集群安装k3s</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>上个月和班主任聊天，知道了k8s（Kubernetes），瞬间来了折腾的兴趣。脑子一热买了三台树莓派4B。<br>由于其对初心者及其不友善的特点，断断续续拖了一个月，昨天刚弄好。<br>想到博客万年没更新了，来写一下。</p>
+<blockquote>
+<p>封面图来自：<a target="_blank" rel="noopener" href="https://www.pixiv.net/artworks/76372910">画师JW —— 人总分不清梦境与现实。</a></p>
+</blockquote>
+<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><h2 id="硬件准备"><a href="#硬件准备" class="headerlink" title="硬件准备"></a>硬件准备</h2><ul>
+<li>电脑一台(系统随意)</li>
+<li>树莓派4B*3（我的是4GB的版本）</li>
+<li>交换机</li>
+<li>网线*4（树莓派连交换机3根，交换机连路由器1根）</li>
+<li>SD卡*3（我是64GB的闪迪）</li>
+<li><del>鞋盒*1</del></li>
+</ul>
+<p>此处树莓派供电我用的是绿联的三个快充头，以保证充足的供电。<br>有买亚克力的架子，组装后大概如下<br><img src="https://pic.imgdb.cn/item/619324ab2ab3f51d916aee7b.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><ul>
+<li>各系统自带终端（用于ssh连接树莓派）</li>
+<li>Debian-Pi-Aarch64 ★ 全新树莓派64位系统 <a target="_blank" rel="noopener" href="https://github.com/openfans-community-offical/Debian-Pi-Aarch64">项目地址</a></li>
+<li>balenaEtcher – 一个跨平台镜像烧录工具（Mac、Windows、Linux）<a target="_blank" rel="noopener" href="https://www.balena.io/etcher/">官方网址</a></li>
+<li>各种k8s相关的软件</li>
+</ul>
+<p><strong>注意：接下去的内容能够正常使用的前提是要有“良好的网络环境”，例如要能顺畅地pull到dockerHub上的镜像，否则将有极大概率无法完成安装！</strong></p>
+<h1 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h1><p>这里使用的是<a target="_blank" rel="noopener" href="https://github.com/openfans-community-offical/Debian-Pi-Aarch64">Debian-Pi-Aarch64 ★ 全新树莓派64位系统</a>的基础版无桌面镜像，烧录进SD卡后插电开机<br>默认账户：<code>pi</code>，默认密码：<code>raspberry</code><br>首先需要找到树莓派的IP地址，可以登录路由器后台查看。建议知道地址后将其固定下来，不固定也没事，之后会将其设置为静态IP。<br>以我的为例，我将三台树莓派分别命名为<code>rpi1</code>、<code>rpi2</code>、<code>rpi3</code>，其IP固定为如下</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">rpi1    192.168.6.91    #节点类型：Master
+rpi2    192.168.6.92    #节点类型：node
+rpi3    192.168.6.93    #节点类型：node<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>在k8s集群中，节点分为<code>Master</code>和<code>node</code>两种，<code>Master</code>节点是集群中负责调度任务等工作的控制面节点，<code>node</code>是工作节点。后续向集群中添加应用程序时，会由<code>Master</code>将任务指派给<code>node</code>。<br>接下去的内容默认是在root用户下执行，请使用<code>sudo -i</code>将用户变更为root并设置root用户密码</p>
+<h2 id="更改主机名"><a href="#更改主机名" class="headerlink" title="更改主机名"></a>更改主机名</h2><p>首先要把三台主机的主机名更改回来（此处仅以rpi1为例）<br>ssh连接rpi1这里有两个文件内容要更改，第一个是<code>/etc/hosts</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;hosts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>将文件中的</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">127.0.0.1   raspberry<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>更改为</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">127.0.0.1   rpi1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>第二个文件是<code>/etc/hostname</code><br>将内容改为<code>rpi1</code>即可。其他两台操作相同</p>
+<h2 id="更改网络设置"><a href="#更改网络设置" class="headerlink" title="更改网络设置"></a>更改网络设置</h2><p>打开配置文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;network&#x2F;interfaces<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>将文件内容修改为如下（此处依旧以rpi1为例，如果你的网段与我不同，请更改为自己的网段！请勿照抄）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">auto eth0
+allow-htoplug eth0
+
+iface eth0 inet static
+address 192.168.6.91
+netmask 255.255.255.0
+gateway 192.168.6.1
+dns-nameservers 114.114.114.114<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>接着将三台机器的IP地址添加到<code>/etc/hosts</code>文件中，并重启网络</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo cat &gt;&gt; &#x2F;etc&#x2F;hosts &lt;&lt; EOF
+192.168.6.91 rpi1
+192.168.6.92 rpi2
+192.168.6.93 rpi3
+EOF
+
+service networking restart <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="修改ssh设置"><a href="#修改ssh设置" class="headerlink" title="修改ssh设置"></a>修改ssh设置</h2><p>默认情况下，这个镜像是不允许直接使用root账号连接的，为了方便省事，需要允许直接使用root账号进行ssh连接</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>进入配置文件，将</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">#PermitRootLogin prohibit-password<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改为</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">PermitRootLogin yes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>并重启服务</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">service sshd restart<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="打开IPv4转发"><a href="#打开IPv4转发" class="headerlink" title="打开IPv4转发"></a>打开IPv4转发</h2><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;sysctl.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>将文件中的这行注释去掉</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">net.ipv4.ip_forward &#x3D; 1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h2><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo &#x2F;usr&#x2F;sbin&#x2F;iptables -P FORWARD ACCEPT<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="关闭一些服务"><a href="#关闭一些服务" class="headerlink" title="关闭一些服务"></a>关闭一些服务</h2><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">systemctl stop NetworkManager.service
+systemctl disable NetworkManager.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="安装常用软件"><a href="#安装常用软件" class="headerlink" title="安装常用软件"></a>安装常用软件</h2><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo apt-get install -y net-tools lrzsz tree screen lsof tcpdump<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="启用docker"><a href="#启用docker" class="headerlink" title="启用docker"></a>启用docker</h2><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">systemctl enable docker.service #开机自动启动Docker服务
+systemctl start docker.service #启动Docker服务<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="关闭Swap"><a href="#关闭Swap" class="headerlink" title="关闭Swap"></a>关闭Swap</h2><p>直接注释掉，简单粗暴</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sed -ri &#39;s&#x2F;.swap.&#x2F;#&amp;&#x2F;&#39; &#x2F;etc&#x2F;fstab<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>至此，系统配置已全部完成<br>重启一遍系统后，正式开始集群的部署</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo reboot<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h1 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h1><p>从这里开始，才算进入正片。由于k8s对于树莓派而言有点过于臃肿了（主要部署起来太折腾了），所以我使用的是<a target="_blank" rel="noopener" href="https://k3s.io/">k3s</a>。</p>
+<h2 id="k3s脚本安装"><a href="#k3s脚本安装" class="headerlink" title="k3s脚本安装"></a>k3s脚本安装</h2><p>对于没有网络问题的同学可以直接使用官方脚本进行安装，（请注意不要直接复制下面这行命令，我们需要加上相关参数执行！）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">curl -sfL https:&#x2F;&#x2F;get.k3s.io | sh -<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>同时，如果网络有问题，可以参考<a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/k3s/installation/install-options/_index/">官方文档</a>使用国内镜像。<br>此处不直接使用这个脚本，而是预先添加参数，分别在<code>Master</code>和<code>node</code>执行</p>
+<h3 id="Master机执行"><a href="#Master机执行" class="headerlink" title="Master机执行"></a>Master机执行</h3><p><code>Master</code>机脚本如下</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">curl -sfL https:&#x2F;&#x2F;get.k3s.io |  K3S_NODE_NAME&#x3D;rpi1 sh -<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>如果网络有问题请在命令中添加参数<code>INSTALL_K3S_MIRROR=cn</code>，以使用国内镜像<br>此处<code>K3S_NODE_NAME</code>为指定此机器在集群中的名字，为方便识别这里设置为和主机名<code>rpi1</code>一样的名字。<br>等待执行完后，需要获取<code>Token</code>，给后续添加进集群的机器使用。请保存好这个<code>Token</code>，接下去要用到。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cat &#x2F;var&#x2F;lib&#x2F;rancher&#x2F;k3s&#x2F;server&#x2F;node-token #获取rpi1的Token<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="node机执行"><a href="#node机执行" class="headerlink" title="node机执行"></a>node机执行</h3><p>前面我们在<code>Master</code>机获取到了<code>Token</code>，假设它为</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">K107dfc82a8d9453e538b26dd3250757827356a276ae509c3158b60ec3238e7929f::server:bac90b26fc5t6b2c76a8ee1bc22291cc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>那么在<code>rpi2</code>、<code>rpi3</code>这两个<code>node</code>节点上的执行命令为</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">curl -sfL https:&#x2F;&#x2F;get.k3s.io |  K3S_NODE_NAME&#x3D;rpi2 K3S_URL&#x3D;https:&#x2F;&#x2F;192.168.6.91:6443 K3S_TOKEN&#x3D;K107dfc82a8d9453e538b26dd3250757827356a276ae509c3158b60ec3238e7929f::server:bac90b26fc5t6b2c76a8ee1bc22291cc sh - #这个命令在rpi2上执行
+
+curl -sfL https:&#x2F;&#x2F;get.k3s.io |  K3S_NODE_NAME&#x3D;rpi3 K3S_URL&#x3D;https:&#x2F;&#x2F;192.168.6.91:6443 K3S_TOKEN&#x3D;K107dfc82a8d9453e538b26dd3250757827356a276ae509c3158b60ec3238e7929f::server:bac90b26fc5t6b2c76a8ee1bc22291cc sh - #这个命令在rpi3上执行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>参数<code>K3S_URL</code>为<code>Master</code>结点（即这里的<code>rpi1</code>结点），参数<code>K3S_TOKEN</code>填入上面的<code>Token</code><br>如果网络有问题请在命令中添加参数<code>INSTALL_K3S_MIRROR=cn</code>，以使用国内镜像</p>
+<h3 id="回到Master机查看集群状态"><a href="#回到Master机查看集群状态" class="headerlink" title="回到Master机查看集群状态"></a>回到Master机查看集群状态</h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">kubectl get nodes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>如果没有问题将会看到如下显示，三个结点都已在集群中，并已<code>ready</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">NAME   STATUS   ROLES                  AGE   VERSION
+rpi2   Ready    &lt;none&gt;                 32h   v1.21.5+k3s2
+rpi3   Ready    &lt;none&gt;                 32h   v1.21.5+k3s2
+rpi1   Ready    control-plane,master   32h   v1.21.5+k3s2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>使用以下命令查看<code>pods</code>是否已正常运行</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">kubectl get pods -A <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>基本如下所示就是正常的</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">NAMESPACE              NAME                                         READY   STATUS      RESTARTS   AGE
+kube-system            local-path-provisioner-5ff76fc89d-pd7rd      1&#x2F;1     Running     0          32h
+kube-system            coredns-7448499f4d-dlwqx                     1&#x2F;1     Running     0          32h
+kube-system            helm-install-traefik-crd-lpgwj               0&#x2F;1     Completed   0          32h
+kube-system            helm-install-traefik-gqrr9                   0&#x2F;1     Completed   1          32h
+kube-system            svclb-traefik-rrwqk                          2&#x2F;2     Running     0          32h
+kube-system            traefik-97b44b794-h2rqp                      1&#x2F;1     Running     0          32h
+kube-system            svclb-traefik-49gc9                          2&#x2F;2     Running     0          32h
+kube-system            svclb-traefik-nltmk                          2&#x2F;2     Running     0          32h<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>至此k3s的安装也就告一段落了。</p>
+<h1 id="安装一些管理应用"><a href="#安装一些管理应用" class="headerlink" title="安装一些管理应用"></a>安装一些管理应用</h1><p>到目前为止，<code>k3s</code>还只能在命令行使用，由于其复杂程度非常不利于初心者的使用，对于学习来说，快速开始使用是挺重要的，这里介绍<code>Kubernetes Dashboard</code>和<code>Kuboard</code>的部署。对于k8s集群来说，部署任务只需要在<code>Master</code>机上执行即可，<code>Master</code>节点会向<code>node</code>节点指派任务。所以以下操作均是在<code>Master</code>机上执行的（在我的集群中是<code>rpi1</code>）</p>
+<h2 id="安装Kubernetes-Dashboard"><a href="#安装Kubernetes-Dashboard" class="headerlink" title="安装Kubernetes Dashboard"></a>安装Kubernetes Dashboard</h2><p>执行以下命令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">kubectl apply -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;dashboard&#x2F;v2.2.0&#x2F;aio&#x2F;deploy&#x2F;recommended.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>执行完后需要等待一段时间，集群拉取镜像和指派任务需要一点时间<br>可以通过以下命令查看部署情况</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">watch kubectl get pods -n kuboard<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>如果为<code>ready</code>则说明已经部署完成了</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">NAME                                         READY   STATUS    RESTARTS   AGE
+kubernetes-dashboard-78c79f97b4-v9565        1&#x2F;1     Running   0          32h
+dashboard-metrics-scraper-856586f554-z8nz5   1&#x2F;1     Running   0          32h<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="使Kubernetes-Dashboard在集群外部可用"><a href="#使Kubernetes-Dashboard在集群外部可用" class="headerlink" title="使Kubernetes Dashboard在集群外部可用"></a>使Kubernetes Dashboard在集群外部可用</h3><p>在部署完成后，在<code>Master</code>机上执行<code>kubectl proxy</code>可以使其在<code>Master</code>机上访问（<a target="_blank" rel="noopener" href="http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/%EF%BC%89%EF%BC%8C%E4%BD%86%E8%BF%99%E5%AF%B9%E4%BA%8E%E6%88%91%E4%BB%AC%E6%9D%A5%E8%AF%B4%E6%98%AF%E4%B8%8D%E5%A4%9F%E7%9A%84%E3%80%82%E5%A4%A7%E5%85%AC%E5%8F%B8%E5%8F%AF%E4%BB%A5%E7%94%A8%E5%B8%A6%E6%A1%8C%E9%9D%A2%E7%9A%84%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%9C%A8%E6%9C%BA%E6%88%BF%E4%B8%AD%E7%9B%B4%E6%8E%A5%E6%93%8D%E4%BD%9C%60Master%60%E6%9C%BA%EF%BC%8C%E4%BD%86%E5%B9%B3%E7%A9%B7%E5%A6%82%E6%88%91%E5%8F%AA%E8%83%BD%E4%BD%BF%E7%94%A8%E6%97%A0%E6%A1%8C%E9%9D%A2%E9%95%9C%E5%83%8F%E7%9A%84%E6%A0%91%E8%8E%93%E6%B4%BE%E7%BB%84%E9%9B%86%E7%BE%A4%EF%BC%8C%E6%89%80%E4%BB%A5%E6%88%91%E4%BB%AC%E8%87%B3%E5%B0%91%E8%A6%81%E8%AE%A9%E5%AE%83%E6%9A%B4%E9%9C%B2%E5%9C%A8%E9%9B%86%E7%BE%A4%E5%A4%96%EF%BC%8C%E8%87%B3%E5%B0%91%E5%9C%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E4%B8%8B%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E3%80%82">地址</a>） ，但这对于我们来说是不够的。大公司可以用带桌面的系统，在机房中直接操作<code>Master</code>机，但平穷如我只能使用无桌面镜像的树莓派组集群，所以我们至少要让它暴露在集群外，至少在局域网下可以使用。<br>此时就需要对其配置进行修改。执行以下命令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">kubectl patch svc kubernetes-dashboard -n kubernetes-dashboard -p &#39;&#123;&quot;spec&quot;:&#123;&quot;type&quot;:&quot;NodePort&quot;,&quot;ports&quot;:[&#123;&quot;port&quot;:443,&quot;targetPort&quot;:8443,&quot;nodePort&quot;:30443&#125;]&#125;&#125;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>这个命令的意义在于让<code>Kubernetes Dashboard</code>的端口暴露在<code>nodePort</code>（节点端口）<code>30443</code>上，是我们可以通过访问<code>rpi1</code>（<code>192.168.6.91</code>）的<code>30443</code>端口，执行完后，就可以通过访问 <a target="_blank" rel="noopener" href="https://192.168.6.91:30443/">https://192.168.6.91:30443</a> 使用<code>Kubernetes Dashboard</code>了。<br><br><br>但是！<br>但是由于目前集群使用的是自签名的ssl证书，对于浏览器而言是不受信任的，还无法直接访问。对于Firefox浏览器而言可以配置例外情况进行访问，而Google Chrome呢，它没给我们选项怎么办？<br>不用怕，其实Google Chrome有留“秘籍”！<br>点击以下页面的空白处，然后在键盘上敲thisisunsafe并回车就可以访问！非常有Google的风格。<br><br></p>
+<h3 id="登录使用Kubernetes-Dashboard"><a href="#登录使用Kubernetes-Dashboard" class="headerlink" title="登录使用Kubernetes Dashboard"></a>登录使用Kubernetes Dashboard</h3><p><code>Kubernetes Dashboard</code>提供了两种登录方式，一种是<code>Token</code>，另一种是<code>Kubeconfig</code>。这里我只说<code>Token</code>的方法。<br>执行以下命令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cd &#x2F;var&#x2F;lib&#x2F;rancher&#x2F;k3s&#x2F;server&#x2F;manifests&#x2F; #进入&#x2F;var&#x2F;lib&#x2F;rancher&#x2F;k3s&#x2F;server&#x2F;manifests&#x2F;目录
+#创建并向dashboard-adminuser.yaml写入内容
+cat &gt; dashboard-adminuser.yaml &lt;&lt; EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+---
+apiVersion: rbac.authorization.k8s.io&#x2F;v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard  
+EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>然后通过以下命令获取到<code>Token</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk &#39;&#123;print $1&#125;&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>将输出的<code>Token</code>填写在网页中即可。接下去就可以开始使用了</p>
+<h2 id="安装Kuboard"><a href="#安装Kuboard" class="headerlink" title="安装Kuboard"></a>安装Kuboard</h2><p>看了<code>Kubernetes Dashboard</code>的安装以及进入<code>Kubernetes Dashboard</code>的页面后是不是感觉还是很麻烦？是不是觉得看到一大堆各种各样的洋文无从下手？没错，我也这么觉得。所以这里我们安装<code>Kuboard</code>方<code>便我们之后的使用。 不过这里就不在k8s中部署了，而是直接在</code>rpi1<code>上使用</code>docker<code>部署。这里只介绍</code>docker&#96;上的部署，其他的方式请参阅<a target="_blank" rel="noopener" href="https://kuboard.cn/install/v3/install.html#kuboard-v3-x-%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">官方文档</a>。</p>
+<h3 id="部署Kuboard镜像"><a href="#部署Kuboard镜像" class="headerlink" title="部署Kuboard镜像"></a>部署Kuboard镜像</h3><p>在rpi1上执行以下命令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker run -d \
+  --restart&#x3D;unless-stopped \
+  --name&#x3D;kuboard \
+  -p 60080:80&#x2F;tcp \
+  -p 60081:10081&#x2F;tcp \
+  -e KUBOARD_ENDPOINT&#x3D;&quot;http:&#x2F;&#x2F;192.168.6.91:60080&quot; \
+  -e KUBOARD_AGENT_SERVER_TCP_PORT&#x3D;&quot;60081&quot; \
+  -v &#x2F;root&#x2F;kuboard-data:&#x2F;data \
+  eipwork&#x2F;kuboard:v3.3.0.0-arm64<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>参数<code>KUBOARD_ENDPOINT</code>中的地址为之后Web界面的访问地址，命令中的各部分可根据实际需求自由替换，详情参阅官方文档<br>部署完成之后直接访问 <a target="_blank" rel="noopener" href="http://192.168.6.91:60080/">http://192.168.6.91:60080</a> 即可开始使用。比官方的<code>Kubernetes Dashboard</code>属实方便多了。<br><code>Kuboard</code>的默认用户名：<code>admin</code>，默认密码：<code>Kuboard123</code><br>现在开始，你也可以使用反向代理、内网穿透、端口映射等手段让管理界面在公网上可用。</p>
+<h3 id="添加集群"><a href="#添加集群" class="headerlink" title="添加集群"></a>添加集群</h3><p>当我们完成了上面的设置，并不代表我们可以直接使用<code>Kuboard</code>对集群进行管理，还需要在设置中添加集群。<br><code>Kuboard</code>提供了两种方法<br><img src="https://pic.imgdb.cn/item/619399f72ab3f51d91a2697b.png" srcset="/img/loading.gif" lazyload><br>这里我们选择<code>agent</code>的方式<br>填写名称和描述，其他默认，直接点确定，然后根据提示在<code>Master</code>机执行命令即可，基本无脑点确定就行，非常方便。<br>集群导入成功后即可开始使用<br><img src="https://pic.imgdb.cn/item/61939af62ab3f51d91a2f076.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>为了玩这个真的投入了不少时间和金钱，确实折腾人。目前还没搞懂k8s的很多概念，有非常多不理解的地方，对于任务的部署其实还完全不了解，回头理解了再发新的文章介绍。<del>估计要明年发了</del></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384328373">Raspberry Pi4b 集群基于Raspbian Buster搭建K3S集群</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/390805379">手把手教大家使用树莓派4B搭建K8s集群</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/openfans-community-offical/Debian-Pi-Aarch64/blob/master/README_zh.md">Debian-Pi-Aarch64 ★ 全新树莓派64位系统 2.0正式版 - 说明文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/k3s/installation/install-options/_index/">k3s —— 安装选项介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://kuboard.cn/install/v3/install.html">Kuboard —— 安装Kubernetes 多集群管理工具 - Kuboard v3</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/k8s/" class="print-no-link">#k8s</a>
+      
+        <a href="/tags/Kubernetes/" class="print-no-link">#Kubernetes</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>k8s折腾笔记——树莓派集群安装k3s</div>
+      <div>https://blog.xianyu.one/2021/11/16/Linux/tutorial/k8s-install/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年11月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/17/ip-address/" title="计网专业学习笔记——认识IPv4地址的发展史">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计网专业学习笔记——认识IPv4地址的发展史</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/20/Android/onepe/" title="OnePlus 8T 刷机笔记">
+                        <span class="hidden-mobile">OnePlus 8T 刷机笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>背景图来自<a /><a href="https://www.pixiv.net/artworks/75162477" target="_blank" rel="nofollow noopener"><span>NIK --《今日》</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
