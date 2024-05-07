@@ -1,0 +1,929 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="6b75df05-79f5-4bb8-b214-3888f5a85fbd"></script>
+  
+    <meta name="description" content="好久没水文章了，在wjh师傅的催更下来写一篇。 前情提要过去我曾写过一篇subconverter订阅转换及搭配 clash 使用教程 简要介绍了一下subconverter和clash的使用小技巧 本篇将要在原基础上更进一步，透过自定义的subconverter来获得更好的上网体验 本文所解决的问题会想要做进一步的修改自然是因为实际使用遇到了一些问题：  Clash存在DNS泄露 使用FakeIP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="subconverter进阶使用教学">
+<meta property="og:url" content="https://blog.xianyu.one/2024/04/09/sub-server-re/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="好久没水文章了，在wjh师傅的催更下来写一篇。 前情提要过去我曾写过一篇subconverter订阅转换及搭配 clash 使用教程 简要介绍了一下subconverter和clash的使用小技巧 本篇将要在原基础上更进一步，透过自定义的subconverter来获得更好的上网体验 本文所解决的问题会想要做进一步的修改自然是因为实际使用遇到了一些问题：  Clash存在DNS泄露 使用FakeIP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-09T08:17:58.000Z">
+<meta property="article:modified_time" content="2024-05-07T06:25:12.049Z">
+<meta property="article:author" content="咸鱼">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>subconverter进阶使用教学 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic.imgdb.cn/item/616558a72ab3f51d91013941.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">subconverter进阶使用教学</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-09 16:17" pubdate>
+          2024年4月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">subconverter进阶使用教学</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>好久没水文章了，在wjh师傅的催更下来写一篇。</p>
+<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>过去我曾写过一篇<a href="https://blog.xianyu.one/2021/05/12/Linux/tutorial/subconverter/">subconverter订阅转换及搭配 clash 使用教程</a></p>
+<p>简要介绍了一下subconverter和clash的使用小技巧</p>
+<p>本篇将要在原基础上更进一步，透过自定义的subconverter来获得更好的上网体验</p>
+<h3 id="本文所解决的问题"><a href="#本文所解决的问题" class="headerlink" title="本文所解决的问题"></a>本文所解决的问题</h3><p>会想要做进一步的修改自然是因为实际使用遇到了一些问题：</p>
+<ul>
+<li>Clash存在DNS泄露</li>
+<li>使用FakeIP后公司内网的DNS解析无法正常获取</li>
+<li>国域网访问比蜗牛还慢</li>
+</ul>
+<p>实际上，为了方便大家使用，已经创建了一个<a target="_blank" rel="noopener" href="https://github.com/xianyu-one/subconverter_configs">项目</a>来存放相关配置以及创建容器镜像来（如果可以请给我的项目加星 orz ）</p>
+<h2 id="实际解决思路"><a href="#实际解决思路" class="headerlink" title="实际解决思路"></a>实际解决思路</h2><h3 id="解决DNS泄露问题"><a href="#解决DNS泄露问题" class="headerlink" title="解决DNS泄露问题"></a>解决DNS泄露问题</h3><p>首先就是修改外部配置文件了，在<a href="https://blog.xianyu.one/2021/05/12/Linux/tutorial/subconverter/">subconverter订阅转换及搭配 clash 使用教程</a>所介绍的配置目前已不太适用，请参考下面的配置</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">[custom]
+;不要随意改变关键字，否则会导致出错
+
+;设置规则标志位
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;LocalAreaNetwork.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;UnBan.list
+ruleset&#x3D;🛑 全球拦截,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;BanAD.list
+ruleset&#x3D;Google,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Google.list
+ruleset&#x3D;Google,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;GoogleFCM.list
+ruleset&#x3D;Google,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;GoogleCN.list
+ruleset&#x3D;Google,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;GoogleCNProxyIP.list
+ruleset&#x3D;📺 巴哈姆特,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Bahamut.list
+ruleset&#x3D;📺 Youtube,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;YouTubeMusic.list
+ruleset&#x3D;📺 Youtube,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;YouTube.list
+ruleset&#x3D;🔰 节点选择,rules&#x2F;ConnersHua&#x2F;Surge&#x2F;Ruleset&#x2F;Global.list
+ruleset&#x3D;🍎 苹果服务,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Apple.list
+ruleset&#x3D;⚙️ 开发者,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Developer.list
+ruleset&#x3D;⚙️ 开发者,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Github.list
+ruleset&#x3D;Netflix,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Netflix.list
+ruleset&#x3D;Netflix,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;NetflixIP.list
+ruleset&#x3D;🔞 R18,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Porn.list
+ruleset&#x3D;🖼️ Pixiv,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Pixiv.list
+ruleset&#x3D;⚙️ 开发者,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Developer.list
+ruleset&#x3D;⚙️ 开发者,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Github.list
+ruleset&#x3D;Disney+,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;DisneyPlus.list
+ruleset&#x3D;✈️ Telegram,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Telegram.list
+ruleset&#x3D;🪟 巨硬服务,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Microsoft.list
+ruleset&#x3D;🪟 巨硬服务,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;OneDrive.list
+ruleset&#x3D;🎮 Xbox,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Xbox.list
+ruleset&#x3D;🕹︎ Nintendo,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Nintendo.list
+ruleset&#x3D;🖥️ PC游戏平台,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Epic.list
+ruleset&#x3D;🖥️ PC游戏平台,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Steam.list
+ruleset&#x3D;🖥️ PC游戏平台,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;Blizzard.list
+ruleset&#x3D;🤖 AI相关,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Ruleset&#x2F;OpenAi.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;ChinaIpV6.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;Download.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;LocalAreaNetwork.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;UnBan.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;ChinaDomain.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;ChinaMedia.list
+ruleset&#x3D;REJECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;BanAD.list
+ruleset&#x3D;REJECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;BanProgramAD.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;ChinaCompanyIp.list
+ruleset&#x3D;DIRECT,https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ACL4SSR&#x2F;ACL4SSR&#x2F;master&#x2F;Clash&#x2F;ChinaIp.list
+ruleset&#x3D;DIRECT,[]GEOIP,CN,no-resolve
+ruleset&#x3D;🐟 漏网之鱼,[]FINAL
+;设置规则标志位
+
+;设置分组标志位
+custom_proxy_group&#x3D;🔰 节点选择&#96;select&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]流媒体&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;✈ 手动选择&#96;select&#96;.*
+custom_proxy_group&#x3D;Disney+&#96;select&#96;[]🔰 节点选择&#96;[]🇹🇼 台湾地区&#96;[]🇸🇬 新加坡&#96;[]🇹🇼🇸🇬 中文地区&#96;[]流媒体&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;Google&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;📺 Youtube&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;⚙️ 开发者&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🕹︎ Nintendo&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🖥️ PC游戏平台&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🎮 Xbox&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🤖 AI相关&#96;select&#96;[]🔰 节点选择&#96;[]🇹🇼 台湾地区&#96;[]🇸🇬 新加坡&#96;[]🇹🇼🇸🇬 中文地区&#96;[]流媒体&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🖼️ Pixiv&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;✈️ Telegram&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;📺 巴哈姆特&#96;select&#96;[]🇹🇼 台湾地区&#96;[]🔰 节点选择&#96;[]✈ 手动选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;(台)
+custom_proxy_group&#x3D;🍎 苹果服务&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🪟 巨硬服务&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🔞 R18&#96;select&#96;[]🔰 节点选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼🇸🇬 中文地区&#96;[]🇹🇼 台湾地区&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;Netflix&#96;select&#96;[]🔰 节点选择&#96;[]🇹🇼🇸🇬 中文地区&#96;[]流媒体&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]✈ 手动选择&#96;[]🌏 亚洲及大洋洲&#96;[]🌍 欧洲及中东地区&#96;[]🇺🇸🇨🇦 北美通用&#96;[]🇹🇼 台湾地区&#96;[]🇸🇬 新加坡&#96;[]🇯🇵 日本国&#96;[]🪙超低倍率0.2&#96;[]DIRECT
+custom_proxy_group&#x3D;🌏 全球直连&#96;select&#96;[]DIRECT&#96;[]🔰 节点选择&#96;[]✈ 手动选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换
+custom_proxy_group&#x3D;🛑 全球拦截&#96;select&#96;[]REJECT&#96;[]DIRECT
+custom_proxy_group&#x3D;🐟 漏网之鱼&#96;select&#96;[]🔰 节点选择&#96;[]✈ 手动选择&#96;[]✈ 延迟最低&#96;[]✈ 故障切换&#96;[]DIRECT
+custom_proxy_group&#x3D;✈ 延迟最低&#96;url-test&#96;.*&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;✈ 故障切换&#96;fallback&#96;.*&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🌏 亚洲及大洋洲&#96;url-test&#96;(台|新|日|韩|马来|印度|澳大利亚｜新西兰)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🌍 欧洲及中东地区&#96;url-test&#96;(英|法|德|阿姆斯特丹|荷兰|土耳其|比利时|瑞士)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🇺🇸🇨🇦 北美通用&#96;url-test&#96;(美|加拿)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🇹🇼🇸🇬 中文地区&#96;url-test&#96;(台|新)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🇹🇼 台湾地区&#96;url-test&#96;(台)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🇯🇵 日本国&#96;url-test&#96;(日)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🇸🇬 新加坡&#96;url-test&#96;(新加坡|R新|s新)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;流媒体&#96;url-test&#96;(R台|s台|R新|s新|流|流媒体)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+custom_proxy_group&#x3D;🪙超低倍率0.2&#96;url-test&#96;(0.2)&#96;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#96;500
+
+;设置分组标志位
+enable_rule_generator&#x3D;true
+
+overwrite_original_rules&#x3D;true
+
+exclude_remarks&#x3D;(到期|官方|Traffic|Expire|剩余|时间|官网|产品|香港|俄罗斯)
+
+enable_rule_generator&#x3D;true
+overwrite_original_rules&#x3D;true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="添加redir-port配置"><a href="#添加redir-port配置" class="headerlink" title="添加redir-port配置"></a>添加redir-port配置</h3><p>redir-port是Linux 系统中iptables 的一个模块，它可以将来自特定来源IP 地址和端口的网络流量重定向到另一个目标IP 地址和端口。 这是一种防火墙规则，通常用于将内部网络中的流量重定向到特定的服务器或服务上，或者将流量从一个端口重定向到另一个端口</p>
+<p>具体请看 <a target="_blank" rel="noopener" href="https://github.com/xianyu-one/subconverter_configs/blob/main/subconverter_server_conf/pref.toml">项目地址</a></p>
+<h3 id="为subconverter添加DNS部分的配置模板"><a href="#为subconverter添加DNS部分的配置模板" class="headerlink" title="为subconverter添加DNS部分的配置模板"></a>为subconverter添加DNS部分的配置模板</h3><p>由于subconverter默认转换时并不会附带DNS部分的配置，需要客户端进行添加，所以在这里我们直接通过修改subconverter的模板来实现向配置文件添加</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">dns:
+  enable: true
+  listen: 127.0.0.1:8853
+  default-nameserver:
+    - 223.5.5.5
+    - 8.8.4.4
+  ipv6: false
+  enhanced-mode: fake-ip
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+    - tls:&#x2F;&#x2F;223.5.5.5:853
+    - tls:&#x2F;&#x2F;223.6.6.6:853
+    - tls:&#x2F;&#x2F;120.53.53.53
+    - tls:&#x2F;&#x2F;1.12.12.12
+  fallback:
+    - https:&#x2F;&#x2F;1.0.0.1&#x2F;dns-query
+    - https:&#x2F;&#x2F;public.dns.iij.jp&#x2F;dns-query
+    - tls:&#x2F;&#x2F;8.8.4.4:853
+  fallback-filter:
+    geoip: false
+    ipcidr:
+      - 240.0.0.0&#x2F;4
+      - 0.0.0.0&#x2F;32
+      - 127.0.0.1&#x2F;32
+    domain:
+      - +.facebook.com
+      - +.twitter.com
+      - +.google.com
+      - +.googleapis.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.xn--ngstr-lra8j.com
+      - +.googlevideo.com
+      - +.gvt1.com
+      - +.gmail.com
+      - +.youtube.com
+      - +.youtu.be
+      - +.gvt0.com
+      - +.gvt2.com
+      - +.gvt3.com
+      - +.gstatic.com
+      - +.265.com
+      - +.2mdn.net
+      - +.app-measurement.com
+      - +.c.admob.com
+      - +.clickserve.dartsearch.net
+      - +.crl.pki.goog
+      - +.doubleclick.net
+      - +.firebase-settings.crashlytics.com
+      - +.google-analytics.com
+      - +.googleadservices.com
+      - +.googleanalytics.com
+      - +.googleoptimize.com
+      - +.googlesyndication.com
+      - +.googletagmanager.com
+      - +.googletagservices.com
+  fake-ip-filter:
+    &#123;% include &quot;include&#x2F;cn-list.txt&quot; %&#125;
+    &#123;% include &quot;include&#x2F;a-list.txt&quot; %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>具体请看 <a target="_blank" rel="noopener" href="https://github.com/xianyu-one/subconverter_configs/blob/main/subconverter_server_conf/pref.toml">项目地址</a></p>
+<h4 id="fake-ip-filter"><a href="#fake-ip-filter" class="headerlink" title="fake-ip-filter"></a>fake-ip-filter</h4><p>fake-ip-filter<br>部分所添加的为国域网的域名清单，这边默认给的不多，<del>也就七万多条</del>，其作用是当DNS查询匹配这些域名时，并不会使用FakeIP，而是返回正确的解析，一方面这能提高国域网的访问速度，另一方面，你也可以通过添加自定义的内容（例如公司内网的域名）来获取真实的地址，防止开启代理的同时无法正常访问内网网站</p>
+<p>如果你有自己的订阅转换服务器可以参考下面的方法进行自定义：</p>
+<p>首先运行一个容器</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker run --name tester mrxianyu&#x2F;subconverter:latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+
+<p>将容器内的<code>all_base.tpl</code>拷贝至本地的项容器目文件夹中（下面操作均是在本地的项容器目文件夹中进行的）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker cp tester:&#x2F;base&#x2F;base&#x2F;all_base.tpl .&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>将include文件夹拷贝出来</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker cp tester:&#x2F;base&#x2F;include .&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>此处我们假设需要自定义的域名列表（格式参考include文件夹下已存在的文件）写在<code>include/URL.txt</code>中</p>
+<p>接着我们向的<code>all_base.tpl</code>中的<code>fake-ip-filter</code>部分写入引用这个文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">..............
+      - +.firebase-settings.crashlytics.com
+      - +.google-analytics.com
+      - +.googleadservices.com
+      - +.googleanalytics.com
+      - +.googleoptimize.com
+      - +.googlesyndication.com
+      - +.googletagmanager.com
+      - +.googletagservices.com
+  fake-ip-filter:
+    &#123;% include &quot;include&#x2F;cn-list.txt&quot; %&#125;
+    &#123;% include &quot;include&#x2F;a-list.txt&quot; %&#125;
+    &#123;% include &quot;include&#x2F;URL.txt&quot; %&#125;
+.............<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>最后使用如下示例dockercompose文件启用正式的订阅转换服务器即可</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">version: &#39;3&#39;
+services:
+  app:
+    image: mrxianyu&#x2F;subconverter
+    container_name: subconverter
+    restart: unless-stopped
+    volumes:
+      - .&#x2F;pref.toml:&#x2F;base&#x2F;pref.toml:ro
+      - .&#x2F;include:&#x2F;base&#x2F;include:ro
+    ports:
+      - &#39;25500:25500&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>subconverter进阶使用教学</div>
+      <div>https://blog.xianyu.one/2024/04/09/sub-server-re/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/06/AIX/welcome-AIX/" title="AIX系统初体验">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">AIX系统初体验</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/30/git-proxy/" title="Git设置代理">
+                        <span class="hidden-mobile">Git设置代理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>背景图来自<a /><a href="https://www.pixiv.net/artworks/75162477" target="_blank" rel="nofollow noopener"><span>NIK --《今日》</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

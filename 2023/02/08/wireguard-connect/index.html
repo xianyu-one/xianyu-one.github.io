@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="6b75df05-79f5-4bb8-b214-3888f5a85fbd"></script>
+  
+    <meta name="description" content="失踪几个月终于更新了  前言事情是这样的，早在2022年我换上了Pixe之后惊奇的发现android13默默移除了L2TP的支持，只能使用IPsec的VPN了，对于我这样的懒狗来说，配置IPsec是不可能的，这辈子都是不可能的 所以！我换掉了原先家中使用的某品牌成品AC，改用支持wireguard的Openwrt开发板来作为主路由使用。并开始了这一次的折腾">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Openwrt使用wireguard实现异地组网">
+<meta property="og:url" content="https://blog.xianyu.one/2023/02/08/wireguard-connect/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="失踪几个月终于更新了  前言事情是这样的，早在2022年我换上了Pixe之后惊奇的发现android13默默移除了L2TP的支持，只能使用IPsec的VPN了，对于我这样的懒狗来说，配置IPsec是不可能的，这辈子都是不可能的 所以！我换掉了原先家中使用的某品牌成品AC，改用支持wireguard的Openwrt开发板来作为主路由使用。并开始了这一次的折腾">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35bee4757feff331f20e7.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35ca54757feff33206d07.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35dec4757feff3322a2bb.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35e1e4757feff3322f9de.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35f024757feff3324aa94.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35bee4757feff331f20e7.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35ca54757feff33206d07.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e360e14757feff3327f0fc.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e35e1e4757feff3322f9de.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e361984757feff33294b6a.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e3628d4757feff332b1a01.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/63e3634a4757feff332c6b98.jpg">
+<meta property="article:published_time" content="2023-02-08T15:03:29.000Z">
+<meta property="article:modified_time" content="2024-05-07T06:25:12.033Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="openwrt">
+<meta property="article:tag" content="VPN">
+<meta property="article:tag" content="异地组网">
+<meta property="article:tag" content="wireguard">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/63e35bee4757feff331f20e7.jpg">
+  
+  
+  
+  <title>Openwrt使用wireguard实现异地组网 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic.imgdb.cn/item/616558a72ab3f51d91013941.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Openwrt使用wireguard实现异地组网</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-08 23:03" pubdate>
+          2023年2月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          890 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Openwrt使用wireguard实现异地组网</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>失踪几个月终于更新了</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>事情是这样的，早在2022年我换上了Pixe之后惊奇的发现android13默默移除了L2TP的支持，只能使用IPsec的VPN了，对于我这样的懒狗来说，配置IPsec是不可能的，这辈子都是不可能的</p>
+<p>所以！我换掉了原先家中使用的某品牌成品AC，改用支持<code>wireguard</code>的Openwrt开发板来作为主路由使用。并开始了这一次的折腾</p>
+<span id="more"></span>
+
+<h2 id="设备及环境介绍"><a href="#设备及环境介绍" class="headerlink" title="设备及环境介绍"></a>设备及环境介绍</h2><p>在实作过程中，踩了不少坑，并且由于openwrt版本不同的情况下软件包会有一点区别，所以在此标注本次实操的系统版本等信息，<strong>需要注意：请保证两端LAN的网段不能有重合！</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">设备</th>
+<th align="center">A地路由（拥有ipv4公网IP）</th>
+<th align="center">B地路由（无ipv4公网IP）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">系统版本</td>
+<td align="center">openwrt-22.03</td>
+<td align="center">openwrt-22.03</td>
+</tr>
+<tr>
+<td align="center">LAN口IP</td>
+<td align="center">192.168.10.1&#x2F;24</td>
+<td align="center">192.168.20.1&#x2F;24</td>
+</tr>
+<tr>
+<td align="center">wg网段IP</td>
+<td align="center">10.0.0.1&#x2F;24</td>
+<td align="center">10.0.0.2&#x2F;24</td>
+</tr>
+</tbody></table>
+<h2 id="A地路由设置"><a href="#A地路由设置" class="headerlink" title="A地路由设置"></a>A地路由设置</h2><h3 id="添加防火墙"><a href="#添加防火墙" class="headerlink" title="添加防火墙"></a>添加防火墙</h3><p>首先需要添加一个<code>wireguard</code>的防火墙区域，依照下图设置即可</p>
+<p><img src="https://pic.imgdb.cn/item/63e35bee4757feff331f20e7.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="添加wireguard虚拟接口"><a href="#添加wireguard虚拟接口" class="headerlink" title="添加wireguard虚拟接口"></a>添加wireguard虚拟接口</h3><p>在 <code>网络</code>-<code>接口</code> 页面新建一个接口，名字随意并选择协议为<code>Wireguard VPN</code></p>
+<p><img src="https://pic.imgdb.cn/item/63e35ca54757feff33206d07.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="虚拟接口配置"><a href="#虚拟接口配置" class="headerlink" title="虚拟接口配置"></a>虚拟接口配置</h3><p>点击<code>生成新的密钥对</code>生成本机的公钥和私钥，并填写下方监听端口我们规划好的此设备在wireguard虚拟网络中的ip</p>
+<p><img src="https://pic.imgdb.cn/item/63e35dec4757feff3322a2bb.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>记得配置此接口所在的防火墙区域</p>
+<p><img src="https://pic.imgdb.cn/item/63e35e1e4757feff3322f9de.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>到这里，我们就可以暂时保存端口的设置了，等B设备配置好后我们再回来配置对端设置。（其实此处可以先在这台路由上将B端的公私钥生成好并填写对端配置）</p>
+<h3 id="配置静态路由"><a href="#配置静态路由" class="headerlink" title="配置静态路由"></a>配置静态路由</h3><p>为了让局域网下的设备访问到对端网段下的设备，最好请添加以下静态路由（实测好像不加也没事）</p>
+<p><img src="https://pic.imgdb.cn/item/63e35f024757feff3324aa94.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>上图中的含义为：当接口区域<code>wg</code>有去往<code>192.168.20.0/24</code>网段的数据包时，将其网关设为本机在<code>wireguard</code>虚拟网络中的ip地址</p>
+<h2 id="B地路由设置"><a href="#B地路由设置" class="headerlink" title="B地路由设置"></a>B地路由设置</h2><h3 id="添加防火墙-1"><a href="#添加防火墙-1" class="headerlink" title="添加防火墙"></a>添加防火墙</h3><p>首先需要添加一个<code>wireguard</code>的防火墙区域，依照下图设置即可</p>
+<p><img src="https://pic.imgdb.cn/item/63e35bee4757feff331f20e7.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="添加wireguard虚拟接口-1"><a href="#添加wireguard虚拟接口-1" class="headerlink" title="添加wireguard虚拟接口"></a>添加wireguard虚拟接口</h3><p>在 <code>网络</code>-<code>接口</code> 页面新建一个接口，名字随意并选择协议为<code>Wireguard VPN</code></p>
+<p><img src="https://pic.imgdb.cn/item/63e35ca54757feff33206d07.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="虚拟接口配置-1"><a href="#虚拟接口配置-1" class="headerlink" title="虚拟接口配置"></a>虚拟接口配置</h3><p>点击<code>生成新的密钥对</code>生成本机的公钥和私钥，并填写下方我们规划好的此设备在wireguard虚拟网络中的ip，由于此地无公网ip所以监听端口是否配置其实无所谓（默认其实会开一个）</p>
+<p><img src="https://pic.imgdb.cn/item/63e360e14757feff3327f0fc.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>记得配置此接口所在的防火墙区域</p>
+<p><img src="https://pic.imgdb.cn/item/63e35e1e4757feff3322f9de.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="配置对端（A地路由信息）"><a href="#配置对端（A地路由信息）" class="headerlink" title="配置对端（A地路由信息）"></a>配置对端（A地路由信息）</h3><p>在对端选项卡中添加一个对端，并填入A路由的对应信息<br><img src="https://pic.imgdb.cn/item/63e361984757feff33294b6a.jpg" srcset="/img/loading.gif" lazyload><br>在允许的ip选项中除了要填A端路由在虚拟网络中的ip（10.0.0.1&#x2F;24）外，要加A地LAN的网段（192.168.1.0&#x2F;24）</p>
+<p>私钥和预共享密钥为可选项。</p>
+<h3 id="配置静态路由-1"><a href="#配置静态路由-1" class="headerlink" title="配置静态路由"></a>配置静态路由</h3><p>为了让局域网下的设备访问到对端网段下的设备，最好请添加以下静态路由（实测好像不加也没事）</p>
+<p><img src="https://pic.imgdb.cn/item/63e3628d4757feff332b1a01.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>上图中的含义为：当接口区域<code>wg</code>有去往<code>192.168.10.0/24</code>网段的数据包时，将其网关设为本机在<code>wireguard</code>虚拟网络中的ip地址</p>
+<h2 id="A地路由的对端设置"><a href="#A地路由的对端设置" class="headerlink" title="A地路由的对端设置"></a>A地路由的对端设置</h2><p>回到A地路由器的配置，我们将B端信息填入对端选项卡中并保存应用</p>
+<p><img src="https://pic.imgdb.cn/item/63e3634a4757feff332c6b98.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="使配置生效"><a href="#使配置生效" class="headerlink" title="使配置生效"></a>使配置生效</h2><p>在保存并应用配置后就已完成所有配置项，但建议重启wg虚拟端口，最好直接重启路由器，以免系统抽风没有无法正常使用。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/openwrt/" class="print-no-link">#openwrt</a>
+      
+        <a href="/tags/VPN/" class="print-no-link">#VPN</a>
+      
+        <a href="/tags/%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/" class="print-no-link">#异地组网</a>
+      
+        <a href="/tags/wireguard/" class="print-no-link">#wireguard</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Openwrt使用wireguard实现异地组网</div>
+      <div>https://blog.xianyu.one/2023/02/08/wireguard-connect/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/01/Linux/tutorial/kea-dhcp/" title="kea DHCP 折腾小记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">kea DHCP 折腾小记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/31/Linux/tutorial/vmware-on-ubuntu/" title="安全启动时在Linux下使用VMware">
+                        <span class="hidden-mobile">安全启动时在Linux下使用VMware</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>背景图来自<a /><a href="https://www.pixiv.net/artworks/75162477" target="_blank" rel="nofollow noopener"><span>NIK --《今日》</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
