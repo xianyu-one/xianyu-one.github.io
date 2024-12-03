@@ -6,7 +6,7 @@
   <link href="https://blog.xianyu.one/atom.xml" rel="self"/>
   
   <link href="https://blog.xianyu.one/"/>
-  <updated>2024-09-02T11:06:13.082Z</updated>
+  <updated>2024-12-03T22:46:14.112Z</updated>
   <id>https://blog.xianyu.one/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我常用的那些golang与rust程序-EP01</title>
+    <link href="https://blog.xianyu.one/2024/12/04/golang-rust-application-recommendations-ep01/"/>
+    <id>https://blog.xianyu.one/2024/12/04/golang-rust-application-recommendations-ep01/</id>
+    <published>2024-12-03T21:47:07.000Z</published>
+    <updated>2024-12-03T22:46:14.112Z</updated>
+    
+    <content type="html"><![CDATA[<p>好久不见！</p><p>由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期</p><h2 id="为什么我热衷于使用golang及rust的程序"><a href="#为什么我热衷于使用golang及rust的程序" class="headerlink" title="为什么我热衷于使用golang及rust的程序"></a>为什么我热衷于使用golang及rust的程序</h2><p>作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。</p><p>此时golang及rust的优越性就体现出来了，以Golang为例，golang支持<code>2.6.23</code>及以上版本内核的任何Linux，也就是说RHEL6及以上的环境全部都能直接使用！直接把二进制包丢进去就可以了，属实过于方便。</p><h2 id="介绍一些好用的工具"><a href="#介绍一些好用的工具" class="headerlink" title="介绍一些好用的工具"></a>介绍一些好用的工具</h2><p>接下来就给大伙看看我平时常用的一些好东西</p><h3 id="WEB服务器"><a href="#WEB服务器" class="headerlink" title="WEB服务器"></a>WEB服务器</h3><h4 id="Caddy2"><a href="#Caddy2" class="headerlink" title="Caddy2"></a>Caddy2</h4><p><img src="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png"></p><ul><li><a href="https://github.com/caddyserver/caddy">项目地址</a></li></ul><p>一个非常好用的web服务器，🔒默认安全、支持HTTP3、支持自动签发续签SSL证书、强大的自定义功能以及丰富的插件！</p><p>另外也欢迎使用我的<a href="https://hub.docker.com/r/mrxianyu/caddy">客制化容器</a>！</p><h3 id="系统监控项"><a href="#系统监控项" class="headerlink" title="系统监控项"></a>系统监控项</h3><h4 id="gotop"><a href="#gotop" class="headerlink" title="gotop"></a>gotop</h4><p><img src="https://pic.imgdb.cn/item/674f80b6d0e0a243d4dce59f.png"></p><ul><li><a href="https://github.com/xxxserxxx/gotop">项目地址</a></li></ul><p>一个系统负载查看🇨🇭瑞士军刀</p><p>可以非常方便地查看cpu、内存、进程、磁盘等信息</p><p>一个小趣闻：原作者入了rust邪教跑去用rust重写了这个项目😆</p><h4 id="bottom"><a href="#bottom" class="headerlink" title="bottom"></a>bottom</h4><ul><li><p><a href="https://github.com/ClementTsang/bottom">项目地址</a></p></li><li><p><a href="https://github.com/ClementTsang/bottom">项目地址</a></p></li></ul><p>另一个系统负载查看🇨🇭瑞士军刀</p><p>可以非常方便地查看cpu、内存、进程、磁盘等信息</p><p>另一个小趣闻：就是上面👆那个gotop的作者写的</p><h4 id="bandwhich"><a href="#bandwhich" class="headerlink" title="bandwhich"></a>bandwhich</h4><p><img src="https://pic.imgdb.cn/item/674f8508d0e0a243d4dce5af.png"></p><ul><li><a href="https://github.com/imsnif/bandwhich">项目地址</a></li></ul><p>网络负载查看🇨🇭瑞士军刀</p><p>可以非常方便地查看网络负载</p><h4 id="kyanos"><a href="#kyanos" class="headerlink" title="kyanos"></a>kyanos</h4><p><img src="https://pic.imgdb.cn/item/674f8680d0e0a243d4dce5b9.png"></p><ul><li><a href="https://github.com/hengyoush/kyanos">项目地址</a></li></ul><p>使用ebpf黑科技的网络流量采集和分析工具</p><p>tql！</p><h4 id="gdu"><a href="#gdu" class="headerlink" title="gdu"></a>gdu</h4><p><img src="https://pic.imgdb.cn/item/674f8a13d0e0a243d4dce5c6.png"></p><ul><li><a href="https://github.com/dundee/gdu">项目地址</a></li></ul><p>磁盘占用分析工具</p><h3 id="网络安全工具"><a href="#网络安全工具" class="headerlink" title="网络安全工具"></a>网络安全工具</h3><h4 id="fscan"><a href="#fscan" class="headerlink" title="fscan"></a>fscan</h4><p><img src="https://pic.imgdb.cn/item/674f858dd0e0a243d4dce5b1.png"></p><ul><li><a href="https://github.com/shadow1ng/fscan">项目地址</a></li></ul><p>大名鼎鼎的fscan，网安小助手</p><p>一般我只用来扫描网段用</p><h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><h4 id="doggo"><a href="#doggo" class="headerlink" title="doggo"></a>doggo</h4><p><img src="https://pic.imgdb.cn/item/674f85fcd0e0a243d4dce5b2.png"></p><ul><li><a href="https://github.com/mr-karan/doggo">项目地址</a></li></ul><p>更加现代化的DNS命令行查询工具</p><p><del>由于dig用习惯了所以其实这个我用的挺少</del></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;好久不见！&lt;/p&gt;
+&lt;p&gt;由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期&lt;/p&gt;
+&lt;h2 id=&quot;为什么我热衷于使用golang及rust的程序&quot;&gt;&lt;a href=&quot;#为什么我热衷于使用golang及rust的程序&quot; class=&quot;headerlin</summary>
+      
+    
+    
+    
+    
+    <category term="推荐" scheme="https://blog.xianyu.one/tags/%E6%8E%A8%E8%8D%90/"/>
+    
+    <category term="分享" scheme="https://blog.xianyu.one/tags/%E5%88%86%E4%BA%AB/"/>
+    
+    <category term="golang" scheme="https://blog.xianyu.one/tags/golang/"/>
+    
+    <category term="rust" scheme="https://blog.xianyu.one/tags/rust/"/>
+    
+  </entry>
   
   <entry>
     <title>AIX系统初体验</title>
@@ -429,9 +459,9 @@
     
     
     
-    <category term="网络" scheme="https://blog.xianyu.one/tags/%E7%BD%91%E7%BB%9C/"/>
-    
     <category term="教程" scheme="https://blog.xianyu.one/tags/%E6%95%99%E7%A8%8B/"/>
+    
+    <category term="网络" scheme="https://blog.xianyu.one/tags/%E7%BD%91%E7%BB%9C/"/>
     
     <category term="IP地址" scheme="https://blog.xianyu.one/tags/IP%E5%9C%B0%E5%9D%80/"/>
     
@@ -514,26 +544,6 @@
     <category term="开发" scheme="https://blog.xianyu.one/tags/%E5%BC%80%E5%8F%91/"/>
     
     <category term="c语言" scheme="https://blog.xianyu.one/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>业余无线电台通联日志</title>
-    <link href="https://blog.xianyu.one/2021/08/28/logbook/"/>
-    <id>https://blog.xianyu.one/2021/08/28/logbook/</id>
-    <published>2021-08-27T20:30:03.000Z</published>
-    <updated>2024-09-02T11:06:13.083Z</updated>
-    
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js" type="fd238605830abab8b7dec9fe-text/javascript"> </script><iframe align="top" frameborder="0" height="800" scrolling="yes" src="https://logbook.qrz.com/lbstat/BG5DMN/" width=100%></iframe>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;script src=&quot;/assets/js/DPlayer.min.js&quot; type=&quot;fd238605830abab8b7dec9fe-text/javascript&quot;&gt; &lt;/script&gt;&lt;iframe align=&quot;top&quot; frameborder=&quot;0&quot; height</summary>
-      
-    
-    
-    
     
   </entry>
   

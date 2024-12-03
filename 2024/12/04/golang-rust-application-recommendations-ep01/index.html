@@ -17,24 +17,33 @@
   <meta name="keywords" content="">
   <script async src="https://statistics.our-family.net/script.js" data-website-id="6b75df05-79f5-4bb8-b214-3888f5a85fbd"></script>
   
-    <meta name="description" content="写在前面属实无聊，就当考前复习。 开篇初接触网络层的东西，相信不少人会有很多的疑惑，毕竟相较于物理层和数据链路层而言，网络层的东西会比较抽象。在大学开设的这门课里我并没有遇到什么特别大的瓶颈和不理解的地方，这得益于多年来瞎折腾所学习到的知识。从身边遇到的问题入手，通过解决问题的方式学习知识，可以说是我本人最爱的学习方法。所以，我想结合实例来讲解IPv4的相关知识，希望能对正在学习相关专业的学生以">
+    <meta name="description" content="好久不见！ 由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期 为什么我热衷于使用golang及rust的程序作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。 此时golang及rust的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计网专业学习笔记——认识IPv4地址的发展史">
-<meta property="og:url" content="https://blog.xianyu.one/2021/12/17/ip-address/index.html">
+<meta property="og:title" content="我常用的那些golang与rust程序-EP01">
+<meta property="og:url" content="https://blog.xianyu.one/2024/12/04/golang-rust-application-recommendations-ep01/index.html">
 <meta property="og:site_name" content="咸鱼的小站">
-<meta property="og:description" content="写在前面属实无聊，就当考前复习。 开篇初接触网络层的东西，相信不少人会有很多的疑惑，毕竟相较于物理层和数据链路层而言，网络层的东西会比较抽象。在大学开设的这门课里我并没有遇到什么特别大的瓶颈和不理解的地方，这得益于多年来瞎折腾所学习到的知识。从身边遇到的问题入手，通过解决问题的方式学习知识，可以说是我本人最爱的学习方法。所以，我想结合实例来讲解IPv4的相关知识，希望能对正在学习相关专业的学生以">
+<meta property="og:description" content="好久不见！ 由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期 为什么我热衷于使用golang及rust的程序作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。 此时golang及rust的">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-12-17T00:04:49.000Z">
-<meta property="article:modified_time" content="2024-09-02T11:06:13.083Z">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f80b6d0e0a243d4dce59f.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f8508d0e0a243d4dce5af.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f8680d0e0a243d4dce5b9.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f8a13d0e0a243d4dce5c6.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f858dd0e0a243d4dce5b1.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f85fcd0e0a243d4dce5b2.png">
+<meta property="article:published_time" content="2024-12-03T21:47:07.000Z">
+<meta property="article:modified_time" content="2024-12-03T22:46:14.112Z">
 <meta property="article:author" content="咸鱼">
-<meta property="article:tag" content="教程">
-<meta property="article:tag" content="网络">
-<meta property="article:tag" content="IP地址">
+<meta property="article:tag" content="推荐">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="rust">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png">
   
   
   
-  <title>计网专业学习笔记——认识IPv4地址的发展史 - 咸鱼的小站</title>
+  <title>我常用的那些golang与rust程序-EP01 - 咸鱼的小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -266,7 +275,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">计网专业学习笔记——认识IPv4地址的发展史</span>
+            <span id="subtitle">我常用的那些golang与rust程序-EP01</span>
           
         </div>
 
@@ -282,8 +291,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-12-17 08:04" pubdate>
-          2021年12月17日 早上
+        <time datetime="2024-12-04 05:47" pubdate>
+          2024年12月4日 凌晨
         </time>
       </span>
     
@@ -294,7 +303,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          549 字
         
       </span>
     
@@ -305,7 +314,7 @@
         
         
         
-          22 分钟
+          5 分钟
         
       </span>
     
@@ -342,154 +351,67 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">计网专业学习笔记——认识IPv4地址的发展史</h1>
+            <h1 id="seo-header">我常用的那些golang与rust程序-EP01</h1>
             
             
               <div class="markdown-body">
                 
-                <span id="more"></span>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>属实无聊，就当考前复习。</p>
-<h1 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h1><p>初接触网络层的东西，相信不少人会有很多的疑惑，毕竟相较于物理层和数据链路层而言，网络层的东西会比较抽象。<br>在大学开设的这门课里我并没有遇到什么特别大的瓶颈和不理解的地方，这得益于多年来瞎折腾所学习到的知识。从身边遇到的问题入手，通过解决问题的方式学习知识，可以说是我本人最爱的学习方法。<br>所以，我想结合实例来讲解IPv4的相关知识，希望能对正在学习相关专业的学生以及爱好者有所帮助。  </p>
-<h1 id="IPv4地址的结构"><a href="#IPv4地址的结构" class="headerlink" title="IPv4地址的结构"></a>IPv4地址的结构</h1><p>大家应该都知道，IPv4的地址写出来长这样：<code>192.168.1.1</code><br>我们为了阅读的方便，将十进制格式的IP地址用.分成了四个部分。<br>看，只是人类为了阅读方便而设置的。对于计算机而言IPv4地址长这样<code>11000000101010000000000100000001</code><br>其实就是二进制形式的地址。<br>我们也可以把二进制形式的地址拆成四份：<code>11000000</code> <code>10101000</code> <code>00000001</code> <code>00000001</code>  </p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>第一段</th>
-<th>第二段</th>
-<th>第三段</th>
-<th>第四段</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>十进制格式</td>
-<td>192</td>
-<td>168</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>二进制格式</td>
-<td>11000000</td>
-<td>10101000</td>
-<td>00000001</td>
-<td>00000001</td>
-</tr>
-</tbody></table>
-<p>简单看了一下格式，就可以继续往下说了。<br>别急，其他的诸如<code>子网掩码</code>、<code>网络号</code>、<code>主机号</code>的概念后面会慢慢讲。</p>
-<h1 id="IPv4的发展历史"><a href="#IPv4的发展历史" class="headerlink" title="IPv4的发展历史"></a>IPv4的发展历史</h1><p>开始讲解IPv4地址，绕不开的话题就是要讲一讲IP发展的历史，看看IPv4是怎么样发展到现在这样的</p>
-<h2 id="分类编址时代"><a href="#分类编址时代" class="headerlink" title="分类编址时代"></a>分类编址时代</h2><p>很久很久以前，IP地址被分成了五种地址类型，分别是<code>A</code>、<code>B</code>、<code>C</code>、<code>D</code>、<code>E</code>五类。<br>他们的区分方式很简单，<strong>二进制形式的IP地址从左往右数，开头的几位数字的不同决定这个IP的分类。</strong><br>在判断属于一个IP属于哪一个类别时其实不需要把它变成二进制的形式，<strong>因为区分类别的位数只占4位，也就是说只要判断第一段的十进制数是在哪个区间即可知道这个IP的类别。</strong><br>可以参照以下表格进行判断：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>A类地址</th>
-<th>B类地址</th>
-<th>C类地址</th>
-<th>D类地址</th>
-<th>E类地址</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>二进制下的开头</td>
-<td>0</td>
-<td>10</td>
-<td>110</td>
-<td>1110</td>
-<td>1111</td>
-</tr>
-<tr>
-<td>二进制下的地址区间</td>
-<td>00000001 - 01111110</td>
-<td>10000000 - 10111111</td>
-<td>11000000 - 11011111</td>
-<td>11100000 - 11101111</td>
-<td>11110000 - 11111111</td>
-</tr>
-<tr>
-<td>十进制下的地址区间</td>
-<td>1 - 126</td>
-<td>128 - 191</td>
-<td>192 - 223</td>
-<td>224 - 239</td>
-<td>240 - 255</td>
-</tr>
-</tbody></table>
-<p><strong>注：A类地址中0和127两个段为保留地址，用于特殊目的。</strong>  </p>
-<blockquote>
-<p>对照这个表，就很容易分辨IP地址的分类了。以下给出几个IP地址，大家可以对照表格判断一下：</p>
+                <p>好久不见！</p>
+<p>由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期</p>
+<h2 id="为什么我热衷于使用golang及rust的程序"><a href="#为什么我热衷于使用golang及rust的程序" class="headerlink" title="为什么我热衷于使用golang及rust的程序"></a>为什么我热衷于使用golang及rust的程序</h2><p>作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。</p>
+<p>此时golang及rust的优越性就体现出来了，以Golang为例，golang支持<code>2.6.23</code>及以上版本内核的任何Linux，也就是说RHEL6及以上的环境全部都能直接使用！直接把二进制包丢进去就可以了，属实过于方便。</p>
+<h2 id="介绍一些好用的工具"><a href="#介绍一些好用的工具" class="headerlink" title="介绍一些好用的工具"></a>介绍一些好用的工具</h2><p>接下来就给大伙看看我平时常用的一些好东西</p>
+<h3 id="WEB服务器"><a href="#WEB服务器" class="headerlink" title="WEB服务器"></a>WEB服务器</h3><h4 id="Caddy2"><a href="#Caddy2" class="headerlink" title="Caddy2"></a>Caddy2</h4><p><img src="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
-<li>192.168.66.12</li>
-<li>11.43.192.30</li>
-<li>11.43.192.30</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/caddyserver/caddy">项目地址</a></li>
 </ul>
-</blockquote>
-<h3 id="网络号-主机号"><a href="#网络号-主机号" class="headerlink" title="网络号 &amp; 主机号"></a>网络号 &amp; 主机号</h3><p>上文我们知道了，IP地址被划分成了五个类别<br>A、B、C类为单播地址，是我们平时接触最多，也是正在使用的地址。D是多播地址，E是保留地址。<br>对于A、B、C类的地址来说，它们除了开头不一样外，网络号和主机号的长度也是不一样的。<br>一个IPv4地址的二进制形式有32位，在分类编址时代，IP的组成形式为&lt;网络号&gt; + &lt;主机号&gt;。</p>
+<p>一个非常好用的web服务器，🔒默认安全、支持HTTP3、支持自动签发续签SSL证书、强大的自定义功能以及丰富的插件！</p>
+<p>另外也欢迎使用我的<a target="_blank" rel="noopener" href="https://hub.docker.com/r/mrxianyu/caddy">客制化容器</a>！</p>
+<h3 id="系统监控项"><a href="#系统监控项" class="headerlink" title="系统监控项"></a>系统监控项</h3><h4 id="gotop"><a href="#gotop" class="headerlink" title="gotop"></a>gotop</h4><p><img src="https://pic.imgdb.cn/item/674f80b6d0e0a243d4dce59f.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
-<li>A类地址的网络号为前8位，后面24位为主机号。也就是十进制形式的 第一段 为网络号， 第二段+第三段+第四段 为主机号</li>
-<li>B类地址的网络号为前16位，后面16位为主机号，也就是十进制形式的 第一段+第二段 为网络号， 第三段+第四段 为主机号</li>
-<li>C类地址的网络号为前24位，后面8位为主机号，也就是十进制形式的 第一段+第二段+第三段 为网络号， 第四段 为主机号<br><strong>那么同为单播地址，为什么还要分成A、B、C三类呢？</strong><br>前面我们知道了，IP的组成形式为&lt;网络号&gt; + &lt;主机号&gt;，<strong>这当中的网络号代表的是这个IP所在的网段，而主机号则定义了这个IP在这一个网段中的编号。</strong><blockquote>
-<p>打个比方：一个小区（整个IP地址库）里有很多栋居民楼（网络号），居民楼里很很多户人家（主机号）。<br>对于网络服务商来说，一般购买的都是一整个IP地址块，而不会购买单个IP地址。不同大小的运营商需求不同，需要的IP地址量不同，所以会需要选择购买合适数量的IP地址块。将单播地址分为三类的意义就在于，现在客户可以根据自己的需求选择IP地址块的大小了。<br>那么A、B、C类地址是如何做到区分地址块大小的呢？这就是&lt;网络号&gt; + &lt;主机号&gt;模式的作用了。</p>
-</blockquote>
+<li><a target="_blank" rel="noopener" href="https://github.com/xxxserxxx/gotop">项目地址</a></li>
+</ul>
+<p>一个系统负载查看🇨🇭瑞士军刀</p>
+<p>可以非常方便地查看cpu、内存、进程、磁盘等信息</p>
+<p>一个小趣闻：原作者入了rust邪教跑去用rust重写了这个项目😆</p>
+<h4 id="bottom"><a href="#bottom" class="headerlink" title="bottom"></a>bottom</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ClementTsang/bottom">项目地址</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ClementTsang/bottom">项目地址</a></p>
 </li>
 </ul>
-<h4 id="计算地址块容量"><a href="#计算地址块容量" class="headerlink" title="计算地址块容量"></a>计算地址块容量</h4><blockquote>
-<p>假设现在有八个空格，可以往里填入数字将其变为一个二进制的数，请问可以有多少个不同的数字？</p>
-</blockquote>
-<p>其实这个问题很容易算出来，方法很简单：<br>这里我们可以知道最高能写8位，那么能写出的数字量就是 $2^8&#x3D;256$ 个<br>同理，因为IPv4地址事实上是一串32位的二进制数字，所以就可以使用同样的方法计算出地址块的容量<br>从上面的内容中已经知道了，IP地址的组成形式为&lt;网络号&gt; + &lt;主机号&gt;，购买IP使用权的时候，<strong>购买的地址块其实是购买了&lt;网络号&gt;下包含的所有IP，就像网络服务商作为“包租婆”，购买了开发商的整栋楼（网络号）一样。</strong><br><strong>因为IP的长度固定，所以网络号越短，主机号越长，主机号越长，所包含的IP就越多！</strong></p>
-<blockquote>
-<p>再来简单做个题：黄先生购买了一个C类地址块，请问这相当于他买了多少个IP地址？<br>一个C类地址的前24位是网络号，后8位是主机号，主机号长度决定其拥有多少个IP。<br>所以黄先生拥有的IP地址块包含了 $2^8&#x3D;256$ 个地址。</p>
-</blockquote>
-<h2 id="划分子网时代"><a href="#划分子网时代" class="headerlink" title="划分子网时代"></a>划分子网时代</h2><blockquote>
-<p>原先的分类编址时代，我们把实际用来分配使用的IP地址分成A、B、C类。也就是说网络服务商在购买IP地址的时候可以选择三种大小：</p>
+<p>另一个系统负载查看🇨🇭瑞士军刀</p>
+<p>可以非常方便地查看cpu、内存、进程、磁盘等信息</p>
+<p>另一个小趣闻：就是上面👆那个gotop的作者写的</p>
+<h4 id="bandwhich"><a href="#bandwhich" class="headerlink" title="bandwhich"></a>bandwhich</h4><p><img src="https://pic.imgdb.cn/item/674f8508d0e0a243d4dce5af.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
-<li>A类地址块：包含  个地址</li>
-<li>B类地址块：包含  个地址</li>
-<li>C类地址块：包含  个地址<br>但这时候问题来了，比如我现在想购入4000个地址，这个数量大于C类的同时又远远小于B类所含的数量，想要买4000个地址要不就是买16个C类地址，或者出手极其阔绰直接购买B类地址块。<br>这就不可避免的造成了地址的浪费。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/imsnif/bandwhich">项目地址</a></li>
 </ul>
-</blockquote>
-<p>划分子网时代，将IP变成了&lt;网络号&gt; + &lt;子网号&gt; + &lt;主机号&gt;的形式，以满足这样的需求。<br>买4000个地址，就可以选择购买 B类地址中的一个子网 来实现最大程度的不浪费。</p>
-<blockquote>
-<p>B类地址网络号占了16位，此时我们只需要把主机号的一部分变为子网号，让主机号的位数所包含的IP地址块最接近4000个就可以最大程度避免浪费<br>通过计算可知：<br>$2^{12}&#x3D;4096$<br>所以，我们需要12位的主机号。在网络号固定为16位的B类地址中，将主机号部分的4位占用为子网号，再购买B类地址中的这个子网就可以了。</p>
-<table>
-<thead>
-<tr>
-<th>买包含4096个地址的B类子网</th>
-<th>网络号</th>
-<th>子网号</th>
-<th>主机号</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>二进制格式</td>
-<td>10xx xxxx xxxx xxxx</td>
-<td>xxxx</td>
-<td>xxxx xxxx xxxx</td>
-</tr>
-<tr>
-<td>对应位数</td>
-<td>16位</td>
-<td>4位</td>
-<td>12位</td>
-</tr>
-</tbody></table>
-</blockquote>
-<h2 id="无分类编址时代"><a href="#无分类编址时代" class="headerlink" title="无分类编址时代"></a>无分类编址时代</h2><p>随着时间的推进，计算机网络变得越来越庞大，本就不富裕的IPv4地址需求越来越大，过去的划分子网方式已经不足以满足人们的需求了。<br>公网IP对于一般民众而言其实不会专门进行购买，而对于网络服务商来说，其购买的需求量就挺大的。也正因为此，C类地址仅有256个IP的超小容量极易不受人待见。对于互联网而言，急需更灵活的IP分配方式。1993年，无分类域间路由选择（Classless Inter-Domain Routing， CIDR）应运而生。<br>在划分子网时代，IP变成了&lt;网络号&gt; + &lt;子网号&gt; + &lt;主机号&gt;的形式，而到了无分类编址的时代，又把这个子网号去掉了，取而代之的是子网掩码的概念。<br>过去网络号长度是固定的，并且被固定了长度。而到了无分类编址时代，网络号的长度不固定了，可以根据需求指定任意长度的网络号。</p>
-<h3 id="那如何指定网络号长度呢？"><a href="#那如何指定网络号长度呢？" class="headerlink" title="那如何指定网络号长度呢？"></a>那如何指定网络号长度呢？</h3><p>还是买4000个地址，按之前划分子网的办法，就是购买一个&lt;网络号16位&gt; + &lt;子网号4位&gt; + &lt;主机号12位&gt;的地址块。既然无分类编址去除了子网号，同时不限制网络号长度，那么直接把子网号的4位合并进网络号里就可以达到相同效果了<br>&lt;网络号20位&gt; + &lt;主机号12位&gt;<br>也就是说，我们买的地址块的网络号变成了20位。<br>因为无分类编址不依靠、也无法依靠网络类型来确定网络号长度，所以引入了子网掩码的概念。其实子网掩码的作用很简单，就是告诉我们网络号的长度。<br>上面我们买了一个网络号长度为20位的地址块，那么它的子网掩码长度就是20位，同时，子网掩码长度通过写1来表示，剩余位置以0填充</p>
-<table>
-<thead>
-<tr>
-<th>二进制IP地址</th>
-<th>11001100 10001111 0011xxxx xxxxxxxx</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>二进制子网掩码</td>
-<td>11111111 11111111 11110000 00000000</td>
-</tr>
-</tbody></table>
-<h3 id="这一串子网掩码看着像不像IP地址？"><a href="#这一串子网掩码看着像不像IP地址？" class="headerlink" title="这一串子网掩码看着像不像IP地址？"></a>这一串子网掩码看着像不像IP地址？</h3><p>对的，它也能变成十进制的形式：<code>255.255.240.0</code></p>
-<h3 id="是不是还是很眼熟？"><a href="#是不是还是很眼熟？" class="headerlink" title="是不是还是很眼熟？"></a>是不是还是很眼熟？</h3><p>没错，在你的电脑&#x2F;手机的网络设置里就有它。<br>一般家庭的路由器会将局域网默认设置为<code>192.168.x.x/24</code>的形式，所以我们见到的地址比如<code>192.168.1.1/24</code>或<code>192.168.1.1</code> 子网掩码：<code>255.255.255.0</code>，对应的意思就是：IP地址为<code>192.168.1.1</code>，同时其子网掩码长度是<code>24</code>，或写作<code>255.255.255.0</code>。同一地址块下能够容纳的主机数为 $2^8&#x3D;256$ 台（其中包含两个特殊地址）</p>
+<p>网络负载查看🇨🇭瑞士军刀</p>
+<p>可以非常方便地查看网络负载</p>
+<h4 id="kyanos"><a href="#kyanos" class="headerlink" title="kyanos"></a>kyanos</h4><p><img src="https://pic.imgdb.cn/item/674f8680d0e0a243d4dce5b9.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hengyoush/kyanos">项目地址</a></li>
+</ul>
+<p>使用ebpf黑科技的网络流量采集和分析工具</p>
+<p>tql！</p>
+<h4 id="gdu"><a href="#gdu" class="headerlink" title="gdu"></a>gdu</h4><p><img src="https://pic.imgdb.cn/item/674f8a13d0e0a243d4dce5c6.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/dundee/gdu">项目地址</a></li>
+</ul>
+<p>磁盘占用分析工具</p>
+<h3 id="网络安全工具"><a href="#网络安全工具" class="headerlink" title="网络安全工具"></a>网络安全工具</h3><h4 id="fscan"><a href="#fscan" class="headerlink" title="fscan"></a>fscan</h4><p><img src="https://pic.imgdb.cn/item/674f858dd0e0a243d4dce5b1.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shadow1ng/fscan">项目地址</a></li>
+</ul>
+<p>大名鼎鼎的fscan，网安小助手</p>
+<p>一般我只用来扫描网段用</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><h4 id="doggo"><a href="#doggo" class="headerlink" title="doggo"></a>doggo</h4><p><img src="https://pic.imgdb.cn/item/674f85fcd0e0a243d4dce5b2.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mr-karan/doggo">项目地址</a></li>
+</ul>
+<p>更加现代化的DNS命令行查询工具</p>
+<p><del>由于dig用习惯了所以其实这个我用的挺少</del></p>
 
                 
               </div>
@@ -502,11 +424,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+        <a href="/tags/%E6%8E%A8%E8%8D%90/" class="print-no-link">#推荐</a>
       
-        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+        <a href="/tags/%E5%88%86%E4%BA%AB/" class="print-no-link">#分享</a>
       
-        <a href="/tags/IP%E5%9C%B0%E5%9D%80/" class="print-no-link">#IP地址</a>
+        <a href="/tags/golang/" class="print-no-link">#golang</a>
+      
+        <a href="/tags/rust/" class="print-no-link">#rust</a>
       
     </div>
   
@@ -518,8 +442,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>计网专业学习笔记——认识IPv4地址的发展史</div>
-      <div>https://blog.xianyu.one/2021/12/17/ip-address/</div>
+      <div>我常用的那些golang与rust程序-EP01</div>
+      <div>https://blog.xianyu.one/2024/12/04/golang-rust-application-recommendations-ep01/</div>
     </div>
     <div class="license-meta">
       
@@ -531,7 +455,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2021年12月17日</div>
+          <div>2024年12月4日</div>
         </div>
       
       
@@ -569,18 +493,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/20/nas-unraid/" title="UNraid折腾笔记——鸟枪换炮，我的第二台NAS">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">UNraid折腾笔记——鸟枪换炮，我的第二台NAS</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/11/16/Linux/tutorial/k8s-install/" title="k8s折腾笔记——树莓派集群安装k3s">
-                        <span class="hidden-mobile">k8s折腾笔记——树莓派集群安装k3s</span>
+                      <a href="/2024/05/06/AIX/welcome-AIX/" title="AIX系统初体验">
+                        <span class="hidden-mobile">AIX系统初体验</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -669,12 +587,6 @@
 
 
   
-
-
-  
-  
-
-
 
 
 
@@ -844,49 +756,6 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
