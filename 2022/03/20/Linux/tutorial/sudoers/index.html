@@ -1,0 +1,759 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面有时好久没更新。日常摆烂。本来想这个月更新（反正我已经默认月更了）一篇 Xbox Series S 的评测的，但是由于种种原因，还没受到货，所以就写点别的吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sudo使用小技巧">
+<meta property="og:url" content="https://blog.xianyu.one/2022/03/20/Linux/tutorial/sudoers/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面有时好久没更新。日常摆烂。本来想这个月更新（反正我已经默认月更了）一篇 Xbox Series S 的评测的，但是由于种种原因，还没受到货，所以就写点别的吧。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-19T19:50:53.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="sudo">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>sudo使用小技巧 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">sudo使用小技巧</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-20 03:50" pubdate>
+          2022年3月20日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">sudo使用小技巧</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>有时好久没更新。日常摆烂。本来想这个月更新（<del>反正我已经默认月更了</del>）一篇 Xbox Series S 的评测的，但是由于种种原因，还没受到货，所以就写点别的吧。<br><br/><span id="more"></span><br>前天开始我把自己的两台电脑都刷成了Linux系统，开始正式以Linux作为主要的操作系统使用了。<br><br/><br>作为一个Linux小白，同时由于我手头上设备都比较奇葩（一台陈年Macbook Air，一台用AMD <strong>APU</strong>的惠普笔电）所以我选择了兼容性好且对于普通用户而言相对友好的Ubuntu作为电脑的操作系统。同时，在惠普的笔电上，我还保留了（其实是重新刷入了）Windows系统，以备不时之需。<br><br/><br>作为一个懒狗，不能接受普通用户在使用例如<code>apt</code>、<code>docker</code>等命令前需要加<code>sudo</code>并且输入密码，所以就有了这次小小的折腾。</p>
+<h1 id="sudo的简单介绍"><a href="#sudo的简单介绍" class="headerlink" title="sudo的简单介绍"></a>sudo的简单介绍</h1><p><code>sudo</code>命令的含义其实就是<code>superuser do</code>，从字面意思上看我们就能知道，它的作用是通过安全的方式让用户提权使用特殊的权限执行程序。  <br/><br>而就像我上面提到的，如果想要使用<code>sudo</code>（Ubuntu）默认创建的用户，那么需要输入自己的密码才能提权，这还挺麻烦的。  <br/><br>此时我们就可以通过修改配置文件，让用户免密使用sudo，具体的配置文件以及配置文件夹有二：配置文件<code>sudoers</code>（位置在<code>/etc/sudoers</code>）和配置文件夹<code>sudoers.d</code>(位置在<code>/etc/sudoers.d/</code>)<br>通过修改或者添加自定义的配置就可以实现免密登陆。</p>
+<h1 id="sudoers配置应该怎么写"><a href="#sudoers配置应该怎么写" class="headerlink" title="sudoers配置应该怎么写"></a>sudoers配置应该怎么写</h1><p>先来看看两个范例：<br><br/></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">xianyu ALL&#x3D;(root:root) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;apt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>以上配置的含义为：授权用户<code>xianyu</code>在<strong>所有</strong>主机上，以用户<code>root</code>、组<code>root</code>的身份不需要密码直接执行<code>/usr/bin/apt</code><br><br/></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">%admin ALL&#x3D;(ALL:admin) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;docker,&#x2F;usr&#x2F;bin&#x2F;tree<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>以上配置的含义为：授权用户组<code>xianyu</code>的用户在<strong>所有</strong>主机上，以所有用户身份，以组<code>admin</code>的身份不需要密码直接执行<code>/usr/bin/docker</code>或<code>/usr/bin/tree</code></p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>从上面的例子我们就可以知道格式为：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">#用户的格式：
+用户名 主机名或组&#x3D;(提权后的用户名:提权后的用户组) NOPASSWD: 命令
+用户名 主机名或组&#x3D;(提权后的用户名:提权后的用户组) 命令
+
+
+#用户组的格式：
+%用户组 主机名或组&#x3D;(提权后的用户名:提权后的用户组) NOPASSWD: 命令
+%用户组 主机名或组&#x3D;(提权后的用户名:提权后的用户组) 命令<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>命令可以在同一行写很多个。<br>可以在配置文件中写好主机列表、命令列表、用户列表、身份列表方便使用。<br>例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">#主机列表
+Host_Alias HOST_LIST&#x3D;hostname1,hostname2,hostname3
+
+#命令列表
+Cmnd_Alias COMMAND_LIST&#x3D;&#x2F;usr&#x2F;bin&#x2F;apt,&#x2F;usr&#x2F;bin&#x2F;docker
+
+#用户列表
+User_Alias USER_LIST&#x3D;xianyu,yuxian,admin
+
+#以什么身份运行
+Runas_Alias RUNAS_LIST&#x3D;root,adm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>接着就可以直接引用了，比如</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">USER_LIST HOST_LIST&#x3D;(RUNAS_LIST) COMMAND_LIST
+USER_LIST HOST_LIST&#x3D;(RUNAS_LIST) NOPASSWD: COMMAND_LIST<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h1 id="我将怎么用"><a href="#我将怎么用" class="headerlink" title="我将怎么用"></a>我将怎么用</h1><p>首先当然是写sudoers配置文件。<strong>但是！</strong>由于Linux发行版的差异，需要修改的地方不一样，例如，Debian可以直接在配置文件<code>sudoers</code>中添加配置，而Ubuntu发行版需要进入<code>sudoer.d</code>文件夹中，新建一个文件，并将配置写入其中。我平时常用的有四个命令：<code>apt</code>、<code>apt-get</code>、<code>docker</code>、<code>snap</code>，所以我需要让普通用户免密使用以上命令，以下是我的配置文件内容：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">#配置文件路径为&#x2F;etc&#x2F;sudoers.d&#x2F;xianyu
+xianyu ALL&#x3D;(ALL:ALL) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;apt,&#x2F;usr&#x2F;bin&#x2F;apt-get,&#x2F;usr&#x2F;bin&#x2F;docker,&#x2F;usr&#x2F;bin&#x2F;snap<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>然后，我除了嫌输密码麻烦外，多打一个<code>sudo</code>也挺麻烦的。所以为了进一步减少工作量，接下去需要修改用户主目录下的<code>.bashrc</code>。</p>
+<h2 id="什么是bashrc"><a href="#什么是bashrc" class="headerlink" title="什么是bashrc"></a>什么是bashrc</h2><p>Linux下默认使用的shell程序是<code>bash</code>，<code>.bashrc</code>是用户登陆时会首先运行的文件（其实就是个shell脚本），所以我们只需要用<code>alias</code>命令将相关的规则写进<code>.bashrc</code>就可以一劳永逸了。</p>
+<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>上面我提到了四个命令，所以要在文件中添加四条</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">alias apt&#x3D;&#39;sudo apt&#39;
+alias apt-get&#x3D;&#39;sudo apt&#39;
+alias docker&#x3D;&#39;sudo docker&#39;
+alias snap&#x3D;&#39;sudo snap&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>保存并退出文件，注销用户后重新登陆就能使用了。<br><code>alias</code>命令的含义就是让等号前的等同于等号后的命令，所以在之后我以普通用户执行这些命令，不再需要加sudo输密码了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/sudo/" class="print-no-link">#sudo</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>sudo使用小技巧</div>
+      <div>https://blog.xianyu.one/2022/03/20/Linux/tutorial/sudoers/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年3月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/21/Linux/yes/SMB/" title="Linux挂载非标准端口SMB">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux挂载非标准端口SMB</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/11/Android/Lenovo-p11-pro/" title="联想小新Pad Pro 2020 刷机笔记">
+                        <span class="hidden-mobile">联想小新Pad Pro 2020 刷机笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

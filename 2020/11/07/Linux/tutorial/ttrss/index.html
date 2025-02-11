@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面好久不见，托失眠的福，我又来更新文章了。早上大概两点就醒了，没事干就折腾了一下博客，把该更新的都更新了。这段时间我开始正式使用rss，也感受到了其吸引人的地方—-高度客制化的信息阅读。在使用rss之前，我获取信息的方式必须是要手动点开某个网站，这样效率很低，用起来也很烦。rss的优势在于可以定制自己的信息获取源，在保证信息是自己感兴趣的同时更加高效。     本文将会介绍利用 Tiny T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过docker快速搭建Tiny Tiny RSS服务器 &amp; RSS使用指北">
+<meta property="og:url" content="https://blog.xianyu.one/2020/11/07/Linux/tutorial/ttrss/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面好久不见，托失眠的福，我又来更新文章了。早上大概两点就醒了，没事干就折腾了一下博客，把该更新的都更新了。这段时间我开始正式使用rss，也感受到了其吸引人的地方—-高度客制化的信息阅读。在使用rss之前，我获取信息的方式必须是要手动点开某个网站，这样效率很低，用起来也很烦。rss的优势在于可以定制自己的信息获取源，在保证信息是自己感兴趣的同时更加高效。     本文将会介绍利用 Tiny T">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/5fa5cb971cd1bbb86bcd590a.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/5fa5cf4a1cd1bbb86bcdb9a3.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/5fa5ce601cd1bbb86bcda153.jpg">
+<meta property="article:published_time" content="2020-11-06T21:29:00.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="RSS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/5fa5cb971cd1bbb86bcd590a.png">
+  
+  
+  
+  <title>通过docker快速搭建Tiny Tiny RSS服务器 &amp; RSS使用指北 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">通过docker快速搭建Tiny Tiny RSS服务器 & RSS使用指北</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-11-07 05:29" pubdate>
+          2020年11月7日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          890 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">通过docker快速搭建Tiny Tiny RSS服务器 &amp; RSS使用指北</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>好久不见，托失眠的福，我又来更新文章了。<br>早上大概两点就醒了，没事干就折腾了一下博客，把该更新的都更新了。<br>这段时间我开始正式使用rss，也感受到了其吸引人的地方—-<strong>高度客制化的信息阅读</strong>。<br>在使用rss之前，我获取信息的方式必须是要手动点开某个网站，这样效率很低，用起来也很烦。rss的优势在于可以定制自己的信息获取源，在保证信息是自己感兴趣的同时更加高效。  </p>
+<br>
+
+<p>本文将会介绍利用 <a target="_blank" rel="noopener" href="https://tt-rss.org/">Tiny Tiny RSS</a>、<a target="_blank" rel="noopener" href="https://docs.rsshub.app/">RSSHub</a> 等工具使用RSS获取高质量的信息内容。</p>
+<span id="more"></span>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
+<li>一台服务器（vps即可，最好服务器在国外）</li>
+<li>一台本地可以使用ssh连接服务器的设备</li>
+<li>一个爱折腾的人</li>
+</ul>
+<h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><p>这里指的是服务器上应该有的软件</p>
+<ul>
+<li>docker</li>
+</ul>
+<h2 id="Tiny-Tiny-RSS服务器部署过程"><a href="#Tiny-Tiny-RSS服务器部署过程" class="headerlink" title="Tiny Tiny RSS服务器部署过程"></a>Tiny Tiny RSS服务器部署过程</h2><p>这里我们使用到的是来自<a target="_blank" rel="noopener" href="https://ttrss.henry.wang/zh/#%E5%85%B3%E4%BA%8E">Awesome TTRSS</a>的docker容器。（其实不用看我的文章，官方文档对于部署和使用写的超级清楚）<br>vps使用的是Ubuntu18.04 LTS    </p>
+<h3 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h3><p>更新系统</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">apt-get -y update<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>安装docker及docker-compose</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo apt-get install docker-ce
+sudo curl -L https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.21.2&#x2F;docker-compose-&#96;uname -s&#96;-&#96;uname -m&#96; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose
+sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="通过docker-compose部署Tiny-Tiny-RSS"><a href="#通过docker-compose部署Tiny-Tiny-RSS" class="headerlink" title="通过docker-compose部署Tiny Tiny RSS"></a>通过docker-compose部署Tiny Tiny RSS</h3><p><strong>注意：建议新建一个专用文件夹存放配置文件。</strong><br>如</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mkdir &#x2F;home&#x2F;ttrss
+cd &#x2F;home&#x2F;ttrss<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>获取配置文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;HenryQW&#x2F;Awesome-TTRSS&#x2F;master&#x2F;docker-compose.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>通过vim编辑配置文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim docker-compose.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>文件必需修改的内容为<code>POSTGRES_PASSWORD</code>、<code>SELF_URL_PATH</code>、<code>DB_PASS</code>    </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">version: &quot;3&quot;
+services:
+  database.postgres:
+    image: postgres:13-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD&#x3D;此处修改为自己想要的密码 # please change the password
+    volumes:
+      - ~&#x2F;postgres&#x2F;data&#x2F;:&#x2F;var&#x2F;lib&#x2F;postgresql&#x2F;data # persist postgres data to ~&#x2F;postgres&#x2F;data&#x2F; on the host
+    restart: always
+
+  service.rss:
+    image: wangqiru&#x2F;ttrss:latest
+    container_name: ttrss
+    ports:
+      - 8964:80
+    environment:
+      - SELF_URL_PATH&#x3D;此处修改为部署后使用的网址 # please change to your own domain
+      - DB_HOST&#x3D;database.postgres
+      - DB_PORT&#x3D;5432
+      - DB_NAME&#x3D;ttrss
+      - DB_USER&#x3D;postgres
+      - DB_PASS&#x3D;此处修改为自己想要的密码 # please change the password
+      - ENABLE_PLUGINS&#x3D;auth_internal,fever # auth_internal is required. Plugins enabled here will be enabled for all users as system plugins
+      - FEED_LOG_QUIET&#x3D;true
+    stdin_open: true
+    tty: true
+    restart: always
+
+  service.mercury: # set Mercury Parser API endpoint to &#96;service.mercury:3000&#96; on TTRSS plugin setting page
+    image: wangqiru&#x2F;mercury-parser-api:latest
+    container_name: mercury
+    expose:
+      - 3000
+    restart: always
+
+  service.opencc: # set OpenCC API endpoint to &#96;service.opencc:3000&#96; on TTRSS plugin setting page
+    image: wangqiru&#x2F;opencc-api-server:latest
+    container_name: opencc
+    environment:
+      - NODE_ENV&#x3D;production
+    expose:
+      - 3000
+    restart: always<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>修改完成后<code>esc</code>+<code>:wq</code>保存<br>部署容器</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker-compose up -d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>这里建议使用Nginx给容器反向代理，我懒所以是直接用宝塔面板做的反代。<br>如果配置文件直接是复制我上面的，那么反代时使用的端口就是<code>8964</code><br>当然你也可以自己修改配置文件中<code>ports</code>的参数调整到你想要用的端口。   </p>
+<h2 id="Tiny-Tiny-RSS使用"><a href="#Tiny-Tiny-RSS使用" class="headerlink" title="Tiny Tiny RSS使用"></a>Tiny Tiny RSS使用</h2><p>做完刚刚的一切，接下去就可以开始正式使用了<br>浏览器中输入你设置的域名&#x2F;直接使用ip+端口号<br>默认账户：admin 密码：password<br>在偏好设置中可以修改密码等信息，也可以将语言设为中文。<br>这里建议勾选启用API的选项，以方便支持feverAPI登陆的app使用。<br><img src="https://pic.imgdb.cn/item/5fa5cb971cd1bbb86bcd590a.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="使用RSSHub获取订阅源"><a href="#使用RSSHub获取订阅源" class="headerlink" title="使用RSSHub获取订阅源"></a>使用RSSHub获取订阅源</h3><p>RSSHub这个项目涵盖了大量的订阅源，基本上你会想要订阅的源大部分都可以在这里找到，搭配浏览器插件使用更佳。<br>请自行前往网站挑选自己喜欢的源</p>
+<h3 id="客户端选择"><a href="#客户端选择" class="headerlink" title="客户端选择"></a>客户端选择</h3><p>目前我个人的硬件配置为MacBook+Android+Chromebook，笔电这块我选择使用网页直接浏览，Android客户端推荐<a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.isaiasmatewos.readably">readbly</a>，iOS不负责任但听说很好用的推荐<a target="_blank" rel="noopener" href="https://reederapp.com/">reader</a></p>
+<h3 id="利用feverAPI使用rss阅读器app"><a href="#利用feverAPI使用rss阅读器app" class="headerlink" title="利用feverAPI使用rss阅读器app"></a>利用feverAPI使用rss阅读器app</h3><p>前面提到了Tiny Tiny RSS可以使用feverAPI连接rss阅读器客户端，这里以readbly为例教学使用<br>打开软件选择fever选项<br><img src="https://pic.imgdb.cn/item/5fa5cf4a1cd1bbb86bcdb9a3.jpg" srcset="/img/loading.gif" lazyload alt="打开软件选择fever选项"><br>第一个随便填，第二个填写设置中给出的链接<br><img src="https://pic.imgdb.cn/item/5fa5ce601cd1bbb86bcda153.jpg" srcset="/img/loading.gif" lazyload alt="糊掉部分为需要填写的链接"><br>底下分别填写用户名和密码，填写完后点击sign in即可。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>rss可以说是很古早的东西了，但它能带给我们更加干净、适合自己的获取信息体验。这个时代的尤其是国内的资讯软件普遍很混乱，xx头条、xx新闻的版面上充斥着大量垃圾讯息。在这样一个信息爆炸的时代，更高效获取干净的讯息其实更为重要—-<strong>不要把时间浪费在看毫无用处的垃圾信息上</strong>    </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/docker/" class="print-no-link">#docker</a>
+      
+        <a href="/tags/RSS/" class="print-no-link">#RSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>通过docker快速搭建Tiny Tiny RSS服务器 &amp; RSS使用指北</div>
+      <div>https://blog.xianyu.one/2020/11/07/Linux/tutorial/ttrss/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年11月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/11/12/Something/bt-connected/" title="无题随笔">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">无题随笔</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/16/Something/2020/" title="闲言碎语">
+                        <span class="hidden-mobile">闲言碎语</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

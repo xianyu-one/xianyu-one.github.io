@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="好久不见！ 由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期 为什么我热衷于使用golang及rust的程序作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。 此时golang及rust的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我常用的那些golang与rust程序-EP01">
+<meta property="og:url" content="https://blog.xianyu.one/2024/12/04/golang-rust-application-recommendations-ep01/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="好久不见！ 由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期 为什么我热衷于使用golang及rust的程序作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。 此时golang及rust的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f80b6d0e0a243d4dce59f.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f8508d0e0a243d4dce5af.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f8680d0e0a243d4dce5b9.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f8a13d0e0a243d4dce5c6.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f858dd0e0a243d4dce5b1.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/674f85fcd0e0a243d4dce5b2.png">
+<meta property="article:published_time" content="2024-12-03T21:47:07.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.426Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="推荐">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="rust">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png">
+  
+  
+  
+  <title>我常用的那些golang与rust程序-EP01 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">我常用的那些golang与rust程序-EP01</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-04 05:47" pubdate>
+          2024年12月4日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          549 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">我常用的那些golang与rust程序-EP01</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>好久不见！</p>
+<p>由于工作过于繁忙以及游戏太好玩，鸽了大半年，今天老人作息，爬起来水一期</p>
+<h2 id="为什么我热衷于使用golang及rust的程序"><a href="#为什么我热衷于使用golang及rust的程序" class="headerlink" title="为什么我热衷于使用golang及rust的程序"></a>为什么我热衷于使用golang及rust的程序</h2><p>作为一名主机、数据库运维工程师，日常会遇到很多奇奇怪怪的环境，例如就经常遇到RHEL6甚至RHEL5的上古平台，这时候想要使用一些现代化的工具就几乎不用想了，因为要编译、安装甚至构建编译环境都极其困难（因为多数客户的设备都不会连接互联网）。</p>
+<p>此时golang及rust的优越性就体现出来了，以Golang为例，golang支持<code>2.6.23</code>及以上版本内核的任何Linux，也就是说RHEL6及以上的环境全部都能直接使用！直接把二进制包丢进去就可以了，属实过于方便。</p>
+<h2 id="介绍一些好用的工具"><a href="#介绍一些好用的工具" class="headerlink" title="介绍一些好用的工具"></a>介绍一些好用的工具</h2><p>接下来就给大伙看看我平时常用的一些好东西</p>
+<h3 id="WEB服务器"><a href="#WEB服务器" class="headerlink" title="WEB服务器"></a>WEB服务器</h3><h4 id="Caddy2"><a href="#Caddy2" class="headerlink" title="Caddy2"></a>Caddy2</h4><p><img src="https://pic.imgdb.cn/item/674f7fbed0e0a243d4dce59b.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/caddyserver/caddy">项目地址</a></li>
+</ul>
+<p>一个非常好用的web服务器，🔒默认安全、支持HTTP3、支持自动签发续签SSL证书、强大的自定义功能以及丰富的插件！</p>
+<p>另外也欢迎使用我的<a target="_blank" rel="noopener" href="https://hub.docker.com/r/mrxianyu/caddy">客制化容器</a>！</p>
+<h3 id="系统监控项"><a href="#系统监控项" class="headerlink" title="系统监控项"></a>系统监控项</h3><h4 id="gotop"><a href="#gotop" class="headerlink" title="gotop"></a>gotop</h4><p><img src="https://pic.imgdb.cn/item/674f80b6d0e0a243d4dce59f.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/xxxserxxx/gotop">项目地址</a></li>
+</ul>
+<p>一个系统负载查看🇨🇭瑞士军刀</p>
+<p>可以非常方便地查看cpu、内存、进程、磁盘等信息</p>
+<p>一个小趣闻：原作者入了rust邪教跑去用rust重写了这个项目😆</p>
+<h4 id="bottom"><a href="#bottom" class="headerlink" title="bottom"></a>bottom</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ClementTsang/bottom">项目地址</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ClementTsang/bottom">项目地址</a></p>
+</li>
+</ul>
+<p>另一个系统负载查看🇨🇭瑞士军刀</p>
+<p>可以非常方便地查看cpu、内存、进程、磁盘等信息</p>
+<p>另一个小趣闻：就是上面👆那个gotop的作者写的</p>
+<h4 id="bandwhich"><a href="#bandwhich" class="headerlink" title="bandwhich"></a>bandwhich</h4><p><img src="https://pic.imgdb.cn/item/674f8508d0e0a243d4dce5af.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/imsnif/bandwhich">项目地址</a></li>
+</ul>
+<p>网络负载查看🇨🇭瑞士军刀</p>
+<p>可以非常方便地查看网络负载</p>
+<h4 id="kyanos"><a href="#kyanos" class="headerlink" title="kyanos"></a>kyanos</h4><p><img src="https://pic.imgdb.cn/item/674f8680d0e0a243d4dce5b9.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hengyoush/kyanos">项目地址</a></li>
+</ul>
+<p>使用ebpf黑科技的网络流量采集和分析工具</p>
+<p>tql！</p>
+<h4 id="gdu"><a href="#gdu" class="headerlink" title="gdu"></a>gdu</h4><p><img src="https://pic.imgdb.cn/item/674f8a13d0e0a243d4dce5c6.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/dundee/gdu">项目地址</a></li>
+</ul>
+<p>磁盘占用分析工具</p>
+<h3 id="网络安全工具"><a href="#网络安全工具" class="headerlink" title="网络安全工具"></a>网络安全工具</h3><h4 id="fscan"><a href="#fscan" class="headerlink" title="fscan"></a>fscan</h4><p><img src="https://pic.imgdb.cn/item/674f858dd0e0a243d4dce5b1.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shadow1ng/fscan">项目地址</a></li>
+</ul>
+<p>大名鼎鼎的fscan，网安小助手</p>
+<p>一般我只用来扫描网段用</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><h4 id="doggo"><a href="#doggo" class="headerlink" title="doggo"></a>doggo</h4><p><img src="https://pic.imgdb.cn/item/674f85fcd0e0a243d4dce5b2.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mr-karan/doggo">项目地址</a></li>
+</ul>
+<p>更加现代化的DNS命令行查询工具</p>
+<p><del>由于dig用习惯了所以其实这个我用的挺少</del></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8E%A8%E8%8D%90/" class="print-no-link">#推荐</a>
+      
+        <a href="/tags/%E5%88%86%E4%BA%AB/" class="print-no-link">#分享</a>
+      
+        <a href="/tags/golang/" class="print-no-link">#golang</a>
+      
+        <a href="/tags/rust/" class="print-no-link">#rust</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>我常用的那些golang与rust程序-EP01</div>
+      <div>https://blog.xianyu.one/2024/12/04/golang-rust-application-recommendations-ep01/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/06/AIX/welcome-AIX/" title="AIX系统初体验">
+                        <span class="hidden-mobile">AIX系统初体验</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

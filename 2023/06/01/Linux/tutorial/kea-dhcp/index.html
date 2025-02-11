@@ -1,0 +1,1210 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="别问，问就是在摆烂  写在前面因为isc-dhcp项目目前已不再更新，转向开发kea DHCP了，从官方的介绍中我们可以了解到kea DHCP有以下优点：  灵活性：Kea DHCP 提供了广泛的配置选项和灵活的扩展机制，可以根据不同的网络需求进行高度定制。它支持动态更新配置、灵活的租约管理、多种地址分配策略以及丰富的选项定义。  性能和可扩展性：Kea DHCP 通过优化的设计和实现，具有出色">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kea DHCP 折腾小记">
+<meta property="og:url" content="https://blog.xianyu.one/2023/06/01/Linux/tutorial/kea-dhcp/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="别问，问就是在摆烂  写在前面因为isc-dhcp项目目前已不再更新，转向开发kea DHCP了，从官方的介绍中我们可以了解到kea DHCP有以下优点：  灵活性：Kea DHCP 提供了广泛的配置选项和灵活的扩展机制，可以根据不同的网络需求进行高度定制。它支持动态更新配置、灵活的租约管理、多种地址分配策略以及丰富的选项定义。  性能和可扩展性：Kea DHCP 通过优化的设计和实现，具有出色">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/647be21bf024cca173f0dca9.jpg">
+<meta property="article:published_time" content="2023-06-01T12:39:13.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="DHCP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/647be21bf024cca173f0dca9.jpg">
+  
+  
+  
+  <title>kea DHCP 折腾小记 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">kea DHCP 折腾小记</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-01 20:39" pubdate>
+          2023年6月1日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">kea DHCP 折腾小记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>别问，问就是在摆烂</p>
+</blockquote>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>因为<code>isc-dhcp</code>项目目前已不再更新，转向开发<code>kea DHCP</code>了，从官方的介绍中我们可以了解到<code>kea DHCP</code>有以下优点：</p>
+<ul>
+<li><p>灵活性：Kea DHCP 提供了广泛的配置选项和灵活的扩展机制，可以根据不同的网络需求进行高度定制。它支持动态更新配置、灵活的租约管理、多种地址分配策略以及丰富的选项定义。</p>
+</li>
+<li><p>性能和可扩展性：Kea DHCP 通过优化的设计和实现，具有出色的性能和可扩展性。它采用了多线程和异步处理，以处理大规模网络环境下的高并发请求，并能有效地管理大量的租约信息。</p>
+</li>
+<li><p>强大的管理和监控功能：Kea DHCP 提供了丰富的管理和监控功能，可通过命令行工具或REST API进行配置、状态查询和统计数据收集。管理员可以轻松地监视服务器状态、租约信息、日志记录，并进行动态配置和管理。</p>
+</li>
+<li><p>安全性：Kea DHCP 提供了安全的通信和认证机制，以保护服务器和客户端之间的通信安全。它支持TLS加密和身份验证，可以防止未经授权的访问和数据泄露。</p>
+</li>
+<li><p>兼容性：Kea DHCP 兼容标准的DHCPv4和DHCPv6协议，并支持常见的客户端操作系统和网络设备。它还支持动态DNS（DDNS）更新、网站指导模式（Captive Portal）、PXE引导、客户端分类和挂钩脚本等功能。</p>
+</li>
+</ul>
+<p>注意，这是官方说法，我也信了，但最后为什么选择不迁移了呢？且听我娓娓道来</p>
+<h2 id="环境介绍"><a href="#环境介绍" class="headerlink" title="环境介绍"></a>环境介绍</h2><p>这次测试使用的环境是在KVM虚拟化的环境中进行的，使用<code>172.18.146.0/24</code>作为测试网段<br><img src="https://pic.imgdb.cn/item/647be21bf024cca173f0dca9.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>DHCP服务器将架设在一台运行<code>UbuntuServer 22.04.2 LTS</code>的虚拟机上，仅启用DHCPv4（v6用不上），此外是直接用root用户操作的（我懒得打sudo）</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>IP</th>
+<th>操作系统</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DHCP Server</td>
+<td>172.18.146.53</td>
+<td>UbuntuServer 22.04.2 LTS</td>
+</tr>
+<tr>
+<td>User</td>
+<td>DHCPv4</td>
+<td>Windows 10 Pro</td>
+</tr>
+</tbody></table>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装<code>kea</code>可以直接使用<code>apt</code>进行安装，也可以编译安装，这里我们两者都会介绍到。</p>
+<h3 id="软件源安装"><a href="#软件源安装" class="headerlink" title="软件源安装"></a>软件源安装</h3><p>这种方法非常简单，一条命令即可完成安装</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> <span class="token function">install</span> kea<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>上述命令将会自动安装kea在软件源中的所有软件（但不是所有其项目的所有软件，后面会说）</p>
+<p>以下是源中所有可选安装的组件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kea                   kea-ctrl-agent        kea-dhcp4-server
+kea-admin             kea-dev               kea-dhcp6-server
+kea-common            kea-dhcp-ddns-server  kea-doc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>在本次实验中，使用下面的命令安装部分必要的组件即可</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> <span class="token function">install</span> kea-ctrl-agent kea-dhcp4-server kea-admin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>安装好后配置文件均位于<code>/etc/kea</code>文件夹中</p>
+<h4 id="为什么不推荐源安装"><a href="#为什么不推荐源安装" class="headerlink" title="为什么不推荐源安装"></a>为什么不推荐源安装</h4><p>源中的软件包缺失了很多<code>kea</code>所推荐或是新增的功能，例如源安装的<code>kea</code>并不能正常的与数据库进行交互（似乎是源预编译没有使用相关选项进行编译），同时缺失了hooks的支持，在版本上，也比官方的落后一些（目前ubuntu源的kea组件是2.0.2版本的）</p>
+<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p>源码安装的好处是可以用上kea的所有功能，缺点是需要忍受很长的编译时间。<br>本次实验环境所编译的包为构建用于和mysql（也可以是mariadb）交互的。</p>
+<h4 id="安装编译所需包"><a href="#安装编译所需包" class="headerlink" title="安装编译所需包"></a>安装编译所需包</h4><p>首先根据官方文档所要求的安装编译所需的软件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> <span class="token function">git</span> <span class="token function">curl</span> libboost-all-dev openssl <span class="token function">git</span> g++ libssl-dev liblog4cplus-dev liblog4cplus-2.0.5 <span class="token function">make</span> cmake <span class="token parameter variable">-y</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>由于需要在编译时加上<code>--with-mysql</code>的选项，所以需要额外安装以下的包</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> mysql-client libmysqlclient-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h4 id="拉取源码"><a href="#拉取源码" class="headerlink" title="拉取源码"></a>拉取源码</h4><p>直接从官方仓库拉取即可</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://gitlab.isc.org/isc-projects/kea.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+
+<h4 id="编译并安装软件"><a href="#编译并安装软件" class="headerlink" title="编译并安装软件"></a>编译并安装软件</h4><h5 id="进入项目文件夹"><a href="#进入项目文件夹" class="headerlink" title="进入项目文件夹"></a>进入项目文件夹</h5><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> kea/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h5 id="生成配置文件"><a href="#生成配置文件" class="headerlink" title="生成配置文件"></a>生成配置文件</h5><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">autoreconf <span class="token parameter variable">-i</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h5 id="生成构建环境"><a href="#生成构建环境" class="headerlink" title="生成构建环境"></a>生成构建环境</h5><p>由于我们需要使用mysql数据库，所以此处需要加上–with-mysql&#96;的选项</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./configure --with-mysql<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h5 id="编译软件"><a href="#编译软件" class="headerlink" title="编译软件"></a>编译软件</h5><p>通常情况下会花费很多时间，可以先出门吃个饭</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">make</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h5 id="更新链接缓存"><a href="#更新链接缓存" class="headerlink" title="更新链接缓存"></a>更新链接缓存</h5><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/lib
+ldconfig<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>依照上述方法编译后配置文件夹默认位置为软件安装位置下的<code>etc/kea</code>子文件夹中</p>
+<h2 id="正式使用及配置文件解析"><a href="#正式使用及配置文件解析" class="headerlink" title="正式使用及配置文件解析"></a>正式使用及配置文件解析</h2><p>完成上一节操作后就可以正式开始使用kea了，但是！这里就要说一说kea不好的地方了，kea的配置文件，是json的格式，这意味着，会有一大堆的括号，极不利于阅读</p>
+<h3 id="简易使用教学"><a href="#简易使用教学" class="headerlink" title="简易使用教学"></a>简易使用教学</h3><p>kea可以通过<code>keactrl</code>来启用各项服务（其实systemctl也可以用，如果是从源码编译的systemctl命令不能开箱即用），例如可以使用以下命令查看服务状态</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@testserver:/home/app/kea<span class="token comment"># keactrl status</span>
+DHCPv4 server: active
+DHCPv6 server: active
+DHCP DDNS: active
+Control Agent: active
+Kea DHCPv4 configuration file: /etc/kea/kea-dhcp4.conf
+Kea DHCPv6 configuration file: /etc/kea/kea-dhcp6.conf
+Kea DHCP DDNS configuration file: /etc/kea/kea-dhcp-ddns.conf
+Kea Control Agent configuration file: /etc/kea/kea-ctrl-agent.conf
+keactrl configuration file: /etc/kea/keactrl.conf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>可以看到各项服务都启动了</p>
+<p>在不添加选项的情况下，<code>keactrl start</code>将会根据配置文件夹下的<code>keactrl.conf</code>配置文件的内容来启动相关服务，例如我们不想启动DHCPv6的服务的话就可以将配置文件中的</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config"># Start DHCPv6 server?
+dhcp6&#x3D;yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>改成</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config"># Start DHCPv6 server?
+dhcp6&#x3D;no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="配置文件解析"><a href="#配置文件解析" class="headerlink" title="配置文件解析"></a>配置文件解析</h3><p>此处我们以DHCPv4来说（别的我也不想用）,下面是一个配置文件的节选（不用仔细看，我会将其拆分的更仔细，仅注意我所添加的分割线即可）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&quot;Dhcp4&quot;: &#123;
+    &quot;interfaces-config&quot;: &#123;
+        &quot;interfaces&quot;: [ ]
+    &#125;,
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &quot;control-socket&quot;: &#123;
+        &quot;socket-type&quot;: &quot;unix&quot;,
+        &quot;socket-name&quot;: &quot;&#x2F;tmp&#x2F;kea4-ctrl-socket&quot;
+    &#125;,
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &quot;lease-database&quot;: &#123;
+        &#x2F;&#x2F; Memfile is the simplest and easiest backend to use. It&#39;s an in-memory
+        &#x2F;&#x2F; C++ database that stores its state in CSV file.
+        &quot;type&quot;: &quot;memfile&quot;,
+        &quot;lfc-interval&quot;: 3600
+    &#125;,
+    &quot;hosts-database&quot;: &#123;
+        &quot;type&quot;: &quot;mysql&quot;,
+        &quot;name&quot;: &quot;kea&quot;,
+        &quot;user&quot;: &quot;kea&quot;,
+        &quot;password&quot;: &quot;kea&quot;,
+        &quot;host&quot;: &quot;localhost&quot;,
+        &quot;port&quot;: 3306
+    &#125;,
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &quot;expired-leases-processing&quot;: &#123;
+        &quot;reclaim-timer-wait-time&quot;: 10,
+        &quot;flush-reclaimed-timer-wait-time&quot;: 25,
+        &quot;hold-reclaimed-time&quot;: 3600,
+        &quot;max-reclaim-leases&quot;: 100,
+        &quot;max-reclaim-time&quot;: 250,
+        &quot;unwarned-reclaim-cycles&quot;: 5
+    &#125;,
+    &quot;renew-timer&quot;: 900,
+    &quot;rebind-timer&quot;: 1800,
+    &quot;valid-lifetime&quot;: 3600,
+    &quot;option-data&quot;: [
+        &#123;
+            &quot;name&quot;: &quot;domain-name-servers&quot;,
+            &quot;data&quot;: &quot;192.0.2.1, 192.0.2.2&quot;
+        &#125;,
+        &#123;
+            &quot;code&quot;: 15,
+            &quot;data&quot;: &quot;example.org&quot;
+        &#125;,
+        &#123;
+            &quot;name&quot;: &quot;domain-search&quot;,
+            &quot;data&quot;: &quot;mydomain.example.com, example.com&quot;
+        &#125;,
+        &#123;
+            &quot;name&quot;: &quot;boot-file-name&quot;,
+            &quot;data&quot;: &quot;EST5EDT4\\,M3.2.0&#x2F;02:00\\,M11.1.0&#x2F;02:00&quot;
+        &#125;,
+        &#123;
+            &quot;name&quot;: &quot;default-ip-ttl&quot;,
+            &quot;data&quot;: &quot;0xf0&quot;
+        &#125;
+    ],
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &quot;client-classes&quot;: [
+        &#123;
+            &quot;name&quot;: &quot;voip&quot;,
+            &quot;test&quot;: &quot;substring(option[60].hex,0,6) &#x3D;&#x3D; &#39;Aastra&#39;&quot;,
+            &quot;next-server&quot;: &quot;192.0.2.254&quot;,
+            &quot;server-hostname&quot;: &quot;hal9000&quot;,
+            &quot;boot-file-name&quot;: &quot;&#x2F;dev&#x2F;null&quot;
+        &#125;
+    ],
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &#x2F;&#x2F; &quot;hooks-libraries&quot;: [
+    &#x2F;&#x2F;   &#123;
+    &#x2F;&#x2F;       &#x2F;&#x2F; Forensic Logging library generates forensic type of audit trail
+    &#x2F;&#x2F;       &#x2F;&#x2F; of all devices serviced by Kea, including their identifiers
+    &#x2F;&#x2F;       &#x2F;&#x2F; (like MAC address), their location in the network, times
+    &#x2F;&#x2F;       &#x2F;&#x2F; when they were active etc.
+    &#x2F;&#x2F;       &quot;library&quot;: &quot;&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;kea&#x2F;hooks&#x2F;libdhcp_legal_log.so&quot;,
+    &#x2F;&#x2F;       &quot;parameters&quot;: &#123;
+    &#x2F;&#x2F;           &quot;path&quot;: &quot;&#x2F;var&#x2F;lib&#x2F;kea&quot;,
+    &#x2F;&#x2F;           &quot;base-name&quot;: &quot;kea-forensic4&quot;
+    &#x2F;&#x2F;       &#125;
+    &#x2F;&#x2F;   &#125;,
+    &#x2F;&#x2F;   &#123;
+    &#x2F;&#x2F;       &#x2F;&#x2F; Flexible identifier (flex-id). Kea software provides a way to
+    &#x2F;&#x2F;       &#x2F;&#x2F; handle host reservations that include addresses, prefixes,
+    &#x2F;&#x2F;       &#x2F;&#x2F; options, client classes and other features. The reservation can
+    &#x2F;&#x2F;       &#x2F;&#x2F; be based on hardware address, DUID, circuit-id or client-id in
+    &#x2F;&#x2F;       &#x2F;&#x2F; DHCPv4 and using hardware address or DUID in DHCPv6. However,
+    &#x2F;&#x2F;       &#x2F;&#x2F; there are sometimes scenario where the reservation is more
+    &#x2F;&#x2F;       &#x2F;&#x2F; complex, e.g. uses other options that mentioned above, uses part
+    &#x2F;&#x2F;       &#x2F;&#x2F; of specific options or perhaps even a combination of several
+    &#x2F;&#x2F;       &#x2F;&#x2F; options and fields to uniquely identify a client. Those scenarios
+    &#x2F;&#x2F;       &#x2F;&#x2F; are addressed by the Flexible Identifiers hook application.
+    &#x2F;&#x2F;       &quot;library&quot;: &quot;&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;kea&#x2F;hooks&#x2F;libdhcp_flex_id.so&quot;,
+    &#x2F;&#x2F;       &quot;parameters&quot;: &#123;
+    &#x2F;&#x2F;           &quot;identifier-expression&quot;: &quot;relay4[2].hex&quot;
+    &#x2F;&#x2F;       &#125;
+    &#x2F;&#x2F;   &#125;
+    &#x2F;&#x2F; ],
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &quot;subnet4&quot;: [
+        &#123;
+            &quot;subnet&quot;: &quot;192.0.2.0&#x2F;24&quot;,
+            &quot;pools&quot;: [ &#123; &quot;pool&quot;: &quot;192.0.2.1 - 192.0.2.200&quot; &#125; ],
+            &quot;option-data&quot;: [
+                &#123;
+                    &quot;name&quot;: &quot;routers&quot;,
+                    &quot;data&quot;: &quot;192.0.2.1&quot;
+                &#125;
+            ],
+            &quot;reservations&quot;: [
+                &#123;
+                    &quot;hw-address&quot;: &quot;1a:1b:1c:1d:1e:1f&quot;,
+                    &quot;ip-address&quot;: &quot;192.0.2.201&quot;
+                &#125;
+            ]
+        &#125;
+    ],
+
+&#x2F;&#x2F; ################################ 此处分割 #######################################
+
+    &quot;loggers&quot;: [
+    &#123;
+        &quot;name&quot;: &quot;kea-dhcp4&quot;,
+        &quot;output_options&quot;: [
+            &#123;
+                &#x2F;&#x2F; Specifies the output file. There are several special values
+                &#x2F;&#x2F; supported:
+                &#x2F;&#x2F; - stdout (prints on standard output)
+                &#x2F;&#x2F; - stderr (prints on standard error)
+                &#x2F;&#x2F; - syslog (logs to syslog)
+                &#x2F;&#x2F; - syslog:name (logs to syslog using specified name)
+                &#x2F;&#x2F; Any other value is considered a name of the file
+                &quot;output&quot;: &quot;&#x2F;var&#x2F;log&#x2F;kea-dhcp4.log&quot;
+
+                &#x2F;&#x2F; Shorter log pattern suitable for use with systemd,
+                &#x2F;&#x2F; avoids redundant information
+                &#x2F;&#x2F; &quot;pattern&quot;: &quot;%-5p %m\n&quot;
+
+                &#x2F;&#x2F; This governs whether the log output is flushed to disk after
+                &#x2F;&#x2F; every write.
+                &#x2F;&#x2F; &quot;flush&quot;: false,
+
+                &#x2F;&#x2F; This specifies the maximum size of the file before it is
+                &#x2F;&#x2F; rotated.
+                &#x2F;&#x2F; &quot;maxsize&quot;: 1048576,
+
+                &#x2F;&#x2F; This specifies the maximum number of rotated files to keep.
+                &#x2F;&#x2F; &quot;maxver&quot;: 8
+            &#125;
+        ],
+        &quot;severity&quot;: &quot;INFO&quot;,
+        &quot;debuglevel&quot;: 0
+    &#125;
+  ]
+&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="监听网卡配置"><a href="#监听网卡配置" class="headerlink" title="监听网卡配置"></a>监听网卡配置</h4><p>配置文件中的<code>interfaces-config</code>配置用于告诉软件应该监听什么端口，例如我们的网口为<code>eth0</code>，就应该将此项配置的<code>&quot;interfaces&quot;: [ ]</code>改为如下</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&quot;interfaces&quot;: [ &#39;eth0&#39; ]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+
+<h4 id="数据库配置"><a href="#数据库配置" class="headerlink" title="数据库配置"></a>数据库配置</h4><p>数据库配置有两种，一种为以本地文件为数据库的形式，即下面这段</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&quot;lease-database&quot;: &#123;
+    &#x2F;&#x2F; Memfile is the simplest and easiest backend to use. It&#39;s an in-memory
+    &#x2F;&#x2F; C++ database that stores its state in CSV file.
+    &quot;type&quot;: &quot;memfile&quot;,
+    &quot;lfc-interval&quot;: 3600
+&#125;,<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>还有一种是真数据库，即下面这段</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&quot;hosts-database&quot;: &#123;
+    &quot;type&quot;: &quot;mysql&quot;,
+    &quot;name&quot;: &quot;kea&quot;,
+    &quot;user&quot;: &quot;kea&quot;,
+    &quot;password&quot;: &quot;kea&quot;,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;port&quot;: 3306
+&#125;,<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>可以根据自己的实际情况选择使用哪一种</p>
+<h4 id="全局的DHCP配置"><a href="#全局的DHCP配置" class="headerlink" title="全局的DHCP配置"></a>全局的DHCP配置</h4><figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&quot;expired-leases-processing&quot;: &#123;
+    .......
+&#125;,
+&quot;renew-timer&quot;: 900,
+&quot;rebind-timer&quot;: 1800,
+&quot;valid-lifetime&quot;: 3600,
+&quot;option-data&quot;: [
+    .......
+],<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>上面这段为全局下的dhcp配置</p>
+<ul>
+<li><code>renew-timer</code>表示客户端在租约过期前需要发起续租（Renew）请求的时间间隔。在默认配置中，客户端应在租约过期前的<strong>几秒</strong>内发送续租请求。如果客户端成功续租，则租约会得到更新，继续使用同一IP地址</li>
+<li><code>rebind-timer</code>表示在租约过期后，如果客户端无法与原DHCP服务器通信，客户端可以向任意可用的DHCP服务器发送绑定（Rebind）请求的时间间隔。在默认配置中，客户端可以在租约过期后的<strong>几秒</strong>内发送绑定请求，以尝试绑定到任意可用的DHCP服务器并获取新的租约</li>
+<li><code>valid-lifetime</code>表示租约的有效期，即客户端可以使用分配的IP地址的时间长度。在默认配置中，客户端获得的租约将在<strong>几秒</strong>后过期，除非在此期间成功进行了续租。</li>
+</ul>
+<p><code>option-data</code>中所填入的为RFC2132定义的DHCP的各类功能相关的配置，基本格式如下</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&#123;
+    &quot;code&quot;: 15,
+    &quot;data&quot;: &quot;example.org&quot;
+&#125;,<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>上面这段代码的含义是定义了DHCP服务器的域名（Domain Name，DHCP代码为15），下面是部分的DHCP代码表提供参考</p>
+<table>
+<thead>
+<tr>
+<th>DHCP代码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>子网掩码（Subnet Mask）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>时间偏移（Time Offset）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>默认网关（Router）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>时间服务器（Time Server）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>名称服务器（Name Server）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>DNS服务器（Domain Name Server）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>日志服务器（Log Server）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Cookie服务器（Cookie Server）</td>
+</tr>
+<tr>
+<td>9</td>
+<td>LPR服务器（Line Printer Server）</td>
+</tr>
+<tr>
+<td>12</td>
+<td>主机名（Host Name）</td>
+</tr>
+<tr>
+<td>15</td>
+<td>域名（Domain Name）</td>
+</tr>
+<tr>
+<td>17</td>
+<td>根路径（Root Path）</td>
+</tr>
+<tr>
+<td>18</td>
+<td>扩展路径（Extensions Path）</td>
+</tr>
+<tr>
+<td>19</td>
+<td>IP层最大数据长度（IP Layer Maximum Datagram Size）</td>
+</tr>
+<tr>
+<td>23</td>
+<td>默认IP生存时间（Default IP Time-to-Live）</td>
+</tr>
+<tr>
+<td>28</td>
+<td>广播地址（Broadcast Address）</td>
+</tr>
+<tr>
+<td>33</td>
+<td>静态路由（Static Route）</td>
+</tr>
+<tr>
+<td>43</td>
+<td>供应商特定选项（Vendor Specific Information）</td>
+</tr>
+<tr>
+<td>50</td>
+<td>请求的IP地址（Requested IP Address）</td>
+</tr>
+<tr>
+<td>51</td>
+<td>租约时间（IP Address Lease Time）</td>
+</tr>
+<tr>
+<td>53</td>
+<td>DHCP消息类型（DHCP Message Type）</td>
+</tr>
+<tr>
+<td>54</td>
+<td>服务器标识（Server Identifier）</td>
+</tr>
+<tr>
+<td>55</td>
+<td>参数请求列表（Parameter Request List）</td>
+</tr>
+<tr>
+<td>56</td>
+<td>DHCP消息（Message）</td>
+</tr>
+<tr>
+<td>57</td>
+<td>最大DHCP消息大小（Maximum DHCP Message Size）</td>
+</tr>
+<tr>
+<td>58</td>
+<td>客户端唯一标识（Client Identifier）</td>
+</tr>
+<tr>
+<td>59</td>
+<td>客户端状态（Client System）</td>
+</tr>
+<tr>
+<td>60</td>
+<td>厂商类标识（Vendor class identifier）</td>
+</tr>
+<tr>
+<td>61</td>
+<td>客户机硬件地址（Client Identifier）</td>
+</tr>
+<tr>
+<td>66</td>
+<td>TFTP服务器名称（TFTP Server Name）</td>
+</tr>
+<tr>
+<td>67</td>
+<td>引导文件名称（Bootfile Name）</td>
+</tr>
+<tr>
+<td>69</td>
+<td>炸弹选项（DHCP Relay Agent Information）</td>
+</tr>
+<tr>
+<td>150</td>
+<td>TFTP服务器地址（TFTP Server Address）</td>
+</tr>
+</tbody></table>
+<p>需要注意，这是标准的DHCP协议的定义，虽然kea的软件是遵照标准所设计的，但在实际填写各选项时，请务必还是看一眼kea的<a target="_blank" rel="noopener" href="https://kea.readthedocs.io/en/kea-2.0.2/arm/dhcp4-srv.html#standard-dhcpv4-options">官方文档</a>，确定配置应如何编写</p>
+<h4 id="kea扩展"><a href="#kea扩展" class="headerlink" title="kea扩展"></a>kea扩展</h4><p>在配置文件中为<code>hooks-libraries</code>段落，此为kea的高级应用，不说了（我懒）</p>
+<h4 id="地址池配置"><a href="#地址池配置" class="headerlink" title="地址池配置"></a>地址池配置</h4><p>地址池配置为<code>subnet4</code>段落，下面是定义一个网段的配置</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-config" data-language="config"><code class="language-config">&#123;
+            &quot;subnet&quot;: &quot;192.0.2.0&#x2F;24&quot;,
+            &quot;pools&quot;: [ &#123; &quot;pool&quot;: &quot;192.0.2.1 - 192.0.2.200&quot; &#125; ],
+            &quot;option-data&quot;: [
+                &#123;
+                    &quot;name&quot;: &quot;routers&quot;,
+                    &quot;data&quot;: &quot;192.0.2.1&quot;
+                &#125;
+            ],
+            &quot;reservations&quot;: [
+                &#123;
+                    &quot;hw-address&quot;: &quot;1a:1b:1c:1d:1e:1f&quot;,
+                    &quot;ip-address&quot;: &quot;192.0.2.201&quot;
+                &#125;
+            ]
+        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>subnet: 定义一个子网，此处为 <code>192.0.2.0/24</code>，表示一个以 <code>192.0.2.0</code> 作为网络地址的CIDR形式的子网，子网掩码为<code>255.255.255.0</code>。</li>
+<li>pools: 定义了一个地址池，其中包含一个范围。此处的地址池为 “192.0.2.1 - 192.0.2.200”，表示可用于分配的IP地址范围从<code>192.0.2.1</code>到<code>192.0.2.200</code>。</li>
+<li>option-data: 定义了DHCP选项的数据。在这里，指定了一个名为 “routers” 的选项，其值为 <code>192.0.2.1</code>。这表示在DHCP租约期间，客户端将收到一个名为 “routers” 的选项，并且该选项的值将设置为 “192.0.2.1”，指示客户端使用该IP地址作为默认网关。这个定义仅适用于此地址池，且其优先级高于全局的option-data。</li>
+<li>reservations: 定义了一个预留（reservation），用于为特定的客户端设备分配特定的IP地址。在此配置中，指定了一个硬件地址（hw-address）为 <code>1a:1b:1c:1d:1e:1f</code> 的设备，将被分配IP地址 <code>192.0.2.201</code>。</li>
+</ul>
+<h2 id="为什么最后又不选择使用kea-DHCP？"><a href="#为什么最后又不选择使用kea-DHCP？" class="headerlink" title="为什么最后又不选择使用kea DHCP？"></a>为什么最后又不选择使用kea DHCP？</h2><ul>
+<li><p>kea DHCP的模块化确实为部署提供了很多的选择，但这个模块化并不人性，并不是通过添加或删除可执行文件就可以增加或减少其功能的，而是需要进行编译。</p>
+</li>
+<li><p>stork为kea官方所推荐使用的监控平台，但功能过于鸡肋。</p>
+</li>
+<li><p>数据库方面没有很成熟的方式进行操作，交互上需要通过hook，并且如果要方便管理员使用则需要二次开发</p>
+</li>
+<li><p>json格式的配置文件过于反人类，看的眼睛疼</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/DHCP/" class="print-no-link">#DHCP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>kea DHCP 折腾小记</div>
+      <div>https://blog.xianyu.one/2023/06/01/Linux/tutorial/kea-dhcp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/03/docker/docker-build-proxy/" title="Docker Build 配置代理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker Build 配置代理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/08/wireguard-connect/" title="Openwrt使用wireguard实现异地组网">
+                        <span class="hidden-mobile">Openwrt使用wireguard实现异地组网</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

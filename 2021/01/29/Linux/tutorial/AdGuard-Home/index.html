@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面其实AdGuard Home我用了好久了，挺好用的，只是之前一直没写部署及使用指南。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AdGuard Home部署及使用指南">
+<meta property="og:url" content="https://blog.xianyu.one/2021/01/29/Linux/tutorial/AdGuard-Home/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面其实AdGuard Home我用了好久了，挺好用的，只是之前一直没写部署及使用指南。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/609788fed1a9ae528f47c156.png">
+<meta property="article:published_time" content="2021-01-29T04:23:00.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="DNS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/609788fed1a9ae528f47c156.png">
+  
+  
+  
+  <title>AdGuard Home部署及使用指南 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">AdGuard Home部署及使用指南</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-01-29 12:23" pubdate>
+          2021年1月29日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          854 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AdGuard Home部署及使用指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>其实AdGuard Home我用了好久了，挺好用的，只是之前一直没写部署及使用指南。</p>
+<span id="more"></span>
+
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><p>AdGuard Home的部署非常简单，基本没什么难度。这里只介绍Linux的安装。</p>
+<ul>
+<li>服务器一台（什么都行，机房的服务器和树莓派我都在用）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/releases">AdGuard Home</a></li>
+</ul>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>首先我们需要从AdGuard Home的<a target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/releases">release</a>下载对应机器的安装包，如果服务器在国内的话这里建议先在能魔法上网的机器上把安装包下好再传到机器上。<br>例如  </p>
+<ul>
+<li>树莓派使用对应的安装包为<code>AdGuardHome_linux_armv7.tar.gz</code></li>
+<li>Linux服务器一般选择<code>AdGuardHome_linux_amd64.tar.gz</code></li>
+</ul>
+<h3 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h3><p>首先通过SSH连接服务器，创建一个文件夹并进入该文件夹</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mkdir &#x2F;home&#x2F;dns
+cd &#x2F;home&#x2F;dns<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="将安装包放到此处"><a href="#将安装包放到此处" class="headerlink" title="将安装包放到此处"></a>将安装包放到此处</h3><p>以下介绍两种方案</p>
+<h4 id="从Linux-Mac传送"><a href="#从Linux-Mac传送" class="headerlink" title="从Linux&#x2F;Mac传送"></a>从Linux&#x2F;Mac传送</h4><p>这里使用scp命令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">scp 文件绝对路径 用户名@服务器ip:&#x2F;home&#x2F;dns<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h4 id="直接下载到服务器"><a href="#直接下载到服务器" class="headerlink" title="直接下载到服务器"></a>直接下载到服务器</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">wget 文件链接（例如https:&#x2F;&#x2F;github.com&#x2F;AdguardTeam&#x2F;AdGuardHome&#x2F;releases&#x2F;download&#x2F;v0.105.0-beta.1&#x2F;AdGuardHome_linux_amd64.tar.gz）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="解压并安装部署"><a href="#解压并安装部署" class="headerlink" title="解压并安装部署"></a>解压并安装部署</h3><p>解压压缩包</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">tar xvf 文件名<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>进入文件夹</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cd AdGuardHome<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>部署</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo .&#x2F;AdGuardHome -s install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h4 id="管理命令"><a href="#管理命令" class="headerlink" title="管理命令"></a>管理命令</h4><blockquote>
+<ul>
+<li><code>AdGuardHome -s uninstall</code> - 卸载AdGuard Home服务。</li>
+<li><code>AdGuardHome -s start</code> - 启动服务。</li>
+<li><code>AdGuardHome -s stop</code> - 停止服务。</li>
+<li><code>AdGuardHome -s restart</code> - 重新启动服务。</li>
+<li><code>AdGuardHome -s status</code> - 显示当前的服务状态。</li>
+</ul>
+</blockquote>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>通过浏览器访问<code>http://服务器ip:3000</code>进行初始化设置<br><strong>注意：在设置端口时，请务必不要将其作为本机的dns服务器，使用AdGuard Home作为服务器的dns服务器会导致无法续签SSL证书或者有可能导致无法通过<code>apt-get</code>安装应用。选择IP时务必只选择本机外网IP或内网IP（别的如127.0.0.1）不要选择。</strong><br><br><br>初始化完成后即可开始使用</p>
+<h4 id="常规设置的注意事项"><a href="#常规设置的注意事项" class="headerlink" title="常规设置的注意事项"></a>常规设置的注意事项</h4><p>在常规设置底下有个<code>日志配置</code>的设置，这里如果服务器硬盘空间小的话不建议把保留时间开太长</p>
+<h4 id="DNS-设置"><a href="#DNS-设置" class="headerlink" title="DNS 设置"></a>DNS 设置</h4><h5 id="上游-DNS-服务器设置"><a href="#上游-DNS-服务器设置" class="headerlink" title="上游 DNS 服务器设置"></a>上游 DNS 服务器设置</h5><p>2021年初，国内开始了针对DoT端口（853端口）进行封锁，包括国内机房的端口也无法正常使用。所以这里<strong>如果需要填写海外无污染DNS的话，请使用DoH形式的DNS服务。</strong><br>这里推荐cloudflare的DoT作为上游</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">tls:&#x2F;&#x2F;1dot1dot1dot1.cloudflare-dns.com
+tls:&#x2F;&#x2F;1.1.1.1
+https:&#x2F;&#x2F;cloudflare-dns.com&#x2F;dns-query
+https:&#x2F;&#x2F;1.1.1.1&#x2F;dns-query<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>其他公共DNS（国内的都有污染，国外的国内基本用不了），可以参考以下列表或者维基百科（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS">DoH</a>&#x2F;<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/DNS_over_TLS">DoT</a>）</p>
+<h6 id="Google"><a href="#Google" class="headerlink" title="Google"></a>Google</h6><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;dns.google&#x2F;dns-query
+https:&#x2F;&#x2F;dns.google&#x2F;resolve
+https:&#x2F;&#x2F;[2001:4860:4860::64]&#x2F;dns-query
+https:&#x2F;&#x2F;[2001:4860:4860::6464]&#x2F;dns-query
+8.8.8.8
+8.8.4.4
+2001:4860:4860::8888
+2001:4860:4860::8844<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h6 id="AdGuard"><a href="#AdGuard" class="headerlink" title="AdGuard"></a>AdGuard</h6><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;dns-unfiltered.adguard.com&#x2F;dns-query
+https:&#x2F;&#x2F;dns.adguard.com&#x2F;dns-query
+https:&#x2F;&#x2F;dns-family.adguard.com&#x2F;dns-query<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<h6 id="阿里巴巴DNS"><a href="#阿里巴巴DNS" class="headerlink" title="阿里巴巴DNS"></a>阿里巴巴DNS</h6><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">223.5.5.5
+223.6.6.6
+2400:3200::1
+2400:3200:baba::1
+https:&#x2F;&#x2F;223.5.5.5&#x2F;dns-query
+https:&#x2F;&#x2F;223.6.6.6&#x2F;dns-query
+https:&#x2F;&#x2F;[2400:3200::1]&#x2F;dns-query
+https:&#x2F;&#x2F;[2400:3200:baba::1]&#x2F;dns-query<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h6 id="QUAD9-DNS"><a href="#QUAD9-DNS" class="headerlink" title="QUAD9 DNS"></a>QUAD9 DNS</h6><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;dns.quad9.net&#x2F;dns-query
+https:&#x2F;&#x2F;dns9.quad9.net&#x2F;dns-query
+https:&#x2F;&#x2F;dns10.quad9.net&#x2F;dns-query
+https:&#x2F;&#x2F;dns11.quad9.net&#x2F;dns-query
+9.9.9.9
+149.112.112.112
+2620:fe::fe
+2620:fe::9<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h6 id="Open-DNS"><a href="#Open-DNS" class="headerlink" title="Open DNS"></a>Open DNS</h6><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;doh.opendns.com
+https:&#x2F;&#x2F;doh.familyshield.opendns.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p><strong>注意：绝对不要使用360的DNS服务</strong></p>
+<h4 id="加密设置"><a href="#加密设置" class="headerlink" title="加密设置"></a>加密设置</h4><p>证书部分我选择的方法是用宝塔面板申请Let’s Encrypt的证书然后把内容粘贴到设置里。这种方法非常适合我这样的懒狗和菜鸡使用。</p>
+<h4 id="过滤器设置"><a href="#过滤器设置" class="headerlink" title="过滤器设置"></a>过滤器设置</h4><h5 id="DNS封锁清单"><a href="#DNS封锁清单" class="headerlink" title="DNS封锁清单"></a>DNS封锁清单</h5><p>由于屏蔽广告会导致很多国内的服务无法使用，所以我并不推荐用封锁清单来对付国内的流氓，以下仅列出一些比较好的清单，并不推荐使用。</p>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/vokins/yhosts">https://github.com/vokins/yhosts</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/neoFelhz/neohosts">https://github.com/neoFelhz/neohosts</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Diumo/ADhosts">https://github.com/Diumo/ADhosts</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/StevenBlack/hosts">https://github.com/StevenBlack/hosts</a></li>
+</ul>
+</blockquote>
+<h5 id="自定义过滤规则"><a href="#自定义过滤规则" class="headerlink" title="自定义过滤规则"></a>自定义过滤规则</h5><p>这里提供一份我个人的屏蔽列表，主要封锁国内的一些流氓软件及对安全构成威胁的域名</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">||360.cn^
+||360.com^
+||so.cn^
+||so.com^
+||360buyimg.com^
+||flux.hcdn.iqiyi.com^
+||policy.video.iqiyi.com^
+||api.map.baidu.com^
+||ps.map.baidu.com^
+||sv.map.baidu.com^
+||offnavi.map.baidu.com^
+||newvector.map.baidu.com^
+||ulog.imap.baidu.com^
+||newloc.map.n.shifen.com^
+||ris­ing.com^
+||ris­ing.net^
+||ris­ing.org^
+||king­soft.com^
+||king­soft.net^
+||king­soft.org^
+||duba.com^
+||duba.net^
+||duba.org^
+||xin­dubawukong.com^
+||xin­dubawukong.net.^
+||xin­dubawukong.org^
+||jin­shan­duba.com^
+||jin­shan­duba.net^
+||jin­shan­duba.org^
+||cn­nic.net.cn^
+||xun­lei.com^
+||hao123.com^
+||newloc.map.n.shifen.com^
+||rising.com.cn^
+||ijinshan.com^
+||verycd.com^
+||dianlv.com^
+||emule.org.cn^
+||xunlei.com^
+||kankan.com^
+||sandai.net^
+||gougou.com^
+||gigaget.com^
+||kuaishou.com^
+||gifshow.com^
+||guanjia.qq.com^<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>DNS被创造的初期，并没有考虑到安全的因素，所以未加密的DNS服务很容易被恶意使用，例如DNS劫持、DNS污染等。<br>相信身处中国大陆的人应该深有体会。<br>透过AdGuard Home，我们可以将DNS服务掌握在自己的手里，自己选择该污染那些域名，并使用更安全的DNS服务。<br>别的不好说，这里就不说了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/DNS/" class="print-no-link">#DNS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AdGuard Home部署及使用指南</div>
+      <div>https://blog.xianyu.one/2021/01/29/Linux/tutorial/AdGuard-Home/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年1月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/04/01/dingtalk-video-download/" title="下载钉钉的直播重放">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">下载钉钉的直播重放</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/09/Something/hello-2021/" title="Hello 2021">
+                        <span class="hidden-mobile">Hello 2021</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

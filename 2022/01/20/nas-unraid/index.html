@@ -1,0 +1,919 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面买NAS的缘由去年的时候由于实在是忍受不了B站对于番剧的阉割，所以入手了一台矿渣蜗牛星级作为个人的第一台NAS，开始搞自己的影音服务器这台矿渣的配置及价格如下    设备 数量 价格    J1900 1 &#x2F;   4G DDR3内存 1 &#x2F;   以上配置的蜗牛星际整机 1 368¥   3T日立翻新盘 2 536¥   500G西数二手盘 1 49.5¥   256G七">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UNraid折腾笔记——鸟枪换炮，我的第二台NAS">
+<meta property="og:url" content="https://blog.xianyu.one/2022/01/20/nas-unraid/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面买NAS的缘由去年的时候由于实在是忍受不了B站对于番剧的阉割，所以入手了一台矿渣蜗牛星级作为个人的第一台NAS，开始搞自己的影音服务器这台矿渣的配置及价格如下    设备 数量 价格    J1900 1 &#x2F;   4G DDR3内存 1 &#x2F;   以上配置的蜗牛星际整机 1 368¥   3T日立翻新盘 2 536¥   500G西数二手盘 1 49.5¥   256G七">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/61e9362e2ab3f51d9166ab54.png">
+<meta property="article:published_time" content="2022-01-19T21:12:57.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.426Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="UNraid">
+<meta property="article:tag" content="垃圾佬">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/61e9362e2ab3f51d9166ab54.png">
+  
+  
+  
+  <title>UNraid折腾笔记——鸟枪换炮，我的第二台NAS - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">UNraid折腾笔记——鸟枪换炮，我的第二台NAS</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-01-20 05:12" pubdate>
+          2022年1月20日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">UNraid折腾笔记——鸟枪换炮，我的第二台NAS</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><h2 id="买NAS的缘由"><a href="#买NAS的缘由" class="headerlink" title="买NAS的缘由"></a>买NAS的缘由</h2><p>去年的时候由于实在是忍受不了B站对于番剧的阉割，所以入手了一台矿渣蜗牛星级作为个人的第一台NAS，开始搞自己的影音服务器<br><img src="https://pic.imgdb.cn/item/61e9368f2ab3f51d91670de9.jpg" srcset="/img/loading.gif" lazyload><br>这台矿渣的配置及价格如下</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数量</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>J1900</td>
+<td>1</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>4G DDR3内存</td>
+<td>1</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>以上配置的蜗牛星际整机</td>
+<td>1</td>
+<td>368¥</td>
+</tr>
+<tr>
+<td>3T日立翻新盘</td>
+<td>2</td>
+<td>536¥</td>
+</tr>
+<tr>
+<td>500G西数二手盘</td>
+<td>1</td>
+<td>49.5¥</td>
+</tr>
+<tr>
+<td>256G七彩虹SATA固态</td>
+<td>1</td>
+<td>179¥</td>
+</tr>
+<tr>
+<td>闪迪32G U盘</td>
+<td>1</td>
+<td>29.9¥</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>&#x2F;</td>
+<td>1162.4¥</td>
+</tr>
+</tbody></table>
+<p>用很少的钱装黑群晖组了人生第一台NAS。</p>
+<h2 id="为什么才一年就换"><a href="#为什么才一年就换" class="headerlink" title="为什么才一年就换"></a>为什么才一年就换</h2><p>J1900的性能过于羸弱，导致我只能下载1080p的且是h264的资源，外挂字幕只能使用<code>srt</code>格式的（因为如果是特效字幕的话J1900就扛不住转码了）。<br>同时，由于找资源的速度过于快了，1年内nas的储存就即将告罄，为了未来3-5年左右能有充足的槽位进行扩展，同时也为了解决一下性能拉垮的问题，就踏上了本次捡垃圾之旅。</p>
+<h1 id="购买人生的第二台NAS"><a href="#购买人生的第二台NAS" class="headerlink" title="购买人生的第二台NAS"></a>购买人生的第二台NAS</h1><h2 id="选购思路"><a href="#选购思路" class="headerlink" title="选购思路"></a>选购思路</h2><p>在挑选硬件的时候主要分为CPU性能、主板扩展性、储存扩展性、所使用操作系统这几个方向。<br>作为一个穷逼，长这么大到现在我连4k屏幕都没见过，所以对我而言CPU性能、主板扩展性是次要的，最主要的就是储存扩展性，也就是盘位的多少，其次是选择使用说明系统。<br>为了满足未来3-5年的储存需求，我就需要至少8盘位的机器保证有足够的盘位对储存进行扩容。<br>系统方面，不愿意继续使用黑群晖，所以选择了UNraid，至于为什么后面会说到</p>
+<h2 id="确定硬件"><a href="#确定硬件" class="headerlink" title="确定硬件"></a>确定硬件</h2><p>为考虑的机器范围分为两个大方向：<code>DIY成品NAS</code>和<code>二手服务器</code><br>DIY成品NAS要满足我的需求价格其实就和二手服务器差不多，但同价位二手服务器比DIY成品NAS性能要高（虽然耗电量也高），所以果断选择了塔式服务器。从性能、扩展性、噪音各方面来说都很合适。<br>经过几天筛选，最后我买了一台DELL的塔式服务器，选定好了各种配件下单。以下是我选择并购入的物品清单</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数量</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E5-2420v2</td>
+<td>1</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>8G DDR3 ECC 内存</td>
+<td>2</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>H310阵列卡</td>
+<td>1</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>服务器电源</td>
+<td>1</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>以上配置的T320</td>
+<td>1</td>
+<td>1800¥</td>
+</tr>
+<tr>
+<td>3T 戴尔SAS服务器拆机盘</td>
+<td>4</td>
+<td>588¥</td>
+</tr>
+<tr>
+<td>Unraid OS Plus 授权</td>
+<td>1</td>
+<td>89$（折合人民币570.35¥）</td>
+</tr>
+<tr>
+<td>闪迪32G U盘</td>
+<td>1</td>
+<td>29.9¥</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>&#x2F;</td>
+<td>2988.25¥</td>
+</tr>
+</tbody></table>
+<h2 id="意外的惊喜"><a href="#意外的惊喜" class="headerlink" title="意外的惊喜"></a>意外的惊喜</h2><p>在我拿到服务器之后，发现店家给我发了T420，也就是T320的双路版本！！！虽然不合适但还是不厚道的笑开了花 XD<br>实际我拿到的机器配置如下</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E5-2420v2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8G DDR3 ECC 内存</td>
+<td>2</td>
+</tr>
+<tr>
+<td>495W热插拔电源</td>
+<td>2</td>
+</tr>
+<tr>
+<td>H310阵列卡</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap"><img src="https://pic.imgdb.cn/item/61e943ea2ab3f51d9175dcaf.jpg" srcset="/img/loading.gif" lazyload></div><div class="group-image-wrap"><img src="https://pic.imgdb.cn/item/61e943ea2ab3f51d9175dcb4.jpg" srcset="/img/loading.gif" lazyload></div></div></div>
+
+<p>可以说是血赚</p>
+<h1 id="组装NAS"><a href="#组装NAS" class="headerlink" title="组装NAS"></a>组装NAS</h1><p>由于买的是成品，所谓硬件组装也就只是把硬盘塞好，插上UNraid的U盘</p>
+<h2 id="U盘刷入UNraid"><a href="#U盘刷入UNraid" class="headerlink" title="U盘刷入UNraid"></a>U盘刷入UNraid</h2><p>UNraid的特性之一就是其系统是储存在U盘上的，U盘仅作为引导，开机后会将系统放入内存中运行。这一点上，由于服务器支持ECC内存的缘故，NAS运行起来会更加的可靠。<br>通过UNraid官网下载<a target="_blank" rel="noopener" href="https://unraid.net/download">USB Flash Creator</a>,并按提示刷入U盘即可。<br><img src="https://pic.imgdb.cn/item/61e9462f2ab3f51d91781c27.png" srcset="/img/loading.gif" lazyload alt="建议在刷入时就固定好IP"></p>
+<h2 id="初始设置"><a href="#初始设置" class="headerlink" title="初始设置"></a>初始设置</h2><p>在把U盘和硬盘装好后，插电～开机～，进入bios设置，选择从U盘启动（UNraid不能使用UEFI启动，不然会有莫名其妙的问题）<br>当机器开机后就可以从浏览器登录web管理页面：<code>http://NAS-IP</code>,默认<code>root</code>用户无密码（登录后请设置好密码）</p>
+<h3 id="设置好硬盘阵列"><a href="#设置好硬盘阵列" class="headerlink" title="设置好硬盘阵列"></a>设置好硬盘阵列</h3><p>我的设置思路是阵列中全为机械硬盘，并将SSD放在缓存池中，UNraid的缓存和群晖不太一样，其实缓存也是普通的硬盘，只是不受数据校验保护而已。之后会解释为什么。选择好硬盘后启动阵列。</p>
+<h3 id="安装基本的插件"><a href="#安装基本的插件" class="headerlink" title="安装基本的插件"></a>安装基本的插件</h3><p>虽然UNraid于<code>6.9.2</code>版本已支持官方中文，但是需要通过插件安装。<br>找到导航栏中的<code>PLUGINS</code>，点击二级菜单中的<code>Install plugin</code>,并将以下链接复制到文本框中进行安装</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Squidly271&#x2F;community.applications&#x2F;master&#x2F;plugins&#x2F;community.applications.plg<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p><img src="https://pic.imgdb.cn/item/61e949262ab3f51d917ac6d0.png" srcset="/img/loading.gif" lazyload><br>之后导航栏会多出一个<code>APPS</code>，点击后进入界面（由于众所周知的原因加载会比较慢），搜索并安装中文语言包，之后就可以切换为中文了</p>
+<h3 id="设置共享文件夹"><a href="#设置共享文件夹" class="headerlink" title="设置共享文件夹"></a>设置共享文件夹</h3><p>我的NAS主要是围绕影音中心为目的而搭建的，所以这里以我的设置为例进行介绍。<br>UNraid的文件管理和群晖完全不一样，<strong>用户不需要关心自己的文件到底储存在哪个硬盘上，只需要注意由于文件的用途不同需要选择怎么样的储存策略</strong>，我的储存思路见下表</p>
+<table>
+<thead>
+<tr>
+<th>文件类型</th>
+<th>特性</th>
+<th>储存方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>影音文件</td>
+<td>量大，读取率相对低</td>
+<td>不使用缓存盘，仅存储于阵列中，通过手工移动的方式将缓存盘或外部存储的数据写入共享文件夹</td>
+</tr>
+<tr>
+<td>系统&#x2F;应用相关文件</td>
+<td>体积小但需要经常读写</td>
+<td>仅使用缓存，避免机械硬盘的经常读写</td>
+</tr>
+</tbody></table>
+<p>由此简单的分为这两大类进行存储。</p>
+<h4 id="我的设置"><a href="#我的设置" class="headerlink" title="我的设置"></a>我的设置</h4><p>新建一个媒体文件夹用于存放视频、音乐文件，设置参考下图<br><img src="https://pic.imgdb.cn/item/61e94d442ab3f51d917ea9d9.png" srcset="/img/loading.gif" lazyload><br>将末认新建好的<code>appdata</code>、<code>domains</code>、<code>system</code>设置为仅缓存，即在这些文件夹中的数据仅会储存在缓存盘中。<br>新建一个<code>download</code>文件夹设为仅缓存，用于充当bt、pt或其他服务器的下载文件夹。</p>
+<h4 id="SMB文件共享设置"><a href="#SMB文件共享设置" class="headerlink" title="SMB文件共享设置"></a>SMB文件共享设置</h4><p>如果你不希望公开共享文件夹，则需要在<code>user</code>设置中添加一个用户，并在共享文件夹设置中给予用户访问的权限！<strong>UNraid的root用户是不能用于登陆SMB服务的！</strong></p>
+<h3 id="安装常用应用"><a href="#安装常用应用" class="headerlink" title="安装常用应用"></a>安装常用应用</h3><p>与群晖不同，绝大多数UNraid的应用都是通过docker安装的</p>
+<h4 id="安装PLEX"><a href="#安装PLEX" class="headerlink" title="安装PLEX"></a>安装PLEX</h4><p><code>APPS</code>选项卡中搜索<code>Plex-Media-Server</code>，找到官方的那个点击安装。各项配置如下  </p>
+<ul>
+<li><code>Host Path 2</code>填写PLEX应用的数据储存位置，我选择储存在<code>appdata/</code>共享文件夹中，文件路径为<code>/mnt/user/appdata/</code></li>
+<li><code>Host Path 3</code>填写媒体文件所在的文件夹，即前面创建的媒体文件夹，路径为<code>/mnt/user/media/</code></li>
+<li><code>Key 1</code>需要填入神秘代码，请前往<a target="_blank" rel="noopener" href="https://plex.tv/claim">PLEX官网</a>获取</li>
+<li><code>Key 2</code>为容器的UID，默认填写<code>99</code></li>
+<li><code>Key 3</code>为容器的GID，默认填写<code>100</code></li>
+<li><code>Key 4</code>为容器版本，默认填写<code>latest</code></li>
+</ul>
+<p>填写好之后点击完成，等到容器上线即可</p>
+<h4 id="FileBrowser文件管理安装"><a href="#FileBrowser文件管理安装" class="headerlink" title="FileBrowser文件管理安装"></a>FileBrowser文件管理安装</h4><p>由于UNraid作为NAS系统居然没有官方自带的web文件管理功能，所以这里需要自己安装一个。<br>安装的应用为荒野无灯大佬的魔改版（<a target="_blank" rel="noopener" href="https://hub.docker.com/r/80x86/filebrowser">项目地址</a>），按照项目的说明安装即可</p>
+<h4 id="安装aria2"><a href="#安装aria2" class="headerlink" title="安装aria2"></a>安装aria2</h4><p>这里使用P3TERX大佬的镜像，如果没有特殊需求，按照下面给出的配置进行安装即可</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker run -d \
+    --name aria2-pro \
+    --restart unless-stopped \
+    --log-opt max-size&#x3D;1m \
+    --network host \
+    -e PUID&#x3D;$UID \
+    -e PGID&#x3D;$GID \
+    -e RPC_SECRET&#x3D;此处填写RPC的密码 \
+    -e RPC_PORT&#x3D;6800 \
+    -e LISTEN_PORT&#x3D;6888 \
+    -v $PWD&#x2F;aria2-config:&#x2F;config \
+    -v $PWD&#x2F;aria2-downloads:&#x2F;downloads \
+    p3terx&#x2F;aria2-pro<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="安装ariaNG"><a href="#安装ariaNG" class="headerlink" title="安装ariaNG"></a>安装ariaNG</h4><p>由于aria2-pro并不自带webUI，所以需要自己安装一个。设置参考下图<br><img src="https://pic.imgdb.cn/item/61e953762ab3f51d91850ae8.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="几天的使用体验"><a href="#几天的使用体验" class="headerlink" title="几天的使用体验"></a>几天的使用体验</h1><p>由于主要作为影音服务器使用，所以挺在意这颗U的性能如何的，刚开始我的要求仅是h264能正常使用即可，但没想到这颗U的性能超出预期，能解码H265 4K的影片！为我省了买显卡的钱。<br>同时，这台服务器有着极强的扩展性，巨量PCIe插槽，可以方便的扩展各种设备。比如未来可以加显卡搞Mac虚拟机；加装万兆网卡；加装阵列卡扩展存储等。几乎可以说，这台机器可以满足我未来5-10年的需求。<br>总之非常满意就是了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/NAS/" class="print-no-link">#NAS</a>
+      
+        <a href="/tags/UNraid/" class="print-no-link">#UNraid</a>
+      
+        <a href="/tags/%E5%9E%83%E5%9C%BE%E4%BD%AC/" class="print-no-link">#垃圾佬</a>
+      
+        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#服务器</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>UNraid折腾笔记——鸟枪换炮，我的第二台NAS</div>
+      <div>https://blog.xianyu.one/2022/01/20/nas-unraid/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/11/Android/Lenovo-p11-pro/" title="联想小新Pad Pro 2020 刷机笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">联想小新Pad Pro 2020 刷机笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/17/ip-address/" title="计网专业学习笔记——认识IPv4地址的发展史">
+                        <span class="hidden-mobile">计网专业学习笔记——认识IPv4地址的发展史</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

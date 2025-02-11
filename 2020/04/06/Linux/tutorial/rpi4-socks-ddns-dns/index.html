@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面我的网件路由器拿来当AP用了，所以没法使用梅林固件的插件进行魔法上网。手机电脑都还好，但是ns就比较蛋疼了，不挂代理下载慢的跟蜗牛一样，而且不知道为什么国内的一些dns会把ns访问的域名解析到美帝的节点去，所以就想了这么一出。（题目又臭又长请见谅）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程">
+<meta property="og:url" content="https://blog.xianyu.one/2020/04/06/Linux/tutorial/rpi4-socks-ddns-dns/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面我的网件路由器拿来当AP用了，所以没法使用梅林固件的插件进行魔法上网。手机电脑都还好，但是ns就比较蛋疼了，不挂代理下载慢的跟蜗牛一样，而且不知道为什么国内的一些dns会把ns访问的域名解析到美帝的节点去，所以就想了这么一出。（题目又臭又长请见谅）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-06T12:25:00.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="DNS">
+<meta property="article:tag" content="代理">
+<meta property="article:tag" content="树莓派">
+<meta property="article:tag" content="DDNS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-04-06 20:25" pubdate>
+          2020年4月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>我的网件路由器拿来当AP用了，所以没法使用梅林固件的插件进行魔法上网。手机电脑都还好，但是ns就比较蛋疼了，不挂代理下载慢的跟蜗牛一样，而且不知道为什么国内的一些dns会把ns访问的域名解析到美帝的节点去，所以就想了这么一出。（题目又臭又长请见谅）  </p>
+<span id="more"></span>
+
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
+<li>树莓派4b（别的也行，反正差不多）</li>
+<li>陈年MacBookAir</li>
+<li>Windows电脑一台（下面我会解释为什么有Mac还要加台Windows的电脑）</li>
+<li>网线一根</li>
+<li>sd卡一张（大小随意，我用的是闪迪64gb A1的卡）</li>
+<li>读卡器</li>
+<li>树莓派对应充电线（4是type-c，之前是microUSB）</li>
+</ul>
+<h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><p>~~分享站暂时下线，目前有点小问题  ~~已重新上线   </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ubuntu.com/download/raspberry-pi">Ubuntu18.04固件</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.balena.io/etcher/">balenaEtcher</a>（用于烧录固件）</li>
+<li>ssh工具（这里我使用的是termius。AppStore有）</li>
+</ul>
+<h2 id="烧录系统"><a href="#烧录系统" class="headerlink" title="烧录系统"></a>烧录系统</h2><p>这一步其实很简单，把上面提到的Ubuntu的固件下载下来，然后在balenaEtcher中就可以一键刷入。<br>我的Mac不知道为什么这个软件用不了，正好家里有另一台笔记本能用就懒得折腾了。<br><code>Select image</code>那选中我们所要烧录的固件–&gt;<code>Select drive</code>选中我们所要烧录到的sd卡（做这一步的时候建议把别的什么储存卡之类的拔掉，并仔细确认选中的是对的。不要问我为什么）–&gt;点右边的flash等待完成刷入。</p>
+<h2 id="树莓派开机及使用"><a href="#树莓派开机及使用" class="headerlink" title="树莓派开机及使用"></a>树莓派开机及使用</h2><p>将sd卡插到树莓派上，接上网线，插上供电线即可<br>等待网口的黄灯闪烁说明已将成功了<br>这时候我们需要登陆到路由器管理页面查看树莓派的ip（如果是动态ip的话需要将树莓派ip固定下来）<br>我的树莓派内网IP是<code>192.168.1.149</code><br>在ssh工具里填写好IP，同时使用的用户名是<code>ubuntu</code>，默认密码为<code>ubuntu</code>。第一次连接后会要求强制更改密码。<br>在接下去使用的过程中，需要使用root用户，请使用<code>sudo -i</code>将自己的用户更改为root<br>首先需要更改源，因为Ubuntu的官方源在国内还是比较慢的（后面还会降到更慢的）  </p>
+<h3 id="替换源"><a href="#替换源" class="headerlink" title="替换源"></a>替换源</h3><p>这里我们需要将文件中的所有源的地址更改为国内源的地址  </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;apt&#x2F;sources.list    #打开文件<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>按i开启编辑模式，将文件中的所有网址替换为以下任意一种  </p>
+<h4 id="中科大源"><a href="#中科大源" class="headerlink" title="中科大源"></a>中科大源</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mirrors.ustc.edu.cn   #中科大源
+
+###############  你也可以选择先删光文件内容直接复制以下内容  ############
+
+deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="阿里云源"><a href="#阿里云源" class="headerlink" title="阿里云源"></a>阿里云源</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mirrors.aliyun.com    #阿里云源
+
+###############  你也可以选择先删光文件内容直接复制以下内容  ############
+
+deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="163源"><a href="#163源" class="headerlink" title="163源"></a>163源</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mirrors.163.com      #163源
+
+###############  你也可以选择先删光文件内容直接复制以下内容  ############
+
+deb http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse
+deb http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse
+deb-src http:&#x2F;&#x2F;mirrors.163.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="清华源"><a href="#清华源" class="headerlink" title="清华源"></a>清华源</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mirrors.tuna.tsinghua.edu.cn     #清华源
+
+###############  你也可以选择先删光文件内容直接复制以下内容  ############
+
+deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse
+deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse
+deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>结束后按<code>esc</code>退出编辑模式并输入<code>:wq</code>保存并退出<br>修改后更新源  </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">sudo apt-get update
+sudo apt-get upgrade<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="搭建本地DNS服务器"><a href="#搭建本地DNS服务器" class="headerlink" title="搭建本地DNS服务器"></a>搭建本地DNS服务器</h2><p>搭建本地DNS服务器使用的是Dnsmasq   </p>
+<h3 id="安装Dnsmasq"><a href="#安装Dnsmasq" class="headerlink" title="安装Dnsmasq"></a>安装Dnsmasq</h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">apt-get install dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h3 id="配置Dnsmasq"><a href="#配置Dnsmasq" class="headerlink" title="配置Dnsmasq"></a>配置Dnsmasq</h3><h4 id="dnsmasq-conf"><a href="#dnsmasq-conf" class="headerlink" title="dnsmasq.conf"></a>dnsmasq.conf</h4><p>打开配置文件   </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;dnsmasq.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>按i打开编辑模式<br>去掉strict-order前面的#号<br>设置listen-address，配置如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">listen-address&#x3D;127.0.0.1,逗号后的这里请填写树莓派的内网IP地址<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改缓存大小（就在目前打开的文件中添加以下内容即可）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cache-size&#x3D;10000<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h4 id="resolv-conf"><a href="#resolv-conf" class="headerlink" title="resolv.conf"></a>resolv.conf</h4><p>打开文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;resolv.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>添加上游dns，格式如下</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">nameserver 此处填写DNS地址，注意和前面的nameserver之间要有一个空格<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>查询顺序自上而下，可以多添加几个上游DNS地址<br>按<code>esc</code>退出编辑模式<br>输入<code>:wq</code>保存并退出</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>启动</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">service dnsmasq restart<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>查看运行状态</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">service dnsmasq status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>没有报错就说明安装成功了</p>
+<h2 id="搭建透明代理"><a href="#搭建透明代理" class="headerlink" title="搭建透明代理"></a>搭建透明代理</h2><p>这里我们使用的是大名鼎鼎的<a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash/releases">clash</a>  </p>
+<h3 id="安装clash"><a href="#安装clash" class="headerlink" title="安装clash"></a>安装clash</h3><p>找到<code>armv7</code>的包，复制链接并使用<code>wget</code>下载到机器（个人建议用能魔法上网的电脑先下载好之后上传到树莓派上，这里不介绍怎么传了）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mkdir &#x2F;home&#x2F;clash
+cd &#x2F;home&#x2F;clash
+wget 此处填入前面找到的安装包的下载链接，比如写这篇文章时的是https:&#x2F;&#x2F;github.com&#x2F;Dreamacro&#x2F;clash&#x2F;releases&#x2F;download&#x2F;v0.19.0&#x2F;clash-linux-armv7-v0.19.0.gz
+
+gunzip clash-linux-armv7-v0.19.0.gz     #解压包，记得把文件名替换成你下载的文件的文件名
+mv clash-linux-armv7-v0.19.0 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;clash     #将解压好的文件夹移动至&#x2F;usr&#x2F;local&#x2F;bin&#x2F;clash
+
+chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;clash    #给权限<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>配置文件怎么来的不解释，这里默认大家已经有配置文件了。<br>假设我们手上有一个配置文件（文件名为<code>a.yaml</code>，文件路径为<code>/home/clash/a.yaml</code>），且目前我们处于<code>/home/clash</code>这个文件夹中<br>重命名配置文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mv a.yaml config.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h4 id="打开并修改配置文件"><a href="#打开并修改配置文件" class="headerlink" title="打开并修改配置文件"></a>打开并修改配置文件</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">vim config.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>将文件中的这两个配置修改成如下</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">allow-lan: true    #即允许来自局域网的连接
+
+external-controller: 0.0.0.0:9090    #可以外部控制<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>保存并退出</p>
+<h3 id="启动clash"><a href="#启动clash" class="headerlink" title="启动clash"></a>启动clash</h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">clash -d &#x2F;home&#x2F;clash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>无错误输出的就是成功了</p>
+<h3 id="守护程序"><a href="#守护程序" class="headerlink" title="守护程序"></a>守护程序</h3><p>这里介绍service，也可以选用pm2（推荐）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cd &#x2F;etc&#x2F;systemd&#x2F;system
+vim clash.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>在文件中添加如下内容</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none"># This is about to control clash&#39;s start|stop|restart|status|enable
+[Unit]
+Description&#x3D;Clash Service
+After&#x3D;network.target
+
+[Service]
+ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;clash -d &#x2F;home&#x2F;clash
+Restart&#x3D;on-abort
+LimitNOFILE&#x3D;1048576
+
+[Install]
+WantedBy&#x3D;multi-user.target<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p><strong>要注意<code>ExecStart=/usr/local/bin/clash -d /home/clash</code>这行使用的命令，如果按我的教程做的不需要修改，如果配置文件位置不一样的请自行做调整</strong><br>启动</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">systemctl start clash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>查看运行状态</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">systemctl status clash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>开机自启</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">systemctl enable clash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>这样就完成了clash的设置，局域网内的设备就可以通过配置文件里设置的端口设置代理进行魔法上网了。（默认http是7890，socks是7891，请自行查看配置文件设置的端口）<br>想要外网访问的话需要路由器支持端口转发，请自行设置。<br>这里不介绍web管理页面怎么弄了，非常简单，GitHub上把文件下载到电脑点开文件夹里的<code>index.html</code>文件就能用（管理页面会要求填ip和端口号，ip是树莓派内网ip，端口号是之前在修改配置文件时提到的<code>external-controller: 0.0.0.0:9090</code>这里的9090)。</p>
+<h2 id="使用cloudflareAPI实现DDNS"><a href="#使用cloudflareAPI实现DDNS" class="headerlink" title="使用cloudflareAPI实现DDNS"></a>使用cloudflareAPI实现DDNS</h2><p>事情是这样的，本来我想弄完上面两样就收工的，然后想想得折腾折腾让外网也能正常访问。但我家宽带是动态ip我使用的主路由是TP-LINK的企业级路由，虽然支持使用ddns但是只能使用固定那几家的（花生壳啥的），但我不想用。正好我有域名，且是cloudflare托管，就使用cloudflare的api来实现ddns。<br><strong>这里使用到的脚本来自这位<a target="_blank" rel="noopener" href="https://vircloud.net/author/1/">大神</a>的这篇文章（<a target="_blank" rel="noopener" href="https://vircloud.net/operations/cf-ddns.html">利用 CloudFlare API 实现自动 DDNS 功能|支持IPv4|IPv6</a>）,我家是IPv4所以我去掉了IPv6的内容，如需要请前往原文查看IPv6相关设置，这里就不多介绍了。</strong>   </p>
+<h3 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">#!&#x2F;bin&#x2F;bash
+
+auth_email&#x3D;&quot;cloudflare账号邮箱&quot;
+auth_key&#x3D;&quot;api秘钥&quot;
+zone_name&#x3D;&quot;根域名&quot;
+record_name&#x3D;&quot;绑定公网ip的子域名&quot;
+
+record_type&#x3D;&quot;A&quot;
+ip&#x3D;$(curl -s http:&#x2F;&#x2F;members.3322.org&#x2F;dyndns&#x2F;getip)
+ip_file&#x3D;&quot;ip.txt&quot;
+id_file&#x3D;&quot;cloudflare.ids&quot;
+log_file&#x3D;&quot;cloudflare.log&quot;
+log() &#123;
+	if [ &quot;$1&quot; ]; then
+		echo -e &quot;[$(date)] - $1&quot; &gt;&gt; $log_file
+	fi
+&#125;
+log &quot;Check Initiated&quot;
+
+if [ -f $ip_file ]; then
+	old_ip&#x3D;$(cat $ip_file)
+	if [ &quot;$ip&quot; &#x3D;&#x3D; &quot;$old_ip&quot; ]; then
+		echo &quot;IP has not changed.&quot;
+		exit 0
+	fi
+fi
+
+if [ -f $id_file ] &amp;&amp; [ $(wc -l $id_file | cut -d &quot; &quot; -f 1) &#x3D;&#x3D; 2 ]; then
+	zone_identifier&#x3D;$(head -1 $id_file)
+	record_identifier&#x3D;$(tail -1 $id_file)
+else
+	zone_identifier&#x3D;$(curl -s -X GET &quot;https:&#x2F;&#x2F;api.cloudflare.com&#x2F;client&#x2F;v4&#x2F;zones?name&#x3D;$zone_name&quot; -H &quot;X-Auth-Email: $auth_email&quot; -H &quot;X-Auth-Key: $auth_key&quot; -H &quot;Content-Type: application&#x2F;json&quot; | grep -Po &#39;(?&lt;&#x3D;&quot;id&quot;:&quot;)[^&quot;]*&#39; | head -1 )
+	record_identifier&#x3D;$(curl -s -X GET &quot;https:&#x2F;&#x2F;api.cloudflare.com&#x2F;client&#x2F;v4&#x2F;zones&#x2F;$zone_identifier&#x2F;dns_records?name&#x3D;$record_name&amp;type&#x3D;$record_type&quot; -H &quot;X-Auth-Email: $auth_email&quot; -H &quot;X-Auth-Key: $auth_key&quot; -H &quot;Content-Type: application&#x2F;json&quot;  | grep -Po &#39;(?&lt;&#x3D;&quot;id&quot;:&quot;)[^&quot;]*&#39;)
+	echo &quot;$zone_identifier&quot; &gt; $id_file
+	echo &quot;$record_identifier&quot; &gt;&gt; $id_file
+fi
+
+update&#x3D;$(curl -s -X PUT &quot;https:&#x2F;&#x2F;api.cloudflare.com&#x2F;client&#x2F;v4&#x2F;zones&#x2F;$zone_identifier&#x2F;dns_records&#x2F;$record_identifier&quot; -H &quot;X-Auth-Email: $auth_email&quot; -H &quot;X-Auth-Key: $auth_key&quot; -H &quot;Content-Type: application&#x2F;json&quot; --data &quot;&#123;\&quot;id\&quot;:\&quot;$zone_identifier\&quot;,\&quot;type\&quot;:\&quot;$record_type\&quot;,\&quot;name\&quot;:\&quot;$record_name\&quot;,\&quot;content\&quot;:\&quot;$ip\&quot;&#125;&quot;)
+
+if [[ $update &#x3D;&#x3D; *&quot;\&quot;success\&quot;:false&quot;* ]]; then
+	message&#x3D;&quot;API UPDATE FAILED. DUMPING RESULTS:\n$update&quot;
+	log &quot;$message&quot;
+	echo -e &quot;$message&quot;
+	exit 1
+else
+	message&#x3D;&quot;IP changed to: $ip&quot;
+	echo &quot;$ip&quot; &gt; $ip_file
+	log &quot;$message&quot;
+	echo &quot;$message&quot;
+fi
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>先确定自家宽带目前的公网ip，并添加到CloudFlare的DNS记录中（不要打开CDN）<br>并在概述处找到api，获取<code>Global API Key</code>的秘钥     </p>
+<h4 id="制作脚本"><a href="#制作脚本" class="headerlink" title="制作脚本"></a>制作脚本</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cd &#x2F;home
+vim cfapi.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>填入上面提到的脚本，并将上面有中文的四行依次填入中文所示的信息后保存并退出。</p>
+<h4 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">chmod +x cfapi.sh
+.&#x2F;cfapi.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>如果下面这个输出了宽带公网ip或显示ip为改变则说明成功了</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输出了这个
+IP changed to: ****
+或者这个
+IP has not changed.
+就是成功了<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="定时运行"><a href="#定时运行" class="headerlink" title="定时运行"></a>定时运行</h4><p>我家路由器每天四点重启，所以每天四点都会更新IP，我们需要做的就是让脚本定时运行，保证实时更新。  </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">service cron start  #启动定时执行工具
+crontab -e  #编辑配置<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>第一次执行会显示让你选择使用的编辑工具，填对应数字并回车就行，我选择的是2（vim）<br>接着的操作和之前使用vim完全一样<br>这里我们填入以下命令  </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">0 5 * * *  &#x2F;home&#x2F;cfapi.sh &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>即每天五点运行一次脚本（具体含义可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/allenlinrui/article/details/7490206">这篇文章</a>）<br>保存并退出<br>重启程序</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">service cron restart<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>完成。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>折腾完了我也身心舒畅了，你说折腾这个有啥用其实也真没什么用。但也算是学到了不少新的知识吧。<br>写这篇文章花了我两个小时，从晚上八点半写到晚上十点半，真的累。创作不易，欢迎大家支持和资瓷。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/DNS/" class="print-no-link">#DNS</a>
+      
+        <a href="/tags/%E4%BB%A3%E7%90%86/" class="print-no-link">#代理</a>
+      
+        <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" class="print-no-link">#树莓派</a>
+      
+        <a href="/tags/DDNS/" class="print-no-link">#DDNS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程</div>
+      <div>https://blog.xianyu.one/2020/04/06/Linux/tutorial/rpi4-socks-ddns-dns/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年4月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/27/cyber-security/" title="浅谈魔法上网的那些事">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">浅谈魔法上网的那些事</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/28/bt/" title="P2P下载小科普">
+                        <span class="hidden-mobile">P2P下载小科普</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

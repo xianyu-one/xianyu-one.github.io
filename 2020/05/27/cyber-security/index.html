@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面相信有无数的墙内同胞会因为种种原因接触上魔法上网，甚至铤而走险使用这种违法的技术浏览违法的或者合法的网站。在此就聊聊有关这项技术背后的历史和实现原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈魔法上网的那些事">
+<meta property="og:url" content="https://blog.xianyu.one/2020/05/27/cyber-security/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面相信有无数的墙内同胞会因为种种原因接触上魔法上网，甚至铤而走险使用这种违法的技术浏览违法的或者合法的网站。在此就聊聊有关这项技术背后的历史和实现原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-27T05:44:19.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="科普">
+<meta property="article:tag" content="杂谈">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="魔法上网">
+<meta property="article:tag" content="历史">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>浅谈魔法上网的那些事 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">浅谈魔法上网的那些事</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-05-27 13:44" pubdate>
+          2020年5月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">浅谈魔法上网的那些事</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>相信有无数的墙内同胞会因为种种原因接触上魔法上网，甚至铤而走险使用这种违法的技术浏览违法的或者合法的网站。在此就聊聊有关这项技术背后的历史和实现原理。</p>
+<span id="more"></span>
+
+<h2 id="开篇–那些互联网的历史"><a href="#开篇–那些互联网的历史" class="headerlink" title="开篇–那些互联网的历史"></a>开篇–那些互联网的历史</h2><h3 id="中国互联网的诞生"><a href="#中国互联网的诞生" class="headerlink" title="中国互联网的诞生"></a>中国互联网的诞生</h3><p>作为一个00后，我诞生于中国互联网出现后，对于开篇，我也只是从长辈那道听途说。<br>中国互联网诞生于1994年，据说当时上网很麻烦，装“猫”都老费劲了。我的一位高中信息技术老师说，他当年接触互联网时，花了几天时间就把中国的网站看了个遍。<br>同样作为00后，我错过了网上冲浪的时代，我也错过了论坛、博客兴盛的时代，我接触中国互联网是在08年左右，但我还小，懂个屁。  </p>
+<h3 id="网络审查的兴起"><a href="#网络审查的兴起" class="headerlink" title="网络审查的兴起"></a>网络审查的兴起</h3><p>网络审查制度随着中国互联网的诞生而来，但并非一开始就如当下一般。<br>网络审查粗略分为两块：<br>一、中国大陆境内的内部审查：企业和个人需要遵守中国的法律法规，自觉过滤掉政府不希望出现的内容，违规的企业或个人将会受到处罚。（这不是我要说的重点）<br>二、部署在中国网络国际出口的境外信息过滤机制（GFW）<br>记得当年和我爹说过百度的好，认为谷歌不好用，在那个不用魔法上网就能使用谷歌搜索的年代，我甚至不喜欢谷歌，更爱百度。回想起来真是想给自己几个大嘴巴子······<br>2014年5月27日，谷歌正式和中国普通网民说再见。正是在这年后，我开始慢慢探索向那些我不被允许访问的网站。</p>
+<h3 id="道高一尺魔高一丈"><a href="#道高一尺魔高一丈" class="headerlink" title="道高一尺魔高一丈"></a>道高一尺魔高一丈</h3><p>随着网络审查制度的不断强化和完善，一部分人迫切的希望访问那些不存在的网站，所以希望使用魔法上网的方式站到墙头看看。  </p>
+<h4 id="传统艺能————VPN"><a href="#传统艺能————VPN" class="headerlink" title="传统艺能————VPN"></a>传统艺能————VPN</h4><blockquote>
+<p>虚拟私人网络（英语：Virtual Private Network，缩写：VPN）是一种常用于连接中、大型企业或团体与团体间的私人网络的通讯方法。它利用隧道协议（Tunneling Protocol）来达到发送端认证、消息保密与准确性等功能。  ——wiki</p>
+</blockquote>
+<p>这是早期登上墙头的常用方法，也是目前一些企业正大光明上墙的办法（备案审批）。其诞生的目的是为了通信的安全而非网络审查。<br>这种通信方式很安全，但对于上墙有明显缺陷————流量特征过于明显。由于传统的VPN有这一特性所以很快便被墙精准识别了。</p>
+<h4 id="后起之秀，当代明星————Shadowsocks类基于socks5代理的协议"><a href="#后起之秀，当代明星————Shadowsocks类基于socks5代理的协议" class="headerlink" title="后起之秀，当代明星————Shadowsocks类基于socks5代理的协议"></a>后起之秀，当代明星————Shadowsocks类基于socks5代理的协议</h4><p>2012年4月20日，Shadowsocks出现在广大人民群众的视线中， 但很快在15年原作者被迫删除了项目仓库，得益于git的特性，Shadowsocks在其他志愿者的努力下不断继续前进和发展，并延伸出了v2ray、ssr、trojan这些新的衍生协议。<br>今日，这批协议仍是大量上墙者在使用且推荐使用的。</p>
+<h2 id="浅析软件原理、科普互联网知识"><a href="#浅析软件原理、科普互联网知识" class="headerlink" title="浅析软件原理、科普互联网知识"></a>浅析软件原理、科普互联网知识</h2><p>首先我们要了解当我们在上网时我们的机器在干什么，以我在浏览器中访问谷歌为例   </p>
+<h3 id="无审查环节的访问"><a href="#无审查环节的访问" class="headerlink" title="无审查环节的访问"></a>无审查环节的访问</h3><p>在没有网络审查的环境中，当我在浏览器中输入谷歌的域名<code>www.google.com</code>后<br>我的电脑知道了我要访问这个网站，但电脑不知道这个域名背后的IP地址（相当于某人的门牌号）所以要向DNS服务器（相当于当今的缺德地图或是电话黄页）查询这个网址背后的IP地址<br>｜<br>｜<br>DNS服务器收到请求，并将结果返回给我的电脑<br>｜<br>｜<br>解决了要去哪的问题，接下去就是把数据包发向谷歌的服务器了<br>｜<br>｜<br>数据包经过路由器到达外网——到达骨干网——经过国际互联网出口再向对应服务器去<br>｜<br>｜<br>谷歌的服务器收到了我的请求，向我发送网页的数据包，经国际互联网再返回我的电脑，我的电脑中的浏览器将网页呈现在我的面前  </p>
+<h3 id="有网络审查无魔法上网"><a href="#有网络审查无魔法上网" class="headerlink" title="有网络审查无魔法上网"></a>有网络审查无魔法上网</h3><p>有网络审查之后其实就多一步，国际出口处加装了GFW，此时流量在通过国际出口时，由于谷歌的IP被列入了黑名单，所以访问将直接被阻断。<br>当然，也远不止这个手段。除此之外，审查机制会要求国内的DNS服务器将查询黑名单域名的请求返回错误地址（例如你问我张三的电话但我有意无意地告诉你李四的电话）。同时由于普通的DNS查询时不加密的，且使用udp协议，谁先发回数据就听谁的，所以如果你选用国外的DNS服务器进行查询，墙也能第一时间知道并抢答。还有数据包明文匹配————如果你的信息未经加密且含有其不允许查询的关键字也将阻断访问</p>
+<h3 id="有网络审查有魔法上网"><a href="#有网络审查有魔法上网" class="headerlink" title="有网络审查有魔法上网"></a>有网络审查有魔法上网</h3><p>这里就要分开说了</p>
+<h4 id="传统VPN"><a href="#传统VPN" class="headerlink" title="传统VPN"></a>传统VPN</h4><p>VPN思路很简单，我是为了信息安全而生的，主要任务就是加密数据。开始的时候墙还没有那么厉害，以为数据加密监测不到关键字所以也就放过了VPN的流量，但由于这种方式有非常明显的流量特征所以被精准识别了。</p>
+<h4 id="Shadowsocks类"><a href="#Shadowsocks类" class="headerlink" title="Shadowsocks类"></a>Shadowsocks类</h4><p>这类基于socks5代理的穿透工具的鼻祖是Shadowsocks，框架差不多，都是由其发展而来<br>类Shadowsocks协议与传统VPN不同在于它的代理方式是：<br>客户端<br>｜<br>｜<br>本地服务器（可以是在客户端上安装的软件或如网关上安装的软件）<br>｜<br>｜<br>远程服务器<br>中间多了一个本地的服务器，同时针对墙的识别方式对流量形式上做了优化</p>
+<h5 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h5><p>这是老祖宗，目前依然很稳，许多机场也都提供服务。目前已经发展得非常成熟了。<br>同时它在速度和延迟上都有着不俗的表现，游戏加速利器。（前提是你的游戏流量能过代理。）</p>
+<h5 id="ShadowsocksR"><a href="#ShadowsocksR" class="headerlink" title="ShadowsocksR"></a>ShadowsocksR</h5><p>Shadowsocks的一个变种，极富争议，具体自行谷歌。  </p>
+<h5 id="ProjectV"><a href="#ProjectV" class="headerlink" title="ProjectV"></a>ProjectV</h5><p>还有一个比较熟悉的名字叫v2ray，但正确的叫法是projectV。准确的说这不是一个协议，而是一套工具，整合了一堆乱七八糟的协议，其诞生的目的就是为了突破网络封锁，缺点是很难配置（目前有很多懒人脚本可以帮助部署），需要有一定基础知识才能理解配置的含义（都一样）。vmess协议也是目前比较主流的类Shadowsocks协议，其流量伪装的特性极大提高了隐匿程度（只是相对而言），同时ws+tls外套cdn的套娃方法可以复活被墙节点，功能十分强大。<br>这里着重介绍ws+tls：<br>说白了就是伪装为正常的https流量，ws一层加密再套上tls一层加密，你还可以加个cdn层层套娃，很大程度上降低流量被识别的可能。（不是100%不会被墙）<br>同时正是因为这种套娃的形式所以大大增加了访问延迟，也加大了对服务端和客户端算力的要求。</p>
+<h5 id="trojan"><a href="#trojan" class="headerlink" title="trojan"></a>trojan</h5><p>一个新兴的协议，方式和vmess的ws+tls有些类似，但它少了ws的加密，访问延迟和负载上较ws+tls好不少，同时部署也更为方便。缺点是不方便用ngnix。  </p>
+<h2 id="个人的猜想"><a href="#个人的猜想" class="headerlink" title="个人的猜想"></a>个人的猜想</h2><p>首先我们知道了，每逢重大会议或“六月大扫除”墙都会拔高一截，有些机场被打的死去活来，选择自建的小伙伴也非常惨，但依然有些人能毫无阻碍的使用。<br>所以这里我们要做一个假设。<br><strong>假设墙还无法做到对类Shadowsocks协议的精准识别</strong><br>从上面我们知道了，只是力度大了而已，而非完全封锁，所以可以猜测墙还无法做到精准识别。<br>既然识别算法上有缺陷，那么必定会通过行为的分析，对流量进行判定。<br>比如我使用trojan，从协议上来看无懈可击，完全就是伪装成了一个普通的https流量，<strong>但如果24小时都连接着，那么就显得非常不正常</strong>。<strong>没人会一天到晚盯着一个网站看，而且流量还那么大</strong>。所以我推测如果表现的很不正常，一样会触发墙的判定。<br>按照这个思路，我们再往回思考，除了做到协议的无懈可击外，我们还可以在客户端和服务端入手，让我们的流量看着更普通。<br>服务端上，可以用v2ray，同时真的在vps上搭建真正的网站（例如云盘或者流媒体服务），同时将就伪装为访问这个网站的流量，这样可以让流量看着非常正常，因为表面上它确实就是在看这个网站。<br>客户端方面，保证不长时间的链接，同时流量尽量不要过大。最好是多台服务器配合clash使用，clash自动选择节点可以将流量分散到各个节点，也保证了不长时间连接各个节点，更大程度上流量会显得更为正常。<br>以上，仅仅只是猜测。<br>万一人家真的只是不想管呢？</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%A7%91%E6%99%AE/" class="print-no-link">#科普</a>
+      
+        <a href="/tags/%E6%9D%82%E8%B0%88/" class="print-no-link">#杂谈</a>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+      
+        <a href="/tags/%E9%AD%94%E6%B3%95%E4%B8%8A%E7%BD%91/" class="print-no-link">#魔法上网</a>
+      
+        <a href="/tags/%E5%8E%86%E5%8F%B2/" class="print-no-link">#历史</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>浅谈魔法上网的那些事</div>
+      <div>https://blog.xianyu.one/2020/05/27/cyber-security/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年5月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/16/Something/2020/" title="闲言碎语">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">闲言碎语</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/06/Linux/tutorial/rpi4-socks-ddns-dns/" title="使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程">
+                        <span class="hidden-mobile">使用树莓派搭建透明代理、搭建本地DNS服务器及使用cloudflareAPI实现DDNS教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

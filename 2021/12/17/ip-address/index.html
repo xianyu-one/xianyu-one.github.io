@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面属实无聊，就当考前复习。 开篇初接触网络层的东西，相信不少人会有很多的疑惑，毕竟相较于物理层和数据链路层而言，网络层的东西会比较抽象。在大学开设的这门课里我并没有遇到什么特别大的瓶颈和不理解的地方，这得益于多年来瞎折腾所学习到的知识。从身边遇到的问题入手，通过解决问题的方式学习知识，可以说是我本人最爱的学习方法。所以，我想结合实例来讲解IPv4的相关知识，希望能对正在学习相关专业的学生以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网专业学习笔记——认识IPv4地址的发展史">
+<meta property="og:url" content="https://blog.xianyu.one/2021/12/17/ip-address/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面属实无聊，就当考前复习。 开篇初接触网络层的东西，相信不少人会有很多的疑惑，毕竟相较于物理层和数据链路层而言，网络层的东西会比较抽象。在大学开设的这门课里我并没有遇到什么特别大的瓶颈和不理解的地方，这得益于多年来瞎折腾所学习到的知识。从身边遇到的问题入手，通过解决问题的方式学习知识，可以说是我本人最爱的学习方法。所以，我想结合实例来讲解IPv4的相关知识，希望能对正在学习相关专业的学生以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-17T00:04:49.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.426Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="IP地址">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>计网专业学习笔记——认识IPv4地址的发展史 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">计网专业学习笔记——认识IPv4地址的发展史</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-12-17 08:04" pubdate>
+          2021年12月17日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计网专业学习笔记——认识IPv4地址的发展史</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <span id="more"></span>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>属实无聊，就当考前复习。</p>
+<h1 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h1><p>初接触网络层的东西，相信不少人会有很多的疑惑，毕竟相较于物理层和数据链路层而言，网络层的东西会比较抽象。<br>在大学开设的这门课里我并没有遇到什么特别大的瓶颈和不理解的地方，这得益于多年来瞎折腾所学习到的知识。从身边遇到的问题入手，通过解决问题的方式学习知识，可以说是我本人最爱的学习方法。<br>所以，我想结合实例来讲解IPv4的相关知识，希望能对正在学习相关专业的学生以及爱好者有所帮助。  </p>
+<h1 id="IPv4地址的结构"><a href="#IPv4地址的结构" class="headerlink" title="IPv4地址的结构"></a>IPv4地址的结构</h1><p>大家应该都知道，IPv4的地址写出来长这样：<code>192.168.1.1</code><br>我们为了阅读的方便，将十进制格式的IP地址用.分成了四个部分。<br>看，只是人类为了阅读方便而设置的。对于计算机而言IPv4地址长这样<code>11000000101010000000000100000001</code><br>其实就是二进制形式的地址。<br>我们也可以把二进制形式的地址拆成四份：<code>11000000</code> <code>10101000</code> <code>00000001</code> <code>00000001</code>  </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>第一段</th>
+<th>第二段</th>
+<th>第三段</th>
+<th>第四段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>十进制格式</td>
+<td>192</td>
+<td>168</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>二进制格式</td>
+<td>11000000</td>
+<td>10101000</td>
+<td>00000001</td>
+<td>00000001</td>
+</tr>
+</tbody></table>
+<p>简单看了一下格式，就可以继续往下说了。<br>别急，其他的诸如<code>子网掩码</code>、<code>网络号</code>、<code>主机号</code>的概念后面会慢慢讲。</p>
+<h1 id="IPv4的发展历史"><a href="#IPv4的发展历史" class="headerlink" title="IPv4的发展历史"></a>IPv4的发展历史</h1><p>开始讲解IPv4地址，绕不开的话题就是要讲一讲IP发展的历史，看看IPv4是怎么样发展到现在这样的</p>
+<h2 id="分类编址时代"><a href="#分类编址时代" class="headerlink" title="分类编址时代"></a>分类编址时代</h2><p>很久很久以前，IP地址被分成了五种地址类型，分别是<code>A</code>、<code>B</code>、<code>C</code>、<code>D</code>、<code>E</code>五类。<br>他们的区分方式很简单，<strong>二进制形式的IP地址从左往右数，开头的几位数字的不同决定这个IP的分类。</strong><br>在判断属于一个IP属于哪一个类别时其实不需要把它变成二进制的形式，<strong>因为区分类别的位数只占4位，也就是说只要判断第一段的十进制数是在哪个区间即可知道这个IP的类别。</strong><br>可以参照以下表格进行判断：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A类地址</th>
+<th>B类地址</th>
+<th>C类地址</th>
+<th>D类地址</th>
+<th>E类地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二进制下的开头</td>
+<td>0</td>
+<td>10</td>
+<td>110</td>
+<td>1110</td>
+<td>1111</td>
+</tr>
+<tr>
+<td>二进制下的地址区间</td>
+<td>00000001 - 01111110</td>
+<td>10000000 - 10111111</td>
+<td>11000000 - 11011111</td>
+<td>11100000 - 11101111</td>
+<td>11110000 - 11111111</td>
+</tr>
+<tr>
+<td>十进制下的地址区间</td>
+<td>1 - 126</td>
+<td>128 - 191</td>
+<td>192 - 223</td>
+<td>224 - 239</td>
+<td>240 - 255</td>
+</tr>
+</tbody></table>
+<p><strong>注：A类地址中0和127两个段为保留地址，用于特殊目的。</strong>  </p>
+<blockquote>
+<p>对照这个表，就很容易分辨IP地址的分类了。以下给出几个IP地址，大家可以对照表格判断一下：</p>
+<ul>
+<li>192.168.66.12</li>
+<li>11.43.192.30</li>
+<li>11.43.192.30</li>
+</ul>
+</blockquote>
+<h3 id="网络号-主机号"><a href="#网络号-主机号" class="headerlink" title="网络号 &amp; 主机号"></a>网络号 &amp; 主机号</h3><p>上文我们知道了，IP地址被划分成了五个类别<br>A、B、C类为单播地址，是我们平时接触最多，也是正在使用的地址。D是多播地址，E是保留地址。<br>对于A、B、C类的地址来说，它们除了开头不一样外，网络号和主机号的长度也是不一样的。<br>一个IPv4地址的二进制形式有32位，在分类编址时代，IP的组成形式为&lt;网络号&gt; + &lt;主机号&gt;。</p>
+<ul>
+<li>A类地址的网络号为前8位，后面24位为主机号。也就是十进制形式的 第一段 为网络号， 第二段+第三段+第四段 为主机号</li>
+<li>B类地址的网络号为前16位，后面16位为主机号，也就是十进制形式的 第一段+第二段 为网络号， 第三段+第四段 为主机号</li>
+<li>C类地址的网络号为前24位，后面8位为主机号，也就是十进制形式的 第一段+第二段+第三段 为网络号， 第四段 为主机号<br><strong>那么同为单播地址，为什么还要分成A、B、C三类呢？</strong><br>前面我们知道了，IP的组成形式为&lt;网络号&gt; + &lt;主机号&gt;，<strong>这当中的网络号代表的是这个IP所在的网段，而主机号则定义了这个IP在这一个网段中的编号。</strong><blockquote>
+<p>打个比方：一个小区（整个IP地址库）里有很多栋居民楼（网络号），居民楼里很很多户人家（主机号）。<br>对于网络服务商来说，一般购买的都是一整个IP地址块，而不会购买单个IP地址。不同大小的运营商需求不同，需要的IP地址量不同，所以会需要选择购买合适数量的IP地址块。将单播地址分为三类的意义就在于，现在客户可以根据自己的需求选择IP地址块的大小了。<br>那么A、B、C类地址是如何做到区分地址块大小的呢？这就是&lt;网络号&gt; + &lt;主机号&gt;模式的作用了。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="计算地址块容量"><a href="#计算地址块容量" class="headerlink" title="计算地址块容量"></a>计算地址块容量</h4><blockquote>
+<p>假设现在有八个空格，可以往里填入数字将其变为一个二进制的数，请问可以有多少个不同的数字？</p>
+</blockquote>
+<p>其实这个问题很容易算出来，方法很简单：<br>这里我们可以知道最高能写8位，那么能写出的数字量就是 $2^8&#x3D;256$ 个<br>同理，因为IPv4地址事实上是一串32位的二进制数字，所以就可以使用同样的方法计算出地址块的容量<br>从上面的内容中已经知道了，IP地址的组成形式为&lt;网络号&gt; + &lt;主机号&gt;，购买IP使用权的时候，<strong>购买的地址块其实是购买了&lt;网络号&gt;下包含的所有IP，就像网络服务商作为“包租婆”，购买了开发商的整栋楼（网络号）一样。</strong><br><strong>因为IP的长度固定，所以网络号越短，主机号越长，主机号越长，所包含的IP就越多！</strong></p>
+<blockquote>
+<p>再来简单做个题：黄先生购买了一个C类地址块，请问这相当于他买了多少个IP地址？<br>一个C类地址的前24位是网络号，后8位是主机号，主机号长度决定其拥有多少个IP。<br>所以黄先生拥有的IP地址块包含了 $2^8&#x3D;256$ 个地址。</p>
+</blockquote>
+<h2 id="划分子网时代"><a href="#划分子网时代" class="headerlink" title="划分子网时代"></a>划分子网时代</h2><blockquote>
+<p>原先的分类编址时代，我们把实际用来分配使用的IP地址分成A、B、C类。也就是说网络服务商在购买IP地址的时候可以选择三种大小：</p>
+<ul>
+<li>A类地址块：包含  个地址</li>
+<li>B类地址块：包含  个地址</li>
+<li>C类地址块：包含  个地址<br>但这时候问题来了，比如我现在想购入4000个地址，这个数量大于C类的同时又远远小于B类所含的数量，想要买4000个地址要不就是买16个C类地址，或者出手极其阔绰直接购买B类地址块。<br>这就不可避免的造成了地址的浪费。</li>
+</ul>
+</blockquote>
+<p>划分子网时代，将IP变成了&lt;网络号&gt; + &lt;子网号&gt; + &lt;主机号&gt;的形式，以满足这样的需求。<br>买4000个地址，就可以选择购买 B类地址中的一个子网 来实现最大程度的不浪费。</p>
+<blockquote>
+<p>B类地址网络号占了16位，此时我们只需要把主机号的一部分变为子网号，让主机号的位数所包含的IP地址块最接近4000个就可以最大程度避免浪费<br>通过计算可知：<br>$2^{12}&#x3D;4096$<br>所以，我们需要12位的主机号。在网络号固定为16位的B类地址中，将主机号部分的4位占用为子网号，再购买B类地址中的这个子网就可以了。</p>
+<table>
+<thead>
+<tr>
+<th>买包含4096个地址的B类子网</th>
+<th>网络号</th>
+<th>子网号</th>
+<th>主机号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二进制格式</td>
+<td>10xx xxxx xxxx xxxx</td>
+<td>xxxx</td>
+<td>xxxx xxxx xxxx</td>
+</tr>
+<tr>
+<td>对应位数</td>
+<td>16位</td>
+<td>4位</td>
+<td>12位</td>
+</tr>
+</tbody></table>
+</blockquote>
+<h2 id="无分类编址时代"><a href="#无分类编址时代" class="headerlink" title="无分类编址时代"></a>无分类编址时代</h2><p>随着时间的推进，计算机网络变得越来越庞大，本就不富裕的IPv4地址需求越来越大，过去的划分子网方式已经不足以满足人们的需求了。<br>公网IP对于一般民众而言其实不会专门进行购买，而对于网络服务商来说，其购买的需求量就挺大的。也正因为此，C类地址仅有256个IP的超小容量极易不受人待见。对于互联网而言，急需更灵活的IP分配方式。1993年，无分类域间路由选择（Classless Inter-Domain Routing， CIDR）应运而生。<br>在划分子网时代，IP变成了&lt;网络号&gt; + &lt;子网号&gt; + &lt;主机号&gt;的形式，而到了无分类编址的时代，又把这个子网号去掉了，取而代之的是子网掩码的概念。<br>过去网络号长度是固定的，并且被固定了长度。而到了无分类编址时代，网络号的长度不固定了，可以根据需求指定任意长度的网络号。</p>
+<h3 id="那如何指定网络号长度呢？"><a href="#那如何指定网络号长度呢？" class="headerlink" title="那如何指定网络号长度呢？"></a>那如何指定网络号长度呢？</h3><p>还是买4000个地址，按之前划分子网的办法，就是购买一个&lt;网络号16位&gt; + &lt;子网号4位&gt; + &lt;主机号12位&gt;的地址块。既然无分类编址去除了子网号，同时不限制网络号长度，那么直接把子网号的4位合并进网络号里就可以达到相同效果了<br>&lt;网络号20位&gt; + &lt;主机号12位&gt;<br>也就是说，我们买的地址块的网络号变成了20位。<br>因为无分类编址不依靠、也无法依靠网络类型来确定网络号长度，所以引入了子网掩码的概念。其实子网掩码的作用很简单，就是告诉我们网络号的长度。<br>上面我们买了一个网络号长度为20位的地址块，那么它的子网掩码长度就是20位，同时，子网掩码长度通过写1来表示，剩余位置以0填充</p>
+<table>
+<thead>
+<tr>
+<th>二进制IP地址</th>
+<th>11001100 10001111 0011xxxx xxxxxxxx</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二进制子网掩码</td>
+<td>11111111 11111111 11110000 00000000</td>
+</tr>
+</tbody></table>
+<h3 id="这一串子网掩码看着像不像IP地址？"><a href="#这一串子网掩码看着像不像IP地址？" class="headerlink" title="这一串子网掩码看着像不像IP地址？"></a>这一串子网掩码看着像不像IP地址？</h3><p>对的，它也能变成十进制的形式：<code>255.255.240.0</code></p>
+<h3 id="是不是还是很眼熟？"><a href="#是不是还是很眼熟？" class="headerlink" title="是不是还是很眼熟？"></a>是不是还是很眼熟？</h3><p>没错，在你的电脑&#x2F;手机的网络设置里就有它。<br>一般家庭的路由器会将局域网默认设置为<code>192.168.x.x/24</code>的形式，所以我们见到的地址比如<code>192.168.1.1/24</code>或<code>192.168.1.1</code> 子网掩码：<code>255.255.255.0</code>，对应的意思就是：IP地址为<code>192.168.1.1</code>，同时其子网掩码长度是<code>24</code>，或写作<code>255.255.255.0</code>。同一地址块下能够容纳的主机数为 $2^8&#x3D;256$ 台（其中包含两个特殊地址）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/IP%E5%9C%B0%E5%9D%80/" class="print-no-link">#IP地址</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计网专业学习笔记——认识IPv4地址的发展史</div>
+      <div>https://blog.xianyu.one/2021/12/17/ip-address/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年12月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/20/nas-unraid/" title="UNraid折腾笔记——鸟枪换炮，我的第二台NAS">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UNraid折腾笔记——鸟枪换炮，我的第二台NAS</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/16/Linux/tutorial/k8s-install/" title="k8s折腾笔记——树莓派集群安装k3s">
+                        <span class="hidden-mobile">k8s折腾笔记——树莓派集群安装k3s</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

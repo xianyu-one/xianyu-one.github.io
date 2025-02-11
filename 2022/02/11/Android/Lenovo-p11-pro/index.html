@@ -1,0 +1,767 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面我的PixelBook去年年底突然暴毙，我带着一台Windows笔记本度过了一段非常痛苦的时期，由于起其耗电量实在过于惊人（不是游戏本！！！），我不得不在上课的时候蹲到教室的最后面的插座边上给笔记本供电。一个偶然的机会，我发现了联想小新Pad的这个系列产品，思来想去选择了联想小新Pad Pro 2020">
+<meta property="og:type" content="article">
+<meta property="og:title" content="联想小新Pad Pro 2020 刷机笔记">
+<meta property="og:url" content="https://blog.xianyu.one/2022/02/11/Android/Lenovo-p11-pro/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面我的PixelBook去年年底突然暴毙，我带着一台Windows笔记本度过了一段非常痛苦的时期，由于起其耗电量实在过于惊人（不是游戏本！！！），我不得不在上课的时候蹲到教室的最后面的插座边上给笔记本供电。一个偶然的机会，我发现了联想小新Pad的这个系列产品，思来想去选择了联想小新Pad Pro 2020">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/62089cb02ab3f51d916472d2.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/6208a02e2ab3f51d9167ca4f.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/6208a4182ab3f51d916b78cb.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/620669dc2ab3f51d91a40906.jpg">
+<meta property="article:published_time" content="2022-02-11T00:07:34.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="刷机">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/62089cb02ab3f51d916472d2.jpg">
+  
+  
+  
+  <title>联想小新Pad Pro 2020 刷机笔记 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">联想小新Pad Pro 2020 刷机笔记</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-11 08:07" pubdate>
+          2022年2月11日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">联想小新Pad Pro 2020 刷机笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>我的PixelBook去年年底突然暴毙，我带着一台Windows笔记本度过了一段非常痛苦的时期，由于起其耗电量实在过于惊人（不是游戏本！！！），我不得不在上课的时候蹲到教室的最后面的插座边上给笔记本供电。<br>一个偶然的机会，我发现了联想小新Pad的这个系列产品，思来想去选择了联想小新Pad Pro 2020</p>
+<span id="more"></span>
+
+<h2 id="为什么选择它？"><a href="#为什么选择它？" class="headerlink" title="为什么选择它？"></a>为什么选择它？</h2><p>原先考虑的机器有三款：<code>Pro 2020</code>、<code>Plus</code>、<code>Pro 2021</code><br>性能及屏幕最为优秀的肯定是<code>Pro 2021</code> ，CP值最高的肯定是<code>Plus</code><br>但它们都有个各自对我来说不能忍受的缺点：<br><code>Pro 2021</code>缺少GPS支持，并且无对应的海外版本固件，虽然性能要比上一代强上太多，但6GB的运行内存加上大陆系统的搭配让我觉得不是很妙，应该说100％会卡出天际。<br><code>Plus</code>硬伤是屏幕非OLED，对于观影体验来说会大打折扣（正所谓买前生产力，买后迪士尼）  </p>
+<br>
+
+<p>最终我选择了<code>Pro 2020</code>，首先是我最关心的系统部分，**<code>Pro 2020</code>可以在不解锁BootLoader的情况下（当然是有先决条件的）直接刷入海外版固件**，同时网上已经存在大量的刷机教学（由于此机型的大陆版本相较于海外发行的版本来说价格过于香，所以有不少的台湾同胞以及海外的搞机玩家购入此款机型）<br>其次，硬件方面，730G的SoC功耗足够低，为长续航提供了保障（再也不用蹲到教室后面充电了）；同时OLED屏幕＋JBL认证的四颗喇叭＋杜比认证为良好的观影体验的提供的了强有力的保障。<br>综上所述：<br><code>Pro 2020</code> YES！</p>
+<p>在长期的心理斗争及查询相当多资料后，我选择了购入这台Pad。</p>
+<h1 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h1><h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><ul>
+<li><strong>机器拿到手之后不要升级！！！</strong></li>
+<li><strong>机器拿到手之后不要升级！！！</strong></li>
+<li><strong>机器拿到手之后不要升级！！！</strong><br>本篇文章中涉及到的刷机方法仅限于<strong>没有</strong>升级到<code>ZUI12.5</code>及以上版本的<code>Pro 2020</code>，如果你已经升级了，那么恭喜你，需要先行解锁BootLoader再进行刷机的动作</li>
+</ul>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
+<li><p>Windows系统的电脑</p>
+</li>
+<li><p>一根数据线</p>
+</li>
+</ul>
+<h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><p>所有使用的软件已经全部备份到了我的分享站，点击<a target="_blank" rel="noopener" href="https://share.xianyu.one/od/%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F/Android/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0pad%20pro%202020">这里</a>前往镜像站，所涉及的刷机工具全部都包含在内</p>
+<h2 id="Windows-上的准备"><a href="#Windows-上的准备" class="headerlink" title="Windows 上的准备"></a>Windows 上的准备</h2><p>首先要在Windows 上安装好所需要的软件，以确保后面的流程能够正常进行</p>
+<h3 id="安装QFIL"><a href="#安装QFIL" class="headerlink" title="安装QFIL"></a>安装QFIL</h3><p>先下载好<code>QPST.WIN.2.7.451.2.zip</code>这个文件并解压，在文件夹下有一个名为<code>setup.exe</code>的可执行文件点击安装，同意其条款后一路默认点<code>NEXT</code>就可以</p>
+<h4 id="配置QFIL"><a href="#配置QFIL" class="headerlink" title="配置QFIL"></a>配置QFIL</h4><p>打开QFIL软件，将<code>Select BUild Type</code>中的<code>Meta Build</code>选中<br>点击上方<code>Configuratiion</code>中的<code>FireHoseConfiguration</code>并将<code>device type</code>设置为<code>UFS</code>，点击<code>OK</code>确认保存<br><img src="https://pic.imgdb.cn/item/62089cb02ab3f51d916472d2.jpg" srcset="/img/loading.gif" lazyload alt="如图所示（原图来自https://club.lenovo.com.cn/thread-7805907-1-1.html）"></p>
+<h3 id="安装HxD"><a href="#安装HxD" class="headerlink" title="安装HxD"></a>安装HxD</h3><p>下载<code>HxD安装包.zip</code>这个文件解压并安装，一样无脑<code>NEXT</code>就可以</p>
+<h3 id="安装高通驱动"><a href="#安装高通驱动" class="headerlink" title="安装高通驱动"></a>安装高通驱动</h3><p>下载<code>高通驱动.zip</code>这个文件解压并安装，一样无脑<code>NEXT</code>就可以。<br><strong>注意：此处windows的安全软件会显示有病毒，请忽略并运行解压</strong></p>
+<h2 id="刷入低版本海外版固件"><a href="#刷入低版本海外版固件" class="headerlink" title="刷入低版本海外版固件"></a>刷入低版本海外版固件</h2><p><strong>注意：这一步是中间步骤，请按照这个教程做完！如果你认为这样刷入海外版就可以的话升级后会变砖！升级后会变砖！升级后会变砖！</strong><br>点击<a target="_blank" rel="noopener" href="https://share.xianyu.one/directlink/od/%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F/Android/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0pad%20pro%202020/TB-J706F_S241015_210326_ROW.zip">此处</a>下载低版本的海外版固件(<code>TB-J706F_S241015_210326_ROW.zip</code>) ，并将其解压缩（<strong>注意：解压的路径中不可以包含任何中文字符！</strong>）<br>平板关机并按住<code>音量键+</code>，用数据线将Pad连接至电脑，并打开QFIL，如果一切顺利，上方会显示出<code>Qualcomm HS-USB QDLoader 9008</code>的字样，说明Pad已经入9008工程模式<br>接下去点击<code>Load Content</code>并进入前面解压的ROM包的文件夹中，点击<code>contents.xml</code>文件，并点击打开<br>最后点击<code>Download Content</code>进行安装即可。安装好后即为海外版的ROM，可以开机进行确认，<strong>但非常不建议直接使用！请按照本文将所有的步骤做完！</strong></p>
+<h2 id="修改QCN"><a href="#修改QCN" class="headerlink" title="修改QCN"></a>修改QCN</h2><p>原先最早的时候刷机并没有这一步，但后来Lenovo往固件包里加了防降级、防刷海外版本的补丁，所以为了顺利刷入，无论如何要修改QCN。<br>机器关机状态下按住<code>电源键</code>及<code>音量键+</code>进入FFBM Mode，并将Pad连接至电脑<br>打开QFIL，此时如果一切顺利，上方将会显示<code>Qualcomm HS-USB Android DIAG 901D</code>的字样<br>此时选择上方<code>Tools</code>中的<code>QCN Backup Restore</code>，点击<code>Backup QCN</code>，之后等进度条读完，会有一个文件出现在选框中显示的文件夹中，例如下图所示，这个文件就保存在C盘下的<code>Temp</code>文件夹中<br><img src="https://pic.imgdb.cn/item/6208a02e2ab3f51d9167ca4f.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>警告⚠️：在编辑文档之前请务必备份此文件！</strong></p>
+<p>接着使用HxD打开此文件，使用<code>ctrl</code>+<code>f</code>快捷键，或点击上方的<code>Seach</code>中的<code>find</code>查找字符<br>查找选框打开后选择<code>Hex-values</code>，搜索框中填入<code>88 00 01 00 CA 1A 00 00 02</code>点击<code>OK</code>进行查找（注意，此处如果你省略了上方的先刷入海外版ROM的步骤的话，请将末尾的<code>02</code>改为<code>01</code>尝试搜索）<br><strong>此处需要注意：HxD有个莫名其妙的bug，如果你第一次查找的字符并没有找到，在不关闭这个文件的情况下再次搜索，无论这个文件中包不包含匹配的字符，都会显示找不到！如果第一次没找到，请将文件关闭后重新打开再进行搜索！</strong></p>
+<p>找到后，将末尾<code>02</code>选中，输入<code>00</code>完成修改（<code>00</code>代表不限制刷机<code>01</code>代表限制只能刷中国大陆版<code>02</code>代表限制只能刷国际版）并保存文件。</p>
+<p>回到QFIL，还是<code>QCN Backup Restore</code>选框，点击<code>Restore QCN</code>，将文件刷入设备，在刷入过程中会提示报错，这是正常的，看到报错后不用等进度条走完（因为报错了进度条就不走了）<br>按住<code>电源键</code>+<code>音量键-</code>将Pad关机</p>
+<h2 id="最终刷入海外版固件"><a href="#最终刷入海外版固件" class="headerlink" title="最终刷入海外版固件"></a>最终刷入海外版固件</h2><p>完成修改QCN的步骤后就可以正式刷入海外版固件了<br>点击<a target="_blank" rel="noopener" href="https://share.xianyu.one/directlink/od/%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F/Android/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0pad%20pro%202020/TB-J706F_S620150_211226_ROW.zip">此处</a>下载海外版固件（这个是Android11的）并解压<strong>注意：解压的路径中不可以包含任何中文字符！</strong>）<br>打开QFIL，平板关机并按住<code>音量键+</code>，用数据线将Pad连接至电脑，并打开QFIL，如果一切顺利，上方会显示出<code>Qualcomm HS-USB QDLoader 9008</code>的字样，说明Pad已经入9008工程模式<br>接下去点击<code>Load Content</code>并进入前面解压的ROM包的文件夹中，点击<code>contents.xml</code>文件，并点击打开<br>最后点击<code>Download Content</code>进行安装即可。<br>接着打开就是海外版系统了。</p>
+<h1 id="使用体验"><a href="#使用体验" class="headerlink" title="使用体验"></a>使用体验</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>海外版的系统着实比国内版看着顺眼的多，而且相对干净。由于系统预装软件的减少，一定程度上缓解了运行内存不足的问题<br><img src="https://pic.imgdb.cn/item/6208a4182ab3f51d916b78cb.jpg" srcset="/img/loading.gif" lazyload><br>个人对于这块屏幕的显示素质以及影音表现都非常的认可，可以说惊艳到我了，没想到一千多人民币的设备能够做到这个程度。CP值超高<br>耗电量方面也还可以，如果持续看Disney+的影片的话，高亮度能坚持7-9个小时左右，非常够用</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><h3 id="工作模式非常烂！"><a href="#工作模式非常烂！" class="headerlink" title="工作模式非常烂！"></a>工作模式非常烂！</h3><p>工作模式让我觉得非常鸡肋，首先，切换到工作模式没有过渡动画，整体显得非常生硬，同时，工作模式下，除了界面使用逻辑上会更贴近Windows这个缺点外，使用体验也很差，打开应用会有一定卡顿，小窗口加上Android的UI设计看着也非常别扭底部导航栏也过于鸡肋</p>
+<h3 id="触摸板非常难用"><a href="#触摸板非常难用" class="headerlink" title="触摸板非常难用"></a>触摸板非常难用</h3><p>由于这款机器的原装触摸板<strong>并非是模拟鼠标，或是有专门的触摸板驱动，而是直接模拟手指触控操作，所以触摸板操作逻辑非常别扭，没有鼠标右键，且选中文字的操作也很别扭</strong></p>
+<h3 id="实体键盘搭配使用有莫名其妙的bug"><a href="#实体键盘搭配使用有莫名其妙的bug" class="headerlink" title="实体键盘搭配使用有莫名其妙的bug"></a>实体键盘搭配使用有莫名其妙的bug</h3><p>在我的测试下，在自建的code-server的web界面下使用实体键盘并搭配中文输入法编辑文件会无法正常拼写<br><img src="https://pic.imgdb.cn/item/620669dc2ab3f51d91a40906.jpg" srcset="/img/loading.gif" lazyload><br>以及Google Keep下写笔记，如果打开勾选框也会出现一模一样的问题。<br>缓解的办法就是使用实体键盘的同时将虚拟键盘也打开，但在保正中文输入的同时还会出现新的问题：</p>
+<ul>
+<li>如果此时切换到英文输入法，则会导致直接无法输入</li>
+<li>大概会有一半的屏幕直接被虚拟键盘挡掉，大大减少了屏幕查看其他内容的面积</li>
+</ul>
+<h3 id="面部识别鸡肋"><a href="#面部识别鸡肋" class="headerlink" title="面部识别鸡肋"></a>面部识别鸡肋</h3><p>说真的，识别率很差，且打开面部识别并打开“抬起唤醒”的功能后，关闭屏幕的情况下会被莫名其妙唤醒，很弱智（不知道联想工程师是怎么想的，明明键盘都合上了，霍尔元件也能够感应到，但为什么还能被唤醒）</p>
+<h3 id="合上键盘后莫名奇妙的唤醒"><a href="#合上键盘后莫名奇妙的唤醒" class="headerlink" title="合上键盘后莫名奇妙的唤醒"></a>合上键盘后莫名奇妙的唤醒</h3><p>上一条提到了，但不完全是人脸识别到问题，因为开启“显示”设置下的“轻触即可唤醒”和“拿起平板电脑即可查看”的功能后也会出现合上键盘后莫名其妙唤醒的问题</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>抛开这些“影响生产力”但莫名其妙的bug，这台平板依旧是我认为值得的，一千多人民币的价格可以购买如此优秀的屏幕及喇叭就已经值回票价，同时其便携性以及长续航可以让我不用再带充电线去上课了，总体来说，虽然有很多不足，但瑕不掩瑜，这个价格非常值得购买，也基本满足了我的需求。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://club.lenovo.com.cn/thread-7805907-1-1.html">ZUI系统小新&amp;YOGA平板线刷教程和国行底包及root（资源合集）</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/%E5%88%B7%E6%9C%BA/" class="print-no-link">#刷机</a>
+      
+        <a href="/tags/Android/" class="print-no-link">#Android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>联想小新Pad Pro 2020 刷机笔记</div>
+      <div>https://blog.xianyu.one/2022/02/11/Android/Lenovo-p11-pro/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年2月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/20/Linux/tutorial/sudoers/" title="sudo使用小技巧">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">sudo使用小技巧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/20/nas-unraid/" title="UNraid折腾笔记——鸟枪换炮，我的第二台NAS">
+                        <span class="hidden-mobile">UNraid折腾笔记——鸟枪换炮，我的第二台NAS</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

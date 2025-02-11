@@ -1,0 +1,762 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <link rel="icon" href="https://pic.imgdb.cn/item/61e90a3b2ab3f51d91359a35.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#282830">
+  <meta name="author" content="咸鱼">
+  <meta name="keywords" content="">
+  <script async src="https://statistics.our-family.net/script.js" data-website-id="20fc4ba0-9b74-445b-92d0-70a2339ee2b9"></script>
+  
+    <meta name="description" content="写在前面一直以来对MIUI都没有什么好感，比较喜欢清爽的类原生系统，然后就踏上了永无止境的刷（zhe）机（teng）之路了。只要你愿意折腾，本教程绝对好用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小米8刷机笔记">
+<meta property="og:url" content="https://blog.xianyu.one/2019/10/16/Android/mi8/index.html">
+<meta property="og:site_name" content="咸鱼的小站">
+<meta property="og:description" content="写在前面一直以来对MIUI都没有什么好感，比较喜欢清爽的类原生系统，然后就踏上了永无止境的刷（zhe）机（teng）之路了。只要你愿意折腾，本教程绝对好用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.superbed.cn/item/5da29c509dc6d64c0b3efd2b.png">
+<meta property="og:image" content="https://pic.superbed.cn/item/5da29c509dc6d64c0b3efd29.png">
+<meta property="article:published_time" content="2019-10-16T06:49:17.000Z">
+<meta property="article:modified_time" content="2025-02-11T12:56:25.425Z">
+<meta property="article:author" content="咸鱼">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="刷机">
+<meta property="article:tag" content="安卓">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.superbed.cn/item/5da29c509dc6d64c0b3efd2b.png">
+  
+  
+  
+  <title>小米8刷机笔记 - 咸鱼的小站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.xianyu.one","root":"/","version":"1.9.6","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":310339000},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=310339000", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '310339000');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="咸鱼的小站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>咸鱼的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://share.xianyu.one" target="_self">
+                
+                <span>分享站☁️</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://docs.xianyu.one" target="_self">
+                
+                <span>知识库📖</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span>RSS</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://pic1.imgdb.cn/item/67ab4856d0e0a243d4fe64ab.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">小米8刷机笔记</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        咸鱼
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-16 14:49" pubdate>
+          2019年10月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          973 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">小米8刷机笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>一直以来对MIUI都没有什么好感，比较喜欢清爽的类原生系统，然后就踏上了永无止境的刷（zhe）机（teng）之路了。<br><strong>只要你愿意折腾，本教程绝对好用。</strong></p>
+<span id="more"></span>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h4 id="所需硬件"><a href="#所需硬件" class="headerlink" title="所需硬件"></a>所需硬件</h4><ul>
+<li>小米8</li>
+<li>MacBook</li>
+<li>OTG线</li>
+<li>U盘</li>
+</ul>
+<h4 id="所需软件"><a href="#所需软件" class="headerlink" title="所需软件"></a>所需软件</h4><h5 id="刷机用"><a href="#刷机用" class="headerlink" title="刷机用"></a>刷机用</h5><ul>
+<li>一个自己喜欢的ROM包 推荐<a target="_blank" rel="noopener" href="https://download.pixelexperience.org/dipper/">PixelExperience</a></li>
+<li>第三方rec 推荐<a target="_blank" rel="noopener" href="https://dl.twrp.me/dipper/">twrp</a></li>
+<li><a target="_blank" rel="noopener" href="https://forum.xda-developers.com/android/software/universal-dm-verity-forceencrypt-t3817389">Disable_Dm-Verity_ForceEncrypt</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/XiaomiFirmwareUpdater/firmware_xiaomi_dipper/releases/tag/stable-27.09.2019">底包</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases">magisk</a> 下载<code>Magisk v19.3</code>,可自己选择安装那个版本。不需要root的用户可以不用下载。</li>
+<li>～我在我的分享站对刷机资源做了整合，可以直接前往<a target="_blank" rel="noopener" href="https://cloud.xianyu.one/home/2/%E5%B0%8F%E7%B1%B38%E5%88%B7%E6%9C%BA%E5%8C%85">分享站</a>下载  2020.3.15更新～</li>
+</ul>
+<h5 id="电脑上需要的软件"><a href="#电脑上需要的软件" class="headerlink" title="电脑上需要的软件"></a>电脑上需要的软件</h5><ul>
+<li>终端（Mac OS自带）</li>
+<li>Android Studio</li>
+</ul>
+<h4 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h4><h5 id="为手机开启开发者模式"><a href="#为手机开启开发者模式" class="headerlink" title="为手机开启开发者模式"></a>为手机开启开发者模式</h5><p>进入设置，找到版本号，一顿狂点即可。<br>进入开发者模式后，在开发者选项中打开adb调试。</p>
+<h5 id="为手机解锁bootloader"><a href="#为手机解锁bootloader" class="headerlink" title="为手机解锁bootloader"></a>为手机解锁bootloader</h5><p>这是刷机的第一步，不解锁bootloader啥都干不了。<br>首先我们要去小米的官网注册账号并申请解锁，此后要在设置中将账号绑定至手机，等待一定天数后可解锁，如何解锁具体可参考这篇文章。<br>由于官方只有Windows下的解锁工具，所以解锁部分对我来说非常艰辛，为此我还专门跑到了有Windows电脑的同学家去解锁。直到后来我才不知道在哪看到有关Mac OS下解锁的文章。没有仔细了解，有兴趣的同学可以自行谷歌。</p>
+<h5 id="配置好adb环境"><a href="#配置好adb环境" class="headerlink" title="配置好adb环境"></a>配置好adb环境</h5><p>下载Android Studio，并安装，默认安装位置即可。<br>打开Android Studio，点击<code>Configure</code>，选择<code>SDK Manager</code><br>显示的<code>Android SDK Location</code>后面的路径即为SDK的安装路径，待会会用到。<br><img src="https://pic.superbed.cn/item/5da29c509dc6d64c0b3efd2b.png" srcset="/img/loading.gif" lazyload alt="Android SDK Location后面的路径即为SDK的安装路径"><br>进入终端创建<code>.bash_profile</code>文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">touch .bash_profile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>打开<code>.bash_profile</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">open .bash_profile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>在文件中添加以下配置</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">ANDROID_HOME&#x3D;此处填写前面我们记下的SDK路径
+export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;tools
+export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;platform-tools<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>生效配置</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">source .bash_profile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>在终端中输入</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">adb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>若有一大堆东西显示则为配置成功。<br><img src="https://pic.superbed.cn/item/5da29c509dc6d64c0b3efd29.png" srcset="/img/loading.gif" lazyload alt="配置成功的标志"></p>
+<h5 id="将刷机用的软件拷贝到U盘中备用。"><a href="#将刷机用的软件拷贝到U盘中备用。" class="headerlink" title="将刷机用的软件拷贝到U盘中备用。"></a>将刷机用的软件拷贝到U盘中备用。</h5><h2 id="正式刷机"><a href="#正式刷机" class="headerlink" title="正式刷机"></a>正式刷机</h2><h4 id="刷入第三方rec（twrp）"><a href="#刷入第三方rec（twrp）" class="headerlink" title="刷入第三方rec（twrp）"></a>刷入第三方rec（twrp）</h4><p>关机状态下按住手机音量减+开机键进入fastboot模式<br>终端中输入  </p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">adb reboot bootloader
+fastboot flash recovery 此处为下载的twrp的文件名，包含扩展名。可以将本行代码输入到终端后打开twrp文件所在文件夹，将twrp文件直接拖入终端（macOS的使用就是这么方便）
+fastboot reboot<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="进入rec开始刷入系统"><a href="#进入rec开始刷入系统" class="headerlink" title="进入rec开始刷入系统"></a>进入rec开始刷入系统</h4><p>进入rec界面后（可在关机下按住音量加+开机键）<br>完成首次设置，有<strong>中文界面</strong>哦<br>点击清除，选择格式化<code>Data</code>分区，格式化后选择高级清除,勾选<code>Cache</code> <code>System</code> <code>Data</code> <code>内置存储</code>滑动滑块清除。<br>清除后用OTG线连上U盘，回到主界面点击安装选择储存位置点击<code>USB-CTG</code><br>依次刷入<code>底包</code> <code>ROM包</code> <code>Disable_Dm-Verity_ForceEncrypt</code>，刷完后即可重启使用全新的系统了。如果需要root的用户可在rec中刷入<code>magisk</code>的包</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p><em><strong>刷机有风险，玩机需谨慎！</strong></em><br>安卓刷机真的非常折腾而且不确定因素很多（比如刷机过程中会遇到万能错误7）<br>对于安卓，我认为它的好处在于能够折腾，相对宽松的环境能够让手机实现很多骚操作。<br>国内的深度定制rom我个人并不喜欢，虽然流量监控、归属地显示等功能贴近生活确实好用，但是系统实在臃肿，<strong>花里胡哨</strong>。<br>某些安卓的定制rom会借鉴一些iOS的设计，但只学到了表面。<strong>简单易用、一目了然是iOS的绝对优势所在</strong><br>所以我会选择清爽的类原生系统。虽然缺乏本土化，但能让我记住使用<strong>手机根本的目的是为了提高效率，方便生活</strong>（虽然折腾刷机与此理念有所违背）。<br>对于懒人用户，<strong>还是选择iPhone吧！</strong><br><strong>iPhone不需要折腾就能让你爽到。</strong>  </p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://as.quanke.name/mac-os-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.html">Android studio MacOS环境配置</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Airsaid/article/details/77288455">Mac 配置 adb</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bc32c8133051">Android刷机教程（mac系统）</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/%E5%88%B7%E6%9C%BA/" class="print-no-link">#刷机</a>
+      
+        <a href="/tags/%E5%AE%89%E5%8D%93/" class="print-no-link">#安卓</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>小米8刷机笔记</div>
+      <div>https://blog.xianyu.one/2019/10/16/Android/mi8/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>咸鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/16/Something/now/" title="终于。。。">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">终于。。。</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/16/Linux/tutorial/Minecraft-server/" title="Minecraft BE（基岩版）服务器搭建教程">
+                        <span class="hidden-mobile">Minecraft BE（基岩版）服务器搭建教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var options = Object.assign(
+        {"envId":"https://twikoo.xianyu.one/","region":"ap-shanghai","path":"window.location.pathname"},
+        {
+          el: '#twikoo',
+          path: 'window.location.pathname',
+          onCommentLoaded: function() {
+            Fluid.utils.listenDOMLoaded(function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            });
+          }
+        }
+      )
+      twikoo.init(options)
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <a>Copyrights © 2019-<script>document.write(new Date().getFullYear())</script> <a /><a href="https://xianyu.one" target="_blank" rel="nofollow noopener"><span>Xianyu</span></a><br /> <a>Powered by <a /><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <a> | <a /> <a>Theme by <a /><a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
